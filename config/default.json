@@ -1,0 +1,21 @@
+{
+    "name": "EMAPI",
+    "port": 8050,
+    "db": {
+        "url": "mongodb://42.120.42.45/EnergyManage"
+    },
+    "log": {
+    "path": "logs",
+        "file": "butler.log"
+    },
+    "cookie":{
+        "domain": "127.0.0.1",
+        "path": "/"
+    },
+    "APPID": "EMe374f490bdc411e4864359c68eeb10e7",
+    "APPSECRET": "c4b7a590ef859f8443cd631375dc0485",
+    "APIHOST": "127.0.0.1",
+    "APIPORT": 8005,
+    "WXAPIHOST": "42.120.42.45",
+    "WXAPIPORT": 8989
+}
