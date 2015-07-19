@@ -6,14 +6,13 @@ var mongodb = require('../libs/mongodb');
 var _ = require('underscore');
 
 var SystemEvent = {
-    charge: function(event){
+    charge: function(uid, event){
         /*充值通知
          subevent: 'charge',
-         billingaccount: charge billingAccount,
          amount: charge cash
          */
         var TEMPLATE_ID = 'HndPGtslDiD836SsdNp-yrCW8auMe0dMPFCaRILAn9w';
-        api.EMAPI('/account/info', {billingaccount: event.billingaccount}).then(
+        api.EMAPI('/account/info', {id: uid}).then(
             function(result){
                 console.log('/account/info', result);
                 if(result.err){
@@ -52,11 +51,11 @@ var SystemEvent = {
                                             "color":"#173177"
                                         },
                                         account: {
-                                            "value": account.billingAccount.cash.toString(),
+                                            "value": account.billingAccount.cash.toFixed(2),
                                             "color":"#173177"
                                         },
                                         amount: {
-                                            "value": event.amount.toString(),
+                                            "value": event.amount.toFixed(2),
                                             "color":"#173177"
                                         },
                                         result: {
@@ -84,23 +83,69 @@ var SystemEvent = {
             }
         );
     },
-    amount: function(event){
-        /*账户余额变动
-         subevent: 'amount',
-         billingaccount: amount billingAccount,
+    alert: function(uid, event){
+        /*账户余额不足
+         subevent: 'alert',
          //amount: account's amount
          */
         var TEMPLATE_ID = 'iknMsSJLqZYz5pn24z-JIAwRgnD08nKXuOGIrpiB4vA';
-        api.EMAPI('/account/info', {billingaccount: event.billingaccount}).then(
+        api.EMAPI('/wxaccount/info', {users: uid}).then(
             function(result){
-                console.log('/account/info', result);
+                console.log('/wxaccount/info', result);
+                if(result.err){}
+                else{
+                    _.each(result.result, function(wxaccount){
+                        var message = {
+                            url: '',
+                            touser: wxaccount._id,
+                            template_id: TEMPLATE_ID,
+                            topcolor: "#FF0000",
+                            data: {
+                                first: {
+                                    "value":"您当前账号余额不足",
+                                    "color":"#173177"
+                                },
+                                keyword1: {
+                                    "value":uid,
+                                    "color":"#173177"
+                                },
+                                keyword2: {
+                                    "value": event.amount.toFixed(2),
+                                    "color":"#173177"
+                                },
+                                remark: {
+                                    "value":"",
+                                    "color":"#173177"
+                                }
+                            }
+                        };
+                        var templateMessage = {
+                            platformid: wxaccount.platformid,
+                            message: message
+                        };
+                        //
+                        api.queryWXAPI('/templatepush', templateMessage, function(result){
+                            console.log(result);
+                        });
+                    });
+                }
+            });
+    },
+    balance: function(uid, event){
+        /*账户余额变动
+         subevent: 'balance',
+         balance: alternative balance
+         */
+        var TEMPLATE_ID = 'jrGyI9AS0PKUgbVPPtWz0yOa4KQoLn50ddu_gn9m3ZM';
+        api.EMAPI('/account/info', {id: uid}).then(
+            function(result){
                 if(result.err){
 
                 }
                 else{
-                    var user = result.result[0];
-                    if(!user.billingAccount.alerthreshold){
-                        console.log('billingAccount: ', event.billingaccount, ' alerthreshold is null');
+                    var user = result.result;
+                    if(!user){
+                        console.error('can not find user: ', uid);
                         return;
                     }
 
@@ -117,19 +162,32 @@ var SystemEvent = {
                                         topcolor: "#FF0000",
                                         data: {
                                             first: {
-                                                "value":"您当前账号余额不足",
+                                                "value":"账号余额变动",
                                                 "color":"#173177"
                                             },
+                                            //账户类型
                                             keyword1: {
-                                                "value":user._id,
+                                                "value":"普通账户",
                                                 "color":"#173177"
                                             },
+                                            //操作类型
                                             keyword2: {
-                                                "value": user.billingAccount.cash.toString(),
+                                                "value": event.operatetype,
                                                 "color":"#173177"
                                             },
-                                            remark: {
-                                                "value":"",
+                                            //操作内容
+                                            keyword3: {
+                                                "value": event.operatecontent,
+                                                "color":"#173177"
+                                            },
+                                            //变动额度
+                                            keyword4: {
+                                                "value": event.balance,
+                                                "color":"#173177"
+                                            },
+                                            //账户余额
+                                            keyword5: {
+                                                "value": user.billingAccount.cash,
                                                 "color":"#173177"
                                             }
                                         }
@@ -140,7 +198,7 @@ var SystemEvent = {
                                     };
                                     //
                                     api.queryWXAPI('/templatepush', templateMessage, function(result){
-                                        console.log(result);
+                                        console.log('/templatepush', result);
                                     });
                                 });
                             }
@@ -151,9 +209,9 @@ var SystemEvent = {
     }
 };
 
-module.exports = exports = function(event){
+module.exports = exports = function(uid, event){
 //    return SystemEvent[event.subevents];
     if(SystemEvent[event.subevent]){
-        SystemEvent[event.subevent](event);
+        SystemEvent[event.subevent](uid, event);
     }
 };

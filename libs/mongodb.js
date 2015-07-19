@@ -609,6 +609,7 @@ var eventSchema = new Schema({
         default: Date.now()
     },
     project: ObjectId,
+    uid: String,
     type: String,
     event: Schema.Types.Mixed
 });

@@ -285,7 +285,7 @@ mongodb(function(){
             removeIDs.push(event._id);
             switch(event.type){
                 case 'system':
-                    moduleSystem(event.event);
+                    moduleSystem(event.uid, event.event);
                     break;
             }
         });
