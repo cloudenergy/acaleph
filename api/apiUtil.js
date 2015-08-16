@@ -50,9 +50,9 @@ exports.ParameterFill = function(paramList)
 
 exports.IsAccessAble = function(user, urlpath)
 {
-    console.log('Accessable Of [',urlpath,'] in [',user._id,']');
+    log.info('Accessable Of [',urlpath,'] in [',user._id,']');
     if( !user || !user.character){
-        console.log("user or user's character is null");
+        log.info("user or user's character is null");
         return null;
     }
 
@@ -62,7 +62,7 @@ exports.IsAccessAble = function(user, urlpath)
         var point = pathRoute[i];
         if(point.length> 0){
             if(path[point] == undefined){
-                console.log("can't find ["+point+"] in "+path);
+                log.info("can't find ["+point+"] in "+path);
                 return null;
             }
             else{
@@ -336,7 +336,7 @@ QueryByType[mongodb.PERYEAR] = function(from, to, sensors)
     //不分表
     var queryFrom = moment(from).startOf('year');
     var queryTo = moment(queryFrom).endOf('year');
-    console.log(queryFrom.format('YYYY-MM-DD HH:mm:ss'), queryTo.format('YYYY-MM-DD HH:mm:ss'));
+    log.info(queryFrom.format('YYYY-MM-DD HH:mm:ss'), queryTo.format('YYYY-MM-DD HH:mm:ss'));
 
     var collection = mongodb.CollectionByTimeType(mongodb.PERYEAR, queryFrom);
     collection.model
@@ -375,7 +375,7 @@ QueryByType[mongodb.PERMONTH] = function(from, to, sensors)
             qt = moment(to);
             isEnd = true;
         }
-        console.log(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'));
+        log.info(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'));
 
         var collection = mongodb.CollectionByTimeType(mongodb.PERMONTH, qf);
         collection.model
@@ -385,7 +385,7 @@ QueryByType[mongodb.PERMONTH] = function(from, to, sensors)
             .populate('sensor')
             .sort({timepoint: 1})
             .exec(function(err, data){
-//                console.log(err, data);
+//                log.info(err, data);
                 if(err){}
                 else{
                     //dataArray = dataArray union data
@@ -426,7 +426,7 @@ QueryByType[mongodb.PERWEEK] = function(from, to, sensors)
             qt = moment(to).endOf('isoweek').endOf('day');
             isEnd = true;
         }
-        console.log(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'));
+        log.info(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'));
 
         var collection = mongodb.CollectionByTimeType(mongodb.PERWEEK, qf);
         collection.model
@@ -467,7 +467,7 @@ QueryByType[mongodb.PERDAY] = function(from, to, sensors)
     //按月分表,按月递增
     var queryFrom = moment(from).startOf('day');
     var queryTo = moment(queryFrom).endOf('month').endOf('day');
-    console.log('Query: ', queryFrom.format('YYYY-MM-DD HH:mm:ss'), queryTo.format('YYYY-MM-DD HH:mm:ss'));
+    log.info('Query: ', queryFrom.format('YYYY-MM-DD HH:mm:ss'), queryTo.format('YYYY-MM-DD HH:mm:ss'));
 
     var dataArray = new Array();
     var RunQuery = function(qf, qt)
@@ -478,7 +478,7 @@ QueryByType[mongodb.PERDAY] = function(from, to, sensors)
             qt = moment(to).endOf('day');
             isEnd = true;
         }
-        console.log(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'), isEnd);
+        log.info(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'), isEnd);
 
         var collection = mongodb.CollectionByTimeType(mongodb.PERDAY, qf);
         collection.model
@@ -530,7 +530,7 @@ QueryByType[mongodb.PERHOUR] = function(from, to, sensors)
             qt = moment(to).endOf('day');
             isEnd = true;
         }
-        console.log(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'));
+        log.info(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'));
 
         var collection = mongodb.CollectionByTimeType(mongodb.PERHOUR, qf);
         collection.model
@@ -585,7 +585,7 @@ QueryByType[mongodb.PERMINUTE] = function(from, to, sensors)
             qt = moment(to).endOf('day');
             isEnd = true;
         }
-        console.log(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'));
+        log.info(qf.format('YYYY-MM-DD HH:mm:ss'), qt.format('YYYY-MM-DD HH:mm:ss'));
 
         var collection = mongodb.CollectionByTimeType(mongodb.PERMINUTE, qf);
         collection.model

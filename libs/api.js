@@ -51,8 +51,8 @@ function HttpRequest(host, port, header, method, url, data, func)
         , headers: header
     };
 
-    console.log(data);
-    console.log(options);
+    log.info(data);
+    log.info(options);
 
     var req = http.request(options, function(res){
         var data='';
@@ -66,7 +66,7 @@ function HttpRequest(host, port, header, method, url, data, func)
         });
     });
     req.on('error', function(e){
-        console.log(method+" "+host+":"+port+url+':Err - '+e);
+        log.info(method+" "+host+":"+port+url+':Err - '+e);
     });
     req.write(data);
     req.end();
@@ -95,12 +95,12 @@ function generatePostRequest(kv, secretKey)
     }
     plainText += secretKey;
 
-//    console.log(plainText);
+//    log.info(plainText);
     var hash = require('crypto').createHash('md5');
     var hashResult = hash.update(plainText).digest('hex');
     newMap['_sign'] = hashResult;
 
-//    console.log(newMap);
+//    log.info(newMap);
     return newMap;
 }
 
@@ -139,8 +139,8 @@ exports.Https = function(method, url, postData, func)
     };
 
     var req = https.request(options, function(res){
-//        console.log("statusCode: ", res.statusCode);
-//        console.log("headers: ", res.headers);
+//        log.info("statusCode: ", res.statusCode);
+//        log.info("headers: ", res.headers);
 
         var data='';
         res.on('data', function(chunk){
@@ -153,7 +153,7 @@ exports.Https = function(method, url, postData, func)
         });
     });
     req.on('error', function(e){
-        console.log(method+" "+host+":"+port+url+':Err - '+e);
+        log.info(method+" "+host+":"+port+url+':Err - '+e);
     });
     req.write(postData);
     req.end();
@@ -176,8 +176,8 @@ exports.EMAPI = function(path, parameters)
     };
     options.headers['Content-Length'] = parametersString.length;
 
-//    console.log(parameters);
-//    console.log(options);
+//    log.info(parameters);
+//    log.info(options);
 
     var req = http.request(options, function(res){
         var data='';
@@ -190,13 +190,13 @@ exports.EMAPI = function(path, parameters)
                 deferred.resolve(obj);
             }
             catch(err){
-                console.log('Parse Json Error: ', err, data);
+                log.info('Parse Json Error: ', err, data);
                 deferred.reject(err);
             }
         });
     });
     req.on('error', function(e){
-        console.log(APIHOST+":"+APIPORT+path+':Err - '+e);
+        log.info(APIHOST+":"+APIPORT+path+':Err - '+e);
         deferred.reject(e);
     });
     req.write(parametersString);

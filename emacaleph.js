@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
+var appRootPath = require('app-root-path');
+var logger = require(appRootPath.path + '/libs/log')("EMAcaleph");
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var app = express();
@@ -46,14 +48,14 @@ app.use(function(req, res, next){
 
     //是否开启了URL验证
     if( config.enableURLAuth ){
-//        console.log('Start Check UrlPath Attribute');
+//        log.info('Start Check UrlPath Attribute');
         //从urlPath表中获取URL的属性
         var path = url.parse(req.url).pathname;
 
-        console.log('Request URL: ', path);
+        log.info('Request URL: ', path);
         mongodb.UrlPath.findById(path, function(err, urlpath){
             //
-//            console.log('UrlPath Object: ', urlpath);
+//            log.info('UrlPath Object: ', urlpath);
             //找不到对应路径 || 路径被禁止访问，返回404
             if(err || urlpath == undefined || urlpath == null || !urlpath.enable ){
                 res.status(404);
@@ -71,7 +73,7 @@ app.use(function(req, res, next){
                 if(!config.enableVerify){
                     return goProcess();
                 }
-//                console.log('Start Check CheckSum');
+//                log.info('Start Check CheckSum');
                 switch(urlpath.authtype){
                     case ACCESS_FREE:
                     {
@@ -114,12 +116,12 @@ app.use(function(req, res, next){
                             });
 
 //                            var resourceAPI = require('./api/resource/info');
-//                            console.log('Load Appid: ', AppID);
+//                            log.info('Load Appid: ', AppID);
 //                            resourceAPI.Do({key: AppID}, function(err, data){
 //                                //
 //                                if(err || data == undefined || data == null){
 //                                    //
-//                                    console.log('Load AppID Error: ', err, data);
+//                                    log.info('Load AppID Error: ', err, data);
 //                                    res.status(err);
 //                                    return res.send({
 //                                        err: err,
@@ -169,7 +171,7 @@ app.use(function(req, res, next){
 
                             if(userInfo == undefined){
                                 //先加载用户信息
-                                console.log('Load UserInfo from: ', User);
+                                log.info('Load UserInfo from: ', User);
                                 var accountInfo = require('./api/account/info');
                                 accountInfo.Do({'id':User}, function(err, result){
                                     if(err){
@@ -216,7 +218,7 @@ app.use(function(req, res, next){
                 else {
                     urlPathAuth(req.url, req, res, function (err, userInfo) {
                         if (err || userInfo == null || userInfo == undefined) {
-                            console.log('Cookie Auth Failed: ', err, userInfo);
+                            log.info('Cookie Auth Failed: ', err, userInfo);
                             res.status(err);
                             res.send({
                                 err: err,
@@ -298,5 +300,5 @@ mongodb(function(){
 });
 
 var server = app.listen(config.port, function(){
-    console.log('listening at %s', server.address().port);
+    log.info('listening at %s', server.address().port);
 });

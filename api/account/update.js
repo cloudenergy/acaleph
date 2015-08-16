@@ -27,7 +27,7 @@ exports.Do = function(body, func)
         {$set: setObj},
         {},
         function(err){
-            console.log(err);
+            log.info(err);
             if(err){
                 func && func(err, {});
             }

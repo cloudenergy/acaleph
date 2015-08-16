@@ -14,10 +14,10 @@ var Schema = mongo.Schema
 exports = module.exports = function(callback) {
     mongo.connect(config.db.url, function(err){
         if(err){
-            console.log(err);
+            log.info(err);
         }
         else{
-            console.log('mongoose connect ['+config.db.url+'] successful');
+            log.info('mongoose connect ['+config.db.url+'] successful');
         }
         callback && callback(err);
     })
@@ -853,7 +853,7 @@ exports.CollectionByTimeType = function(type, dataTime)
     //
     var collection = TimeTypeToCollection[type];
     if(collection == undefined){
-        console.log('Unknow TimeType: ', type);
+        log.info('Unknow TimeType: ', type);
         return null;
     }
     var timepoint = '';
@@ -861,7 +861,7 @@ exports.CollectionByTimeType = function(type, dataTime)
         timepoint = dataTime.format(collection.timeformat);
     }
     var collectionName = collection.name + timepoint;
-    console.log(type, collectionName);
+    log.info(type, collectionName);
 
     timepoint = moment(dataTime).format(collection.pointformat);
     timepoint = moment(timepoint, collection.pointformat).toDate();
@@ -878,7 +878,7 @@ exports.SchemaByTimeType = function(type, dataTime)
     //
     var collection = TimeTypeToCollection[type];
     if(collection == undefined){
-        console.log('Unknow TimeType: ', type);
+        log.info('Unknow TimeType: ', type);
         return null;
     }
     var collectionSchema = new collection.schema;
@@ -893,7 +893,7 @@ exports.CollectionBySensorCacheType = function(type, dataTime)
     //
     var collection = CacheCollection[type];
     if(collection == undefined){
-        console.log('Unknow CacheType: ', type);
+        log.info('Unknow CacheType: ', type);
         return undefined;
     }
     var collectionName = 'sensor.' + collection.name;
@@ -901,7 +901,7 @@ exports.CollectionBySensorCacheType = function(type, dataTime)
         //
         collectionName += dataTime.format(collection.timeformat);
     }
-    console.log(type, collectionName);
+    log.info(type, collectionName);
 
     return mongo.model(collectionName, collection.schema);
 };

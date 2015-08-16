@@ -21,7 +21,7 @@ function DeleteAccount(id)
     mongodb.Account.remove({'_id': id}, function(err){
         //
         if(err){
-            console.log('Account /delete error: ', err);
+            log.info('Account /delete error: ', err);
         }
         else{
         }

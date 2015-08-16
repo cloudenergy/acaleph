@@ -14,28 +14,19 @@ var SystemEvent = {
         var TEMPLATE_ID = 'HndPGtslDiD836SsdNp-yrCW8auMe0dMPFCaRILAn9w';
         api.EMAPI('/account/info', {id: uid}).then(
             function(result){
-                console.log('/account/info', result);
+                log.info('/account/info', result);
                 if(result.err){
 
                 }
                 else{
-                    var users = {};
-                    var userIDs = [];
-                    _.each(result.result, function(account){
-                        userIDs.push(account._id);
-                        users[account._id] = account;
-                    });
+                    var account = result.result;
 
-                    api.EMAPI('/wxaccount/info', {users: userIDs}).then(
+                    api.EMAPI('/wxaccount/info', {users: uid}).then(
                         function(result){
-                        console.log('/wxaccount/info', result);
+                        log.info('/wxaccount/info', result);
                         if(result.err){}
                         else{
                             _.each(result.result, function(wxaccount){
-                                var account = users[wxaccount.user._id];
-                                if(!account) {
-                                    return;
-                                }
                                 var message = {
                                     url: '',
                                     touser: wxaccount._id,
@@ -74,7 +65,7 @@ var SystemEvent = {
                                 };
                                 //
                                 api.queryWXAPI('/templatepush', templateMessage, function(result){
-                                    console.log(result);
+                                    log.info(result);
                                 });
                             });
                         }
@@ -91,7 +82,7 @@ var SystemEvent = {
         var TEMPLATE_ID = 'iknMsSJLqZYz5pn24z-JIAwRgnD08nKXuOGIrpiB4vA';
         api.EMAPI('/wxaccount/info', {users: uid}).then(
             function(result){
-                console.log('/wxaccount/info', result);
+                log.info('/wxaccount/info', result);
                 if(result.err){}
                 else{
                     _.each(result.result, function(wxaccount){
@@ -125,7 +116,7 @@ var SystemEvent = {
                         };
                         //
                         api.queryWXAPI('/templatepush', templateMessage, function(result){
-                            console.log(result);
+                            log.info(result);
                         });
                     });
                 }
@@ -145,13 +136,13 @@ var SystemEvent = {
                 else{
                     var user = result.result;
                     if(!user){
-                        console.error('can not find user: ', uid);
+                        log.error('can not find user: ', uid);
                         return;
                     }
 
                     api.EMAPI('/wxaccount/info', {users: user._id}).then(
                         function(result){
-                            console.log('/wxaccount/info', result);
+                            log.info('/wxaccount/info', result);
                             if(result.err){}
                             else{
                                 _.each(result.result, function(wxaccount){
@@ -198,7 +189,7 @@ var SystemEvent = {
                                     };
                                     //
                                     api.queryWXAPI('/templatepush', templateMessage, function(result){
-                                        console.log('/templatepush', result);
+                                        log.info('/templatepush', result);
                                     });
                                 });
                             }
