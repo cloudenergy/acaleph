@@ -12,6 +12,9 @@ var apiUtil = require('./api/apiUtil');
 var moment = require('moment');
 var url = require('url');
 
+var crypto = require('crypto');
+var moment = require('moment');
+
 //{credentials: true}
 //app.use(cors());
 //app.use(express.bodyParser());
@@ -23,6 +26,7 @@ var url = require('url');
 
 var wechat = Include('/gateway/wechat');
 var email = Include('/gateway/email');
+var sms = Include('/gateway/sms');
 
 wechat.Init();
 email.Init();
@@ -72,6 +76,9 @@ mongodb(function(){
                     break;
                 case 'EMAIL':
                     email.Send(event.target, event.message);
+                    break;
+                case 'MOBILE':
+                    sms.Send(event.target, event.message);
                     break;
             }
         });
