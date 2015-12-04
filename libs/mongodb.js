@@ -602,16 +602,15 @@ var eventService = new Schema({
 
 //事件日志
 var eventSchema = new Schema({
-    _id: ObjectId,
     timestamp: {
         type: Date,
         require: true,
-        default: Date.now()
+        default: Date.now(),
+        index: true
     },
-    project: ObjectId,
-    uid: String,
-    type: String,
-    event: Schema.Types.Mixed
+    gateway: String, //消息发送网关
+    message: String,
+    target: String  //发送至目录
 });
 
 //事件分类(最多15种一级事件)

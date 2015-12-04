@@ -163,10 +163,17 @@ exports.EMAPI = function(path, parameters)
 {
     var deferred = Q.defer();
 
-    parameters['pid'] = APPID;
-    parameters['psc'] = APPSECRET;
+    if(!parameters){
+        parameters = {};
+    }
 
-    var parametersString = JSON.stringify(parameters);
+    //parameters['pid'] = APPID;
+    //parameters['psc'] = APPSECRET;
+
+    var encodeParameters = requestCode.EncryptAppIDSecret(APPID, APPSECRET, parameters);
+
+    var encodeParametersStr = JSON.stringify(encodeParameters);
+
     var options = {
         host: APIHOST
         , port: APIPORT
@@ -174,10 +181,10 @@ exports.EMAPI = function(path, parameters)
         , method: 'POST'
         , headers: HEADER
     };
-    options.headers['Content-Length'] = parametersString.length;
+    options.headers['Content-Length'] = Buffer.byteLength(encodeParametersStr, 'utf8');
 
-//    log.info(parameters);
-//    log.info(options);
+//    console.log(parameters);
+//    console.log(options);
 
     var req = http.request(options, function(res){
         var data='';
@@ -190,16 +197,16 @@ exports.EMAPI = function(path, parameters)
                 deferred.resolve(obj);
             }
             catch(err){
-                log.info('Parse Json Error: ', err, data);
+                log.error('Parse Json Error: ', err, data);
                 deferred.reject(err);
             }
         });
     });
     req.on('error', function(e){
-        log.info(APIHOST+":"+APIPORT+path+':Err - '+e);
+        log.error(APIHOST+":"+APIPORT+path+':Err - '+e);
         deferred.reject(e);
     });
-    req.write(parametersString);
+    req.write(encodeParametersStr);
     req.end();
 
     return deferred.promise;
