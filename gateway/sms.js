@@ -45,7 +45,8 @@ exports.Send = function (number, content)
     var url = "/"+SoftVersion+"/Accounts/"+AccountSID+"/Messages/templateSMS?sig="+encryptSignature;
 
     var body = PackageBody(number, content);
-    var contentLength = JSON.stringify(body).length;
+    body = JSON.stringify(body);
+    var contentLength = new Buffer(body).length;
 
     var Header = {
         "Accept": "application/json"
@@ -62,6 +63,7 @@ exports.Send = function (number, content)
     };
     console.log(options);
     console.log(body);
+
     var req = https.request(options, function(res){
         var data='';
         res.on('data', function(chunk){
@@ -74,6 +76,6 @@ exports.Send = function (number, content)
     req.on('error', function(e){
         log.error(e);
     });
-    req.write(JSON.stringify(body));
+    req.write(body);
     req.end();
 };

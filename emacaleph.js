@@ -77,7 +77,7 @@ mongodb(function(){
                 case 'EMAIL':
                     email.Send(event.target, event.message);
                     break;
-                case 'MOBILE':
+                case 'SMS':
                     sms.Send(event.target, event.message);
                     break;
             }
