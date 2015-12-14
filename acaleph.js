@@ -1,6 +1,6 @@
 var include = require('include-node');
 var appRootPath = require('app-root-path');
-var logger = require(appRootPath.path + '/libs/log')("EMAcaleph");
+var logger = require(appRootPath.path + '/libs/log')('acaleph');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var app = express();
@@ -14,15 +14,6 @@ var url = require('url');
 
 var crypto = require('crypto');
 var moment = require('moment');
-
-//{credentials: true}
-//app.use(cors());
-//app.use(express.bodyParser());
-//app.use(cookieParser());
-//app.use(express.session({
-//    secret: 'EMAPI1234567890',
-//    store: new express.session.MemoryStore()
-//}));
 
 var wechat = Include('/gateway/wechat');
 var email = Include('/gateway/email');

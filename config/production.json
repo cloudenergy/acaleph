@@ -1,6 +1,6 @@
 {
-    "name": "EMAPI",
-    "port": 8050,
+    "name": "acaleph",
+    "port": 180002,
     "db": {
         "url": "mongodb://10.169.3.1/EnergyManage"
     },
@@ -15,7 +15,7 @@
     "APPID": "EMe374f490bdc411e4864359c68eeb10e7",
     "APPSECRET": "c4b7a590ef859f8443cd631375dc0485",
     "APIHOST": "127.0.0.1",
-    "APIPORT": 8005,
+    "APIPORT": 8085,
     "WXAPIHOST": "127.0.0.1",
     "WXAPIPORT": 8989
 }
