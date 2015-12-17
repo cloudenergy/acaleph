@@ -61,8 +61,6 @@ exports.Send = function (number, content)
         , method: 'POST'
         , headers: Header
     };
-    console.log(options);
-    console.log(body);
 
     var req = https.request(options, function(res){
         var data='';
@@ -71,6 +69,19 @@ exports.Send = function (number, content)
         });
         res.on('end', function(){
            console.log(data);
+            var ret = {};
+            try{
+                ret = JOSN.parse(data);
+            }
+            catch(e){
+                return;
+            }
+            if(ret.resp.respCode != '000000'){
+                log.error(body, ret);
+            }
+            else{
+                log.info(body);
+            }
         });
     });
     req.on('error', function(e){

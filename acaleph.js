@@ -43,7 +43,7 @@ mongodb(function(){
             .limit(50)
             .sort({timestamp: 1})
             .exec(function(err, data){
-                if(data.length ==0 || err){
+                if(!data || data.length ==0 || err){
                     return Retry();
                 }
                 else{
