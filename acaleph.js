@@ -74,8 +74,9 @@ mongodb(function(){
             }
         });
 
-        mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){});
-        return DoFetch();
+        mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
+            DoFetch();
+        });
     };
 
     Retry();
