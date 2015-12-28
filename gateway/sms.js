@@ -1,6 +1,7 @@
 var moment = require('moment');
 var crypto = require('crypto');
 var https = require('https');
+var _ = require('underscore');
 
 var SoftVersion = '2014-06-30';
 var AccountSID = 'a864bd13ecf51aba30b8fc1e244fa004';
@@ -23,28 +24,38 @@ function EncodeAuthorization(timeStamp)
     return new Buffer(plainAuth).toString('base64');
 }
 
-function PackageBody(to, data)
+function PackageBody(to, message)
 {
     var body = {
         templateSMS: {
             "to": to,
             "appId": AppID,
-            "templateId": "17666",
-            "param": data
+            "templateId": message.templateid,
+            "param": message.content
         }
     };
     return body;
 }
 
-exports.Send = function (number, content)
+exports.Send = function (number, message)
 {
     //
+    try{
+        message = JSON.parse(message);
+    }
+    catch(e){
+        message = {};
+    }
+    if(_.isEmpty(message)){
+        return;
+    }
+
     var timeStamp = moment();
     var plainSignature = AccountSID + AccountToken + timeStamp.format('YYYYMMDDHHmmss');
     var encryptSignature = MD5(plainSignature);
     var url = "/"+SoftVersion+"/Accounts/"+AccountSID+"/Messages/templateSMS?sig="+encryptSignature;
 
-    var body = PackageBody(number, content);
+    var body = PackageBody(number, message);
     body = JSON.stringify(body);
     var contentLength = new Buffer(body).length;
 
@@ -71,7 +82,7 @@ exports.Send = function (number, content)
            console.log(data);
             var ret = {};
             try{
-                ret = JOSN.parse(data);
+                ret = JSON.parse(data);
             }
             catch(e){
                 return;
