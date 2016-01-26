@@ -30,12 +30,15 @@ exports.Send = function(target, message){
 
 
     mailServer.send({
+        attachment: message.attachment,
         text: message.content,
         from: user,
         to: target,
         subject: message.title
     }, function(err, message) {
-        console.log(err || message);
+        if(err){
+            log.error(err, message);
+        }
     });
 };
 

@@ -79,7 +79,7 @@ exports.Send = function (number, message)
             data += chunk;
         });
         res.on('end', function(){
-           console.log(data);
+            log.debug('SMS: ', number, message, data);
             var ret = {};
             try{
                 ret = JSON.parse(data);
