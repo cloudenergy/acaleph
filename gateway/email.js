@@ -39,6 +39,7 @@ exports.Send = function(target, message){
         if(err){
             log.error(err, message);
         }
+        log.info(message);
     });
 };
 
