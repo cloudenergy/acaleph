@@ -2,7 +2,7 @@
     "name": "acaleph",
     "port": 180002,
     "db": {
-        "url": "mongodb://42.120.42.45/EnergyManage"
+        "url": "mongodb://em:EnergyManage_135246@120.27.150.112:27017/EnergyManage"
     },
 
     "printToConsole": true,
@@ -11,7 +11,7 @@
     "APPID": "EMe374f490bdc411e4864359c68eeb10e7",
     "APPSECRET": "c4b7a590ef859f8443cd631375dc0485",
     "APIHOST": "127.0.0.1",
-    "APIPORT": 8085,
-    "WXAPIHOST": "42.120.42.45",
+    "APIPORT": 8005,
+    "WXAPIHOST": "127.0.0.1",
     "WXAPIPORT": 8989
 }

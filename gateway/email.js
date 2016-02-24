@@ -7,6 +7,10 @@ var mailServer;
 module.exports = exports = function(){};
 
 exports.Init = function () {
+
+};
+
+exports.Send = function(target, message){
     mailServer  = email.server.connect({
         user: user,
         password: "51Cloudenergy",
@@ -14,9 +18,7 @@ exports.Init = function () {
         port: 465,
         ssl: true
     });
-};
-
-exports.Send = function(target, message){
+    
     try{
         message = JSON.parse(message);
     }
