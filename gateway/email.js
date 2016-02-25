@@ -2,8 +2,6 @@ var email = require('emailjs');
 var _ = require('underscore');
 var user = "group@cloudenergy.me";
 
-var mailServer;
-
 module.exports = exports = function(){};
 
 exports.Init = function () {
@@ -11,7 +9,7 @@ exports.Init = function () {
 };
 
 exports.Send = function(target, message){
-    mailServer  = email.server.connect({
+    var mailServer  = email.server.connect({
         user: user,
         password: "51Cloudenergy",
         host: "smtp.exmail.qq.com",
