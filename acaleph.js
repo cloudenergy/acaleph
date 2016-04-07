@@ -18,6 +18,7 @@ var moment = require('moment');
 var wechat = Include('/gateway/wechat');
 var email = Include('/gateway/email');
 var sms = Include('/gateway/sms');
+var push = Include('/gateway/push');
 
 wechat.Init();
 email.Init();
@@ -70,6 +71,8 @@ mongodb(function(){
                     break;
                 case 'SMS':
                     sms.Send(event.target, event.message);
+                case 'PUSH':
+                    push.Send(event.target, event.message);
                     break;
             }
         });

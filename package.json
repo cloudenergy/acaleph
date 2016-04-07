@@ -10,6 +10,7 @@
     "emailjs": "^1.0.1",
     "express": "^4.13.3",
     "include-node": "^0.2.0",
+    "jpush-sdk": "^3.2.1",
     "log4js": "^0.6.29",
     "moment": "^2.10.6",
     "mongoose": "^4.3.1",
