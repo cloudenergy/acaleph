@@ -7,9 +7,13 @@ exports.Send = function Send (target, message) {
 	// 
 	client.push().setPlatform('ios', 'android')
     .setAudience(JPush.tag(target))
-    .setNotification(message.title, 
-    	JPush.ios('ios alert'), 
-    	JPush.android('android alert', null, 1)
+    .setNotification('云能源通知消息', // 全局消息名称  
+    	JPush.ios('ios alert', 'sound', 1, false, {
+            action: 'pay'   // 根据不同事件修改 action
+        }), 
+    	JPush.android('android alert', null, 1, {
+            action: 'pay'   // 同上
+        })
     )
     .setMessage(message.content)
     .setOptions(null, 60)
