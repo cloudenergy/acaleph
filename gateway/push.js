@@ -15,10 +15,10 @@ exports.Send = function Send (target, message) {
     .setAudience(JPush.tag(target))
     .setNotification(
         JPush.ios(message.title, 'sound', 1, false, {
-            action: 'pay'   // 根据不同事件修改 action
+            action: 'CASHCHARGE'   // 根据不同事件修改 action
         }), 
         JPush.android(message.title, null, 1, {
-            action: 'pay'   // 同上
+            action: 'CASHCHARGE'   // 同上
         })
     )
     .setMessage(message.content)
