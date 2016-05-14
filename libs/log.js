@@ -4,7 +4,7 @@ var appRoot = require('app-root-path');
 var fs = require('fs');
 var config = require('config');
 
-exports = module.exports = function(appName, logPath)
+module.exports = function(appName, logPath)
 {
 	var loggerPath = path.join(appRoot.path, logPath || '/log/');
     if(!fs.existsSync(loggerPath)){
@@ -25,4 +25,6 @@ exports = module.exports = function(appName, logPath)
     }
     log4js.configure({appenders:appenders});
     global.log = log4js.getLogger(appName);
+    
+    console.log('global log: ', log);
 };

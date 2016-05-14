@@ -1,6 +1,6 @@
 var include = require('include-node');
 var appRootPath = require('app-root-path');
-var logger = require(appRootPath.path + '/libs/log')('acaleph');
+var logger = require('./libs/log')('acaleph');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var app = express();
