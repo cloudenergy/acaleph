@@ -27,7 +27,7 @@ var data = {
 		attachment: []
 	},
 	eventType = 'ntf_accountarrears';
-	target = '910599438@qq.com';
+	target = '910599438@qq.com, luojieyy@gmail.com';
 
 fs.writeFile('./test.html', template, 'utf8');
 gateway.Send(target, JSON.stringify(data));
