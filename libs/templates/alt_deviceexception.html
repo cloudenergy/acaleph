@@ -11,31 +11,30 @@
     {{#content "body"}}
         <!-- <h5>尊敬的用户:</h5> -->
         <p>
-        	尊敬的用户 {{data.name}} 您好, 以下是 {{data.project}} 项目中的商户欠费信息：
+        	尊敬的用户 {{data.name}} 您好, 
+        </p>
+        <p>
+             您监控的项目 {{data.project}} 有{{data.devices.length}}项报警事件等待处理:
         </p>
         <div style="">
             <table style="width:100%;text-align:center;color:#666;border-collapse:collapse;border-color:#ddd;" class="detail">
-                <caption style="color:#444;font-size:1.5rem;padding:10px 20px">商户欠费统计表</caption>
                 <thead>
                     <tr style="background: #3e71be; color: #fff;">
-                        <th>欠费日期</th>
-                        <th>欠费户数</th>
-                        <th>欠费金额</th>
+                        <th>时间</th>
+                        <th>事件</th>
+                        <th>设备</th>
+                        <th>位置</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each data.list}}
+                    {{#each data.devices}}
                         <tr>
-                            <td>{{this.title}}</td>
-                            <td>{{this.count}}</td>
-                            <td>{{this.amount}}</td>
+                            <td>{{this.time}}</td>
+                            <td>{{this.type}}</td>
+                            <td>{{this.name}}</td>
+                            <td>{{this.location}}</td>
                         </tr>
                     {{/each}}
-                    <tr>
-                        <td></td>
-                        <td>合计: </td>
-                        <td>合计: </td>
-                    </tr>
                 </tbody>
             </table>
             <br>

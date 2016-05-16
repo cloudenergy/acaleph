@@ -1,0 +1,26 @@
+{
+	"ntf_balanceinsufficient": {
+		"title": "商户欠费通知",
+		"app" : {
+
+		}
+	},
+	"ntf_accountarrears": {
+		"title": "账户开通提醒",
+		"app": {
+
+		}
+	},
+	"alt_deviceexception": {
+		"title": "设备异常",
+		"app": {
+
+		}
+	},
+	"ntf_dailyconsumptionreport": {
+		"title": "日消耗账单",
+		"app": {
+
+		}
+	}
+}
