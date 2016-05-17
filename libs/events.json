@@ -1,11 +1,22 @@
 {
 	"ntf_balanceinsufficient": {
-		"title": "商户欠费通知",
+		"title": "账户欠费通知",
 		"email": {
 			"target": "finance"
 		},
 		"app" : {
 
+		},
+		"wechat": {
+			"template": "04yhtxxhktLnzzp4kPQWZzxTYYdXhCA3cytTe_sx8uo",
+			"first": "您好, {{name}} 用户, 您关注的设备存在异常",
+			"theme": "#FF0000",
+			"keywords": {
+				"keyword1": ["name", "#173177"],
+				"keyword2": ["device", "#173177"],
+				"keyword3": ["type", "#173177"],
+				"keyword4": ["location", "#173177"]
+			}
 		}
 	},
 	"ntf_accountnew": {
@@ -15,6 +26,9 @@
 		},
 		"app": {
 
+		},
+		"weichat": {
+			"keywords": ["name", "account", ""]
 		}
 	},
 	"alt_deviceexception": {
@@ -24,15 +38,21 @@
 		},
 		"app": {
 
+		},
+		"weichat": {
+			"keywords": ["name", "account", ""]
 		}
 	},
 	"ntf_dailyconsumptionreport": {
-		"title": "日消耗账单",
+		"title": "日账单(每日扣费)",
 		"email": {
 			"target": "business"
 		},
 		"app": {
 
+		},
+		"weichat": {
+			"keywords": ["name", "account", ""]
 		}
 	}
 }

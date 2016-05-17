@@ -16,6 +16,6 @@
     "PUSHSECRET" : "f5f54afa81b51b9aca6fec59",
 
     "APIPORT": 8005,
-    "WXAPIHOST": "127.0.0.1",
+    "WXAPIHOST": "42.120.42.45",
     "WXAPIPORT": 8989
 }
