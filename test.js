@@ -33,47 +33,71 @@ var template_data = {
 			type: '通讯故障', 
 			time: '2016-05-01 12:00', 
 			location:'A区', 
-			code: 'COMM'
+			code: 'COMM',
+			amount: '1482.1',
+			balance: '-1929',
+			bank: '招商银行',
+			fee: '10 元'
 		}
 	};
 
-var wechat_message = {
-    url: '',
-    touser: "oVO8Aj7-yPPeVSbeh3KdJUQ8dGoQ",
-    template_id: "04yhtxxhktLnzzp4kPQWZzxTYYdXhCA3cytTe_sx8uo",
-    data: {
-        first: {
-            "value":"您好,你的账户余额发生变动,信息如下",
-            "color":"#173177"
-        },
-        //账户类型
-        keyword1: {
-            "value":"普通账户",
-            "color":"#173177"
-        },
-        //操作类型
-        keyword2: {
-            "value": 'operate',
-            "color":"#173177"
-        },
-        //操作内容
-        keyword3: {
-            "value": 'content',
-            "color":"#173177"
-        },
-        //变动额度
-        keyword4: {
-            "value": 'amount',
-            "color":"#173177"
-        }
-    }
-};
+var users =[
+	{
+	  "_id": "oVO8Aj5i4BU-tGNjIuRjCWW5fwaY",
+	  "user": "13735570920",
+	  "platformid": "gh_e8d031d150e4"
+	},
+	{
+	  "_id": "oVO8Aj5sr-Jz7WCZZp3d1JauU7mE",
+	  "user": "13735570920",
+	  "platformid": "gh_e8d031d150e4"
+	},
+	{
+	  "_id": "oVO8Aj66yWWJOPGwKAx36lxKLUM8",
+	  "user": "13735570920",
+	  "platformid": "gh_e8d031d150e4"
+	},
+	{
+	  "_id": "oVO8Aj6MCWcYY_5s68nmaUezO87c",
+	  "user": "13735570920",
+	  "platformid": "gh_e8d031d150e4"
+	},
+	{
+	  "_id": "oVO8Aj8ADXPQt6tP1eMk2pdazvY0",
+	  "user": "13735570920",
+	  "platformid": "gh_e8d031d150e4"
+	}
+];
 
-wechat_message = wxComposer.compile(template_data.device, 'ntf_balanceinsufficient');
-wechat_message.touser = "oVO8Aj7-yPPeVSbeh3KdJUQ8dGoQ";
+users = [
+	{
+	  "_id": "oVO8Aj7-yPPeVSbeh3KdJUQ8dGoQ",
+	  "user": "lj",
+	  "platformid": "gh_e8d031d150e4"
+	}
+];
 
-wechat.Send('gh_e8d031d150e4', JSON.stringify(wechat_message));
+function send_all_events (user) {
+	_.each(events, (val, key) => {
+		if (!val.wechat) {
+			return;
+		}
 
+		var wechat_message = wxComposer.compile(template_data.device, key);
+	    wechat_message.touser= user._id;
+		var wx_message = JSON.stringify(wechat_message);
+
+		wechat.Send(user.platformid, wx_message);
+		console.log('msg: ', wechat_message);
+		console.log('------------------------------------------------')
+	})  
+}
+
+_.each(users, function(val, index){
+	send_all_events(val)
+})
+
+return;
 _.each(events, function(val, key){
 	template_data.target = val.email.target || 'business';
 

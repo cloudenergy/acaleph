@@ -8,14 +8,12 @@
 
 		},
 		"wechat": {
-			"template": "04yhtxxhktLnzzp4kPQWZzxTYYdXhCA3cytTe_sx8uo",
-			"first": "您好, {{name}} 用户, 您关注的设备存在异常",
+			"template": "tlmLyg0KbZhS1SryjVhbRgMeMwOWeGmniMx_QnwQWDE",
+			"first": "尊敬的 {{name}} , 您关注的设备存在异常",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["name", "#173177"],
-				"keyword2": ["device", "#173177"],
-				"keyword3": ["type", "#173177"],
-				"keyword4": ["location", "#173177"]
+				"keyword1": ["amount", "#173177"],
+				"keyword2": ["time", "#173177"]
 			}
 		}
 	},
@@ -26,9 +24,6 @@
 		},
 		"app": {
 
-		},
-		"weichat": {
-			"keywords": ["name", "account", ""]
 		}
 	},
 	"alt_deviceexception": {
@@ -39,8 +34,16 @@
 		"app": {
 
 		},
-		"weichat": {
-			"keywords": ["name", "account", ""]
+		"wechat": {
+			"template": "04yhtxxhktLnzzp4kPQWZzxTYYdXhCA3cytTe_sx8uo",
+			"first": "尊敬的 {{name}} , 您监控的设备发生异常，详情如下:",
+			"theme": "#FF0000",
+			"keywords": {
+				"keyword1": ["name", "#173177"],
+				"keyword2": ["device", "#173177"],
+				"keyword3": ["type", "#173177"],
+				"keyword4": ["location", "#173177"]
+			}
 		}
 	},
 	"ntf_dailyconsumptionreport": {
@@ -50,9 +53,31 @@
 		},
 		"app": {
 
-		},
-		"weichat": {
-			"keywords": ["name", "account", ""]
+		}
+	},
+	"ntf_withdraw": {
+		"wechat" : {
+			"template": "K7phQXfFXIikfXH_2Twm7uCIsIQlba9zgP0I_x2M1UU",
+			"first": "尊敬的 {{name}} , 您账户有一笔体现转账已完成，详情如下:",
+			"theme": "#008000",
+			"keywords": {
+				"keyword1": ["amount", "#173177"],
+				"keyword2": ["fee", "#173177"],
+				"keyword3": ["bank", "#173177"],
+				"keyword4": ["time", "#173177"]
+			}
+		}
+	},
+	"ntf_recharging": {
+		"wechat" : {
+			"template": "XYICbaAxqx8F2s7v2rNGkrcm1bmuoqTB6DD42aY-39k",
+			"first": "尊敬的 {{name}} , 您账户有一项充值操作已完成，详情如下:",
+			"theme": "#008000",
+			"keywords": {
+				"keyword1": ["amount", "#173177"],
+				"keyword2": ["time", "#173177"],
+				"keyword3": ["balance", "#173177"]
+			}
 		}
 	}
 }
