@@ -28,6 +28,8 @@ var template_data = {
 	};
 
 _.each(events, function(val, key){
+	template_data.target = val.email.target || 'business';
+
 	var eventType = key,
 	template = emailComposer.compile(eventType, template_data);
  
@@ -36,7 +38,7 @@ _.each(events, function(val, key){
 			content: template,
 			attachment: []
 		},
-		target = '910599438@qq.com';
+		target = '910599438@qq.com'//, 78110695@qq.com, 50923132@qq.com, 21834494@qq.com';
 
 	// fs.writeFile('./test.html', template, 'utf8');
 	gateway.Send(target, JSON.stringify(mail));

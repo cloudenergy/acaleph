@@ -1,24 +1,36 @@
 {
 	"ntf_balanceinsufficient": {
 		"title": "商户欠费通知",
+		"email": {
+			"target": "finance"
+		},
 		"app" : {
 
 		}
 	},
-	"ntf_accountarrears": {
+	"ntf_accountnew": {
 		"title": "账户开通提醒",
+		"email": {
+			"target": "business"
+		},
 		"app": {
 
 		}
 	},
 	"alt_deviceexception": {
 		"title": "设备异常",
+		"email": {
+			"target": "property"
+		},
 		"app": {
 
 		}
 	},
 	"ntf_dailyconsumptionreport": {
 		"title": "日消耗账单",
+		"email": {
+			"target": "business"
+		},
 		"app": {
 
 		}

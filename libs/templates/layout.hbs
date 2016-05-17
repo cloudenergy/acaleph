@@ -29,18 +29,51 @@
     color: rgb(222, 222, 222);">古鸽云能源平台</p>
 				<div>
 					<ul style="list-style:none;padding: 20px 0px;">
-						<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
-							<a href="http://www.gugecc.com" target="_blank" style="text-decoration:none;color: #fff;">平台首页 |</a>
-						</li>
-						<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
-							<a href="http://www.gugecc.com/products.html" target="_blank" style="text-decoration:none;color: #fff;">产品展示 |</a>
-						</li>
-						<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
-							<a href="http://www.gugecc.com/about.html" target="_blank" style="text-decoration:none;color: #fff;">关于我们 |</a>
-						</li>
-						<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
-							<a href="http://www.gugecc.com/contact.html" target="_blank" style="text-decoration:none;color: #fff;">客服帮助</a>
-						</li>
+						
+						{{#ifEqual target 'finance'}}
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://admin.cloudenergy.me/" target="_blank" style="text-decoration:none;color: #fff;">平台首页 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://admin.cloudenergy.me/admin/property/" target="_blank" style="text-decoration:none;color: #fff;">财务中心 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://admin.cloudenergy.me/" target="_blank" style="text-decoration:none;color: #fff;">能耗统计 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://admin.cloudenergy.me/admin/department/info" target="_blank" style="text-decoration:none;color: #fff;">商户管理</a>
+							</li>
+						{{/ifEqual}}
+
+						{{#ifEqual target 'property'}}
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://admin.cloudenergy.me/" target="_blank" style="text-decoration:none;color: #fff;">平台首页 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://cloudenergy.me/dashboard56713c947f0fd05911d382f4/monitor" target="_blank" style="text-decoration:none;color: #fff;">报警处理 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://cloudenergy.me/dashboard{{data.project}}/monitor" target="_blank" style="text-decoration:none;color: #fff;">设备监控 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://admin.cloudenergy.me/admin/department/info" target="_blank" style="text-decoration:none;color: #fff;">商户管理</a>
+							</li>
+						{{/ifEqual}}
+
+						{{#ifEqual target 'business'}}
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://admin.cloudenergy.me/" target="_blank" style="text-decoration:none;color: #fff;">平台首页 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://cloudenergy.me/dashboard{{data.project}}/monitor" target="_blank" style="text-decoration:none;color: #fff;">设备监控 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://cloudenergy.me/dashboard{{data.project}}/statistic/" target="_blank" style="text-decoration:none;color: #fff;">能耗统计 |</a>
+							</li>
+							<li style="list-style:none;display: inline-block;margin: 0px 3px 0px 0px;">
+								<a href="http://cloudenergy.me" target="_blank" style="text-decoration:none;color: #fff;">个人中心</a>
+							</li>
+						{{/ifEqual}}
 					</ul>
 				</div>
 			</th>
