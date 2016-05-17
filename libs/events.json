@@ -18,7 +18,7 @@
 		}
 	},
 	"alt_deviceexception": {
-		"title": "设备异常",
+		"title": "设备通讯故障",
 		"email": {
 			"target": "property"
 		},
