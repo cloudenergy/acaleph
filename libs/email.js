@@ -19,8 +19,6 @@ handlebars.registerHelper('ifEqual', function(v1, v2, options) {
     return options.inverse(this);
 });
 
-// todo 异步读取文件放入缓存
-
 // 生成 email 模板
 module.exports = {
     compile: function(templateName, data) {

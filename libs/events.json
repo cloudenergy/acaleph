@@ -1,11 +1,13 @@
 {
 	"ntf_balanceinsufficient": {
 		"title": "账户欠费通知",
+		"code": 5300,
+		"gateway" : ["app", "wechat"],
 		"email": {
 			"target": "finance"
 		},
 		"app" : {
-
+			
 		},
 		"wechat": {
 			"template": "tlmLyg0KbZhS1SryjVhbRgMeMwOWeGmniMx_QnwQWDE",
@@ -19,6 +21,7 @@
 	},
 	"ntf_accountnew": {
 		"title": "账户开通提醒",
+		"gateway" : ["sms", "email"],
 		"email": {
 			"target": "business"
 		},
@@ -31,6 +34,7 @@
 		"email": {
 			"target": "property"
 		},
+		"gateway" : ["wechat", "email"],
 		"app": {
 
 		},
@@ -46,8 +50,9 @@
 			}
 		}
 	},
-	"ntf_dailyconsumptionreport": {
+	"ntf_userdailyreport": {
 		"title": "日账单(每日扣费)",
+		"gateway": ["app", "wechat"],
 		"email": {
 			"target": "business"
 		},
@@ -56,6 +61,7 @@
 		}
 	},
 	"ntf_withdraw": {
+		"gateway": ["wechat"],
 		"wechat" : {
 			"template": "K7phQXfFXIikfXH_2Twm7uCIsIQlba9zgP0I_x2M1UU",
 			"first": "尊敬的 {{name}} , 您账户有一笔体现转账已完成，详情如下:",
@@ -69,6 +75,7 @@
 		}
 	},
 	"ntf_recharging": {
+		"gateway": ["app", "wechat"],
 		"wechat" : {
 			"template": "XYICbaAxqx8F2s7v2rNGkrcm1bmuoqTB6DD42aY-39k",
 			"first": "尊敬的 {{name}} , 您账户有一项充值操作已完成，详情如下:",

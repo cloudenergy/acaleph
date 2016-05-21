@@ -20,6 +20,9 @@ var email = Include('/gateway/email');
 var sms = Include('/gateway/sms');
 var push = Include('/gateway/push');
 
+// 获取联系人 
+var messager = require('./api/messager');
+
 wechat.Init();
 email.Init();
 
@@ -38,6 +41,7 @@ mongodb(function(){
 
     var DoFetch = function()
     {
+        log.info('fetching events...');
         //获取事件进行处理
         mongodb.Event
             .find({})
@@ -62,24 +66,19 @@ mongodb(function(){
         _.each(events, function(event){
             removeIDs.push(event._id);
 
-            switch(event.gateway){
-                case 'WECHAT':
-                    wechat.Send(event.target, event.message);
-                    break;
-                case 'EMAIL':
-                    email.Send(event.target, event.message);
-                    break;
-                case 'SMS':
-                    sms.Send(event.target, event.message);
-                case 'PUSH':
-                    push.Send(event.target, event.message);
-                    break;
-            }
+            // 发送数据或者销毁
+            messager
+                .resolve(event)
+                .then((msg) => {
+                    return messager.send(msg);
+                }, messager.discard);
         });
 
-        mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
-            DoFetch();
-        });
+        // DoFetch();
+        
+        // mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
+        //     DoFetch();
+        // });
     };
 
     Retry();

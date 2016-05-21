@@ -1,7 +1,9 @@
-var email = require('emailjs');
-var _ = require('underscore');
+var email = require('emailjs'),
+    emailComposer = require('../libs/email'),
+    _ = require('underscore'),  
+    nodemailer = require('nodemailer');
+
 var user = "古鸽云能源 <group@cloudenergy.me>";
-var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
     port: 465,

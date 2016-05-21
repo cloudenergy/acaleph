@@ -40,6 +40,7 @@ exports.MiddleWare = function(schema)
     };
     this.find = function(queryFactor){
         mongoMiddleware = mongoMiddleware.find(queryFactor);
+        console.log('searching: ', queryFactor);
         return mongoMiddleware;
     };
     this.findOne = function(queryFactor){
