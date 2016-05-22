@@ -1,7 +1,6 @@
 {
 	"ntf_balanceinsufficient": {
 		"title": "账户欠费通知",
-		"code": 5300,
 		"gateway" : ["app", "wechat"],
 		"email": {
 			"target": "finance"
@@ -11,12 +10,32 @@
 		},
 		"wechat": {
 			"template": "tlmLyg0KbZhS1SryjVhbRgMeMwOWeGmniMx_QnwQWDE",
-			"first": "尊敬的 {{name}} , 您关注的设备存在异常",
+			"first": "尊敬的 {{username}} , 您的账户已欠费，详情如下: ",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["amount", "#173177"],
+				"keyword1": ["balance", "#173177"],
 				"keyword2": ["time", "#173177"]
 			}
+		}
+	},
+	"ntf_accountarrears": {
+		"title": "欠费通知",
+		"gateway": ["wechat", "app"],
+		"wechat": {
+
+		},
+		"app": {
+
+		}
+	},
+	"ntf_projectarrears": {
+		"title": "欠费商户通知",
+		"gateway": ["email"],
+		"wechat": {
+
+		},
+		"app": {
+
 		}
 	},
 	"ntf_accountnew": {

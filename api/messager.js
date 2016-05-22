@@ -5,39 +5,95 @@
  */
 
 var mongodb = require('../libs/mongodb'),
-	mongo = require('mongoose');
+	mongo = require('mongoose'),
+	alias = require('../libs/alias'),
+	events = require('../libs/events');
+
+let getWechat = (uid) => {
+	return new Promise((resolve, reject) =>{
+		mongodb.WXOpenIDUser
+			.findOne({
+				user: uid
+			})
+			.exec((err, data) => {
+				console.log('get wx: ', err, data, uid)
+
+				if (err || !data) {
+					reject(err)
+				}else{
+					resolve(data);
+				}
+			})
+	})
+
+}
 
 module.exports = {
 	resolve (event) {
-		
 		return new Promise((resolve, reject) => {
-			let param = event.get('param')
-			mongodb.Account
-				.findOne({
-					_id : "1-1F-A-003" //event.param.uid || event.param.account
-				})
-				.limit(1)
-				.exec((err, data) => {
-					if (err) {
-						reject(err);
-					}else{
-						resolve({
-							target: data,
-							msg: event
-						});
-					}
-				})
+			try{
+				let param = event.get('param');
+				mongodb.Account
+					.findOne({
+						_id : "1-1F-A-003" //event.param.uid || event.param.account
+					})
+					.limit(1)
+					.exec((err, data) => {
+						if (err) {
+							reject(err);
+						}else{
+							resolve({
+								target: data,
+								msg: event
+							});
+						}
+					})
+			}catch(e){
+				console.log('e: ', e);
+			}
+			
 		});
 	},
 
 	parse (user, event) {
-		console.info('parse event now: ', event.id, event.get('eid'));
-		let type = event.id;
+
+		let type = event.get('eid'),
+			param = event.get('param'),
+			eventName = alias[`event:${type}`];
+		let	eventGateway = events[eventName].gateway;
+
+		return getWechat(param.uid)
+			.then((wx) => {
+				return {
+					gateway: 'wechat',
+					target: wx,
+					msg: {
+						event: eventName,
+						data: param
+					}
+				};
+			})
 	},
 
 	send (playload) {
 		// 解析用户设置渠道 和 事件允许渠道
-		this.parse(playload.target, playload.msg);
+		this.parse(playload.target, playload.msg)
+			.then((data)=> {
+				try{
+					this.pipepline(data.gateway, data.target, data.msg);
+				}catch(e){
+					console.log('e: ', e);
+				}
+			});
+	},
+
+	pipepline (gateway, target, msg) {
+		try{
+			let api = require(`../gateway/${gateway}`);
+			return api.Send(target, msg);
+		}catch(e){
+			console.log('e:', e);
+		}
 	},
 
 	discard (event) {

@@ -15,6 +15,7 @@ module.exports = {
 				color: event.theme
 			};
 		}
+		console.log('data first: ', data, msg);
 
 		_.each(keywords, function(val, key){
 			data[key] = {
