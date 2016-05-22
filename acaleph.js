@@ -74,11 +74,11 @@ mongodb(function(){
                 }, messager.discard);
         });
 
-        // DoFetch();
+        DoFetch();
         
-        // mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
-        //     DoFetch();
-        // });
+        mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
+            DoFetch();
+        });
     };
 
     Retry();

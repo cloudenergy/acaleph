@@ -9,7 +9,7 @@
 			
 		},
 		"wechat": {
-			"template": "tlmLyg0KbZhS1SryjVhbRgMeMwOWeGmniMx_QnwQWDE",
+			"template": "iknMsSJLqZYz5pn24z-JIAwRgnD08nKXuOGIrpiB4vA",
 			"first": "尊敬的 {{username}} , 您的账户已欠费，详情如下: ",
 			"theme": "#FF0000",
 			"keywords": {
@@ -22,7 +22,7 @@
 		"title": "欠费通知",
 		"gateway": ["wechat", "app"],
 		"wechat": {
-
+			"template": "tlmLyg0KbZhS1SryjVhbRgMeMwOWeGmniMx_QnwQWDE"
 		},
 		"app": {
 
