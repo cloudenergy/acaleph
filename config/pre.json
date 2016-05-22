@@ -5,8 +5,8 @@
         "url": "mongodb://em:EnergyManage_135246@127.0.0.1:27017/EnergyManage"
     },
 
-    "printToConsole": true,
-    "printToLog": false,
+    "printToConsole": false,
+    "printToLog": true,
 
     "APPID": "EMe374f490bdc411e4864359c68eeb10e7",
     "APPSECRET": "c4b7a590ef859f8443cd631375dc0485",
