@@ -1,6 +1,6 @@
 {
 	"ntf_balanceinsufficient": {
-		"title": "账户欠费通知",
+		"title": "余额不足提醒",
 		"gateway" : ["app", "wechat"],
 		"email": {
 			"target": "finance"

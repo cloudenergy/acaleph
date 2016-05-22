@@ -25,7 +25,6 @@ let getWechat = (uid) => {
 				}
 			})
 	})
-
 }
 
 module.exports = {
@@ -62,6 +61,8 @@ module.exports = {
 			eventName = alias[`event:${type}`];
 		let	eventGateway = events[eventName].gateway;
 
+		// 根据 gateway 将数据传入 pipeline;
+
 		return getWechat(param.uid)
 			.then((wx) => {
 				return {
@@ -72,7 +73,7 @@ module.exports = {
 						data: param
 					}
 				};
-			})
+			});
 	},
 
 	send (playload) {
