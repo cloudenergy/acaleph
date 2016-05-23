@@ -56,7 +56,7 @@ module.exports = {
 
 	parse (user, event) {
 
-		let type = event.get('eid'),
+		let type = event.get('type'),
 			param = event.get('param'),
 			eventName = alias[`event:${type}`];
 		let	eventGateway = events[eventName].gateway;
