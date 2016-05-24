@@ -28,13 +28,15 @@ let getWechat = (uid) => {
 }
 
 module.exports = {
+	// 获取用户信息 -todo aggregate wechat
 	resolve (event) {
+
 		return new Promise((resolve, reject) => {
 			try{
 				let param = event.get('param');
 				mongodb.Account
 					.findOne({
-						_id : "1-1F-A-003" //event.param.uid || event.param.account
+						_id : param.uid || param.account
 					})
 					.limit(1)
 					.exec((err, data) => {
@@ -54,12 +56,14 @@ module.exports = {
 		});
 	},
 
-	parse (user, event) {
+	// 用户用户 APP tag 
+	getApp (event) {
 
-		let type = event.get('type'),
-			param = event.get('param'),
-			eventName = alias[`event:${type}`];
-		let	eventGateway = events[eventName].gateway;
+	},
+
+	// 获取微信信息
+	getWechat (event) {
+		let	param = event.get('param');
 
 		// 根据 gateway 将数据传入 pipeline;
 
@@ -76,19 +80,39 @@ module.exports = {
 			});
 	},
 
-	send (playload) {
+	send (user, param) {
+
+		let type = param.get('type'),
+			eventName = alias[`event:${type}`],
+			email = user.get('email'),
+			event = events[eventName];
+		let	eventGateway = event.gateway;
 		// 解析用户设置渠道 和 事件允许渠道
-		this.parse(playload.target, playload.msg)
+
+		if (eventGateway.indexOf('email') != -1 && email) {
+			this.pipeline('email', email, param);
+		}
+
+		// 判断是否包含微信请求
+		if (eventGateway.indexOf('wechat') == -1) {
+			return
+		}
+
+		return
+
+		this.getWechat(playload.msg)
 			.then((data)=> {
 				try{
-					this.pipepline(data.gateway, data.target, data.msg);
+					this.pipeline(data.gateway, data.target, data.msg);
 				}catch(e){
 					console.log('e: ', e);
 				}
 			});
 	},
 
-	pipepline (gateway, target, msg) {
+	pipeline (gateway, target, msg) {
+		console.log('pipeline mesage : ', gateway, msg);
+
 		try{
 			let api = require(`../gateway/${gateway}`);
 			return api.Send(target, msg);

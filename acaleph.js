@@ -49,7 +49,7 @@ mongodb(function(){
             .sort({timestamp: 1})
             .exec(function(err, data){
                 if(!data || data.length ==0 || err){
-                    return Retry();
+                    // return Retry();
                 }
                 else{
                     //
@@ -69,11 +69,12 @@ mongodb(function(){
             // 发送数据或者销毁
             messager
                 .resolve(event)
-                .then((msg) => {
-                    return messager.send(msg);
+                .then((data) => {
+                    return messager.send(data.target, data.msg);
                 }, messager.discard);
         });
         
+        return;
         mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
             DoFetch();
         });
@@ -82,14 +83,6 @@ mongodb(function(){
     Retry();
 });
 
-var server = app.listen(config.port, function(){
-    log.info('listening at %s', server.address().port);
-});
-
-
-//var email = Include('/gateway/email');
-//email.Init();
-//email.Send('50923132@qq.com', "testing emailjs", "Acaleph Email TestNew LIne\n    ZZZZ");
-
-//var sms = Include('/gateway/sms');
-//sms.Send();
+// var server = app.listen(config.port, function(){
+//     log.info('listening at %s', server.address().port);
+// });

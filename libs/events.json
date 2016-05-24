@@ -13,8 +13,8 @@
 			"first": "尊敬的 {{username}} , 您的账户已欠费，详情如下: ",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["balance", "#173177"],
-				"keyword2": ["time", "#173177"]
+				"keyword1": ["uid", "#44a4c9"],
+				"keyword2": ["balance", "#44a4c9"]
 			}
 		}
 	},
@@ -62,10 +62,10 @@
 			"first": "尊敬的 {{name}} , 您监控的设备发生异常，详情如下:",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["name", "#173177"],
-				"keyword2": ["device", "#173177"],
-				"keyword3": ["type", "#173177"],
-				"keyword4": ["location", "#173177"]
+				"keyword1": ["name", "#44a4c9"],
+				"keyword2": ["device", "#44a4c9"],
+				"keyword3": ["type", "#44a4c9"],
+				"keyword4": ["location", "#44a4c9"]
 			}
 		}
 	},
@@ -86,10 +86,10 @@
 			"first": "尊敬的 {{name}} , 您账户有一笔体现转账已完成，详情如下:",
 			"theme": "#008000",
 			"keywords": {
-				"keyword1": ["amount", "#173177"],
-				"keyword2": ["fee", "#173177"],
-				"keyword3": ["bank", "#173177"],
-				"keyword4": ["time", "#173177"]
+				"keyword1": ["amount", "#44a4c9"],
+				"keyword2": ["fee", "#44a4c9"],
+				"keyword3": ["bank", "#44a4c9"],
+				"keyword4": ["time", "#44a4c9"]
 			}
 		}
 	},
@@ -100,9 +100,9 @@
 			"first": "尊敬的 {{name}} , 您账户有一项充值操作已完成，详情如下:",
 			"theme": "#008000",
 			"keywords": {
-				"keyword1": ["amount", "#173177"],
-				"keyword2": ["time", "#173177"],
-				"keyword3": ["balance", "#173177"]
+				"keyword1": ["amount", "#44a4c9"],
+				"keyword2": ["time", "#44a4c9"],
+				"keyword3": ["balance", "#44a4c9"]
 			}
 		}
 	}
