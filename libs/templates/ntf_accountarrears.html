@@ -1,0 +1,45 @@
+{{#extend "layout"}}
+    {{#content "style"}}
+        .detail th{
+            <!-- background: #ddd; -->
+        }
+        .detail th, .detail td{
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+    {{/content}}
+    {{#content "body"}}
+        <!-- <h5>尊敬的用户:</h5> -->
+        <p>
+        	尊敬的用户 {{data.name}} 您好, 以下是 {{data.project}} 项目中的商户欠费信息：
+        </p>
+        <div style="">
+            <table style="width:100%;text-align:center;color:#666;border-collapse:collapse;border-color:#ddd;" class="detail">
+                <caption style="color:#444;font-size:1.5rem;padding:10px 20px">商户欠费统计表</caption>
+                <thead>
+                    <tr style="background: #3e71be; color: #fff;">
+                        <th>欠费日期</th>
+                        <th>欠费户数</th>
+                        <th>欠费金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each data.list}}
+                        <tr>
+                            <td>{{this.title}}</td>
+                            <td>{{this.count}}</td>
+                            <td>{{this.amount}}</td>
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td></td>
+                        <td>合计: </td>
+                        <td>合计: </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <small>此数据仅供参考，实际数据以云平台中账户为准。</small>
+        </div>
+    {{/content}}
+{{/extend}}

@@ -79,6 +79,16 @@
 
 		}
 	},
+	"ntf_usermonthlyreport": {
+		"title": "月账单(每月扣费)",
+		"gateway": ["app", "wechat"],
+		"email": {
+			"target": "business"
+		},
+		"app": {
+
+		}
+	},
 	"ntf_withdraw": {
 		"gateway": ["wechat"],
 		"wechat" : {

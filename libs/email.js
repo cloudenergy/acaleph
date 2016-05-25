@@ -22,9 +22,11 @@ handlebars.registerHelper('ifEqual', function(v1, v2, options) {
 // 生成 email 模板
 module.exports = {
     compile: function(templateName, data) {
+        var filePath = tempPath + templateName + '.html';
+        console.log('file: ', filePath);
         var html = handlebars
             .compile(fs
-                .readFileSync(tempPath + templateName + '.html', 'utf8'))(data);
+                .readFileSync(filePath, 'utf8'))(data);
 
         return html;
     }

@@ -93,24 +93,32 @@ function send_all_events (user) {
 	})  
 }
 
-_.each(users, function(val, index){
-	send_all_events(val)
-})
+// _.each(users, function(val, index){
+// 	send_all_events(val)
+// })
 
-return;
+// return;
 _.each(events, function(val, key){
-	template_data.target = val.email.target || 'business';
-
+	// template_data.target = val.email.target || 'business';
+	if (key != 'ntf_usermonthlyreport') {
+		return 
+	}
+	
 	var eventType = key,
 	template = emailComposer.compile(eventType, template_data);
  
 	var mail = {
 			title: val.title,
 			content: template,
-			attachment: []
+			attachment: [{   // use URL as an attachment
+                filename: '报表.xlsx',
+                path: 'http://download.gugecc.com/%E6%9D%AD%E5%B7%9E%E4%B8%AD%E5%A4%A7%E9%93%B6%E6%B3%B0%E5%9F%8E_%E7%BB%93%E7%AE%97%E6%8A%A5%E8%A1%A8%202015%E5%B9%B412%E6%9C%88.xlsx'
+                // path: 'https://raw.github.com/nodemailer/nodemailer/master/LICENSE'
+            }]
 		},
-		target = '910599438@qq.com, 21834494@qq.com, 78110695@qq.com, 50923132@qq.com';
+		target = '910599438@qq.com, 78110695@qq.com';
 
-	// fs.writeFile('./test.html', template, 'utf8');
-	gateway.Send(target, JSON.stringify(mail));
+	console.log('data:', eventType, template_data);
+	fs.writeFile('./test.html', template, 'utf8');
+	// gateway.Send(target, JSON.stringify(mail));
 })

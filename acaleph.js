@@ -74,7 +74,6 @@ mongodb(function(){
                 }, messager.discard);
         });
         
-        return;
         mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
             DoFetch();
         });
