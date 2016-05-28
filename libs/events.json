@@ -71,20 +71,44 @@
 	},
 	"ntf_userdailyreport": {
 		"title": "日账单(每日扣费)",
-		"gateway": ["app", "wechat"],
+		"gateway": ["app"],
 		"email": {
 			"target": "business"
 		},
+		"gateway" : ["email"],
 		"app": {
 
 		}
 	},
 	"ntf_usermonthlyreport": {
 		"title": "月账单(每月扣费)",
-		"gateway": ["app", "wechat"],
+		"gateway": ["app", "email"],
 		"email": {
 			"target": "business"
 		},
+		"gateway" : ["email"],
+		"app": {
+
+		}
+	},
+	"ntf_projectdailyreport": {
+		"title": "日账单(每日扣费)",
+		"gateway": ["app"],
+		"email": {
+			"target": "property"
+		},
+		"gateway" : ["email"],
+		"app": {
+
+		}
+	},
+	"ntf_projectmonthlyreport": {
+		"title": "月账单(每月扣费)",
+		"gateway": ["app", "email"],
+		"email": {
+			"target": "property"
+		},
+		"gateway" : ["email"],
 		"app": {
 
 		}

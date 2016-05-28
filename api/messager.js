@@ -5,7 +5,6 @@
  */
 
 var mongodb = require('../libs/mongodb'),
-	mongo = require('mongoose'),
 	alias = require('../libs/alias'),
 	events = require('../libs/events');
 
@@ -81,24 +80,36 @@ module.exports = {
 	},
 
 	send (user, param) {
+		if (!user) {
+			throw new Error("User must not be null");
+		}
 
-		let type = param.get('type'),
-			eventName = alias[`event:${type}`],
-			email = user.get('email'),
-			event = events[eventName];
-		let	eventGateway = event.gateway;
+		try {
+			var type = param.get('type'),
+				eventName = alias[`event:${type}`],
+				email = user.get('email'),
+				event = events[eventName];
+			var	eventGateway = event.gateway;
+		} catch(e) {
+			// statements
+			console.log('exception: ', e);
+		}
+	
 		// 解析用户设置渠道 和 事件允许渠道
-
-		if (eventGateway.indexOf('email') != -1 && email) {
-			this.pipeline('email', email, param);
+		if (eventGateway.indexOf('email') !== -1 && email) {
+			this.pipeline('email', email, {
+				event: eventName,
+				template: event,
+				data: param
+			});
 		}
 
 		// 判断是否包含微信请求
-		if (eventGateway.indexOf('wechat') == -1) {
+		if (eventGateway.indexOf('wechat') === -1) {
 			return
 		}
 
-		return
+		return;
 
 		this.getWechat(playload.msg)
 			.then((data)=> {
@@ -111,7 +122,7 @@ module.exports = {
 	},
 
 	pipeline (gateway, target, msg) {
-		console.log('pipeline mesage : ', gateway, msg);
+		console.log('pipeline mesage : ', gateway, msg.event);
 
 		try{
 			let api = require(`../gateway/${gateway}`);
@@ -122,6 +133,6 @@ module.exports = {
 	},
 
 	discard (event) {
-		console.log('failded: ', err);
+		console.log('failded: ', event);
 	}
 }

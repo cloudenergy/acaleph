@@ -22,15 +22,32 @@ exports.Init = function () {
 };
 
 exports.Send = function(target, msg){
-    var message = JSON.parse(msg);
+
+    var event = msg.event,
+        event_data = msg.data,
+        param = event_data.get('param'),
+        file = param.file;
 
      var mailOptions = {
         from: user,
         to: target,
-        subject: message.title,
-        html: message.content,
+        subject: msg.template.title,
+        html: emailComposer.compile(event, param),
     }
 
+    // 附件
+    if (file) {
+        mailOptions.attachments = [
+            {   // use URL as an attachment
+                filename: '报表.xlsx',
+                path: file
+            }
+        ]
+    }
+
+    // console.log('opt: ', mailOptions);
+
+    // return
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
             return console.log('error: ', error, info);
