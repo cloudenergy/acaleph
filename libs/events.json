@@ -95,7 +95,8 @@
 		"title": "日账单(每日扣费)",
 		"gateway": ["app"],
 		"email": {
-			"target": "property"
+			"target": "property",
+			"title": "账单-{{data.time}}"
 		},
 		"gateway" : ["email"],
 		"app": {
