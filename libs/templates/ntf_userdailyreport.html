@@ -1,7 +1,7 @@
 {{#extend "layout"}}
     {{#content "body"}}
         <p>
-            尊敬的用户 {{data.name}} , 您的古鸽云平台账户 {{data.month}} 账单已生成, 详情如下：
+            尊敬的用户 {{data.accountname}} , 您的古鸽云平台账户 {{data.month}} 账单已生成, 详情如下：
         </p>
         <div style="">
             <table style="width:100%;text-align:center;color:#666;border-collapse:collapse;border: 1px solid #ddd;line-height: 30px;" class="detail">
@@ -9,44 +9,16 @@
                     日账单
                 </caption>
                 <thead>
-                    <tr style="text-align:left;border: 1px solid #ddd;">
-                        <th style="padding:5px 20px;border: 1px solid #ddd;" colspan="2">
-                            <b>
-                                项目名称
-                            </b>
-                        </th>
-                        <th style="padding:5px 20px; color: #999;" colspan="2">
-                            {{projectname}}
-                        </th>
-                        <th style="padding:5px 20px;border: 1px solid #ddd;" colspan="2">
-                            <p>
-                                账单日期
-                            </p>
-                        </th>
-                        <th style="padding:5px 20px;color: #999;" colspan="3">
-                            {{data.time}}
-                        </th>
-                    </tr>
                     <tr style="color: #333;border-bottom: 1px solid #d4d4d4;">
                         <th style="background: #eee; color:#666;">上期账户余额</th>
-                        <th>{{data.projectbalance.from}}</th>
-                        <th style="background: #eee; color:#666;">上期商户余额</th>
-                        <th>{{data.departmentbalance.from}}</th>
                         <th style="background: #eee; color:#666;">当期账户余额</th>
-                        <th colspan="1">{{data.projectbalance.to}}</th>
-                        <th colspan="3"></th>
-                    </tr>
-                    <tr style="color: #333;">
-                        <th style="background: #eee; color:#666;">当期收入</th>
-                        <th>{{data.earning.sum}}</th>
-                        <th style="background: #eee; color:#666;">当期支出</th>
-                        <th>{{data.expenses.sum}}</th>
                         <th style="background: #eee; color:#666;">当期消耗金额</th>
-                        <th>{{data.consumption.sum}}</th>
-                        <th style="background: #eee; color:#666;">当期商户余额</th>
-                        <th>{{data.departmentbalance.to}}</th>
-                        <th></th>
                     </tr>
+                    <tr>
+                        <th>{{data.balance.from}}</th>
+                        <th colspan="1">{{data.balance.to}}</th>
+                        <th>{{fixed data.consumption.sum}}</th>
+                    </tr> 
                     <tr style="border:1px solid #ddd;">
                         <th colspan="9">&nbsp</th>
                     </tr>
@@ -54,26 +26,10 @@
                 <tbody>
                     <tr style="border: 1px solid #ddd;">
                         <td colspan="3" style="border: 1px solid #ddd;">
-                            当期收入
-                        </td>
-                        <td colspan="3" style="border: 1px solid #ddd;">
-                            当期支出
-                        </td>
-                        <td colspan="3" style="border: 1px solid #ddd;">
                             当期消耗
                         </td>
                     </tr>
                     <tr>
-                        <td style="border: 1px solid #ddd;">
-                            业务类型
-                        </td>
-                        <td style="border: 1px solid #ddd;">笔数</td>
-                        <td style="border: 1px solid #ddd;">收入金额</td>
-                        <td style="border: 1px solid #ddd;">
-                            业务类型
-                        </td>
-                        <td style="border: 1px solid #ddd;">笔数</td>
-                        <td style="border: 1px solid #ddd;">支出金额</td>
                         <td style="border: 1px solid #ddd;">
                             消耗类型
                         </td>
@@ -81,27 +37,15 @@
                     </tr>
                     {{#each data.list}}
                         <tr style="border: 1px solid #ddd;">
-                            <td style="border: 1px solid #ddd;">{{this.earning.name}}</td>
-                            <td style="border: 1px solid #ddd;">{{this.earning.count}}</td>
-                            <td style="border: 1px solid #ddd;">{{this.earning.amount}}</td>
-                            <td style="border: 1px solid #ddd;">{{this.expenses.name}}</td>
-                            <td style="border: 1px solid #ddd;">{{this.expenses.count}}</td>
-                            <td style="border: 1px solid #ddd;">{{this.expenses.amount}}</td>
-                            <td style="border: 1px solid #ddd;">{{this.consumption.name}}</td>
+                            <td style="border: 1px solid #ddd;">{{this.name}}</td>
                             <td style="border: 1px solid #ddd;" colspan="2">
-                                {{this.consumption.amount}}
+                                {{this.amount}}
                             </td>
                         </tr>
                     {{/each}}
                     <tr>
                         <td>合计: </td>
-                        <td></td>
-                        <td>{{data.earning.sum}}</td>
-                        <td>合计: </td>
-                        <td></td>
-                        <td>{{data.expenses.sum}}</td>
-                        <td>合计: </td>
-                        <td colspan="2">{{data.consumption.sum}}</td>
+                        <td colspan="2">{{fixed data.consumption.sum}}</td>
                     </tr>
                 </tbody>
             </table>

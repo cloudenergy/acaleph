@@ -2,7 +2,7 @@
     "name": "acaleph",
     "port": 180002,
     "db": {
-        "url": "mongodb://localhost:27017/EnergyManage"
+        "url": "mongodb://localhost/EnergyManage"
     },
 
     "printToConsole": true,

@@ -1,11 +1,21 @@
+'use strict';
 var events = require('./events'),
 	_ = require('underscore'),
 	moment = require('moment'),
-	Handlebars = require('handlebars');
+	handlebars = require('handlebars'),
+	sensors = {
+		'ELECTRICITYMETER': '电表',
+		'COLDWATERMETER': '冷水表',
+		'HOTWATERMETER': '热水表',
+		'ENERGYMETER': '能量表',
+		'TEMPRATURECONTROL': '温控器'
+	},
+	eventType = {
+		'COMMUNICATION' : '通讯异常',
+		'DATA': '数据异常'
+	};
 
-Handlebars.registerHelper("date", function(timestamp) {
-    return moment.unix(timestamp).format('YYYY-MM-DD HH:mm');
-});
+	require('./helpers')(handlebars);
 
 module.exports = {
 	compile : function(msg, type){
@@ -16,7 +26,7 @@ module.exports = {
 		// 编译 first
 		if (event.first) {
 			data.first = {
-				value: Handlebars.compile(event.first)(msg), 
+				value: handlebars.compile(event.first)(msg), 
 				color: event.theme
 			};
 		}
@@ -24,7 +34,7 @@ module.exports = {
 
 		_.each(keywords, function(val, key){
 			data[key] = {
-				value: Handlebars.compile(val[0])(msg),
+				value: handlebars.compile(val[0])(msg),
 				color: val[1]
 			}
 		})

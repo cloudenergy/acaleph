@@ -12,35 +12,7 @@ var tempPath = __dirname + '/templates/';
 handlebars.registerPartial('layout', fs.readFileSync(tempPath + 'layout.hbs', 'utf8'));
 handlebars.registerHelper(layouts(handlebars));
 
-handlebars.registerHelper('ifEqual', function(v1, v2, options) {
-    if (v1 === v2) {
-        return options.fn(this);
-    }
-    return options.inverse(this);
-});
-
-handlebars.registerHelper("date", function(timestamp) {
-    return moment.unix(timestamp).format('YYYY-MM-DD HH:mm');
-});
-
-handlebars.registerHelper("length", function(obj) {
-    log.warn('count the length for: ', obj);
-    return Object.keys(obj).length;
-});
-
-handlebars.registerHelper("event", function(keyword) {
-    switch (keyword) {
-        case 'COMMUNICATION':
-            return '通讯异常';
-            break;
-        case 'DATA':
-            return '数据异常';
-            break;
-        default:
-            return '通讯异常';
-            break;
-    }
-});
+require('./helpers')(handlebars);
 
 // 生成 email 模板
 module.exports = {
@@ -67,10 +39,16 @@ module.exports = {
     },
     decorate: function(event, data){
         switch (event) {
+            case 'ntf_userdailyreport':
             case 'ntf_usermonthlyreport':
+                data.list = [];
+                _.each(data.consumption.category, function(value, key, list){
+                    data.list.push(value);
+                });
+
+                break;
             case 'ntf_projectdailyreport':
             case 'ntf_projectmonthlyreport':
-            case 'ntf_userdailyreport':
                 // 解析 data
                 var keyLen = {}, list = [], keys = ['earning', 'expenses', 'consumption'];
 

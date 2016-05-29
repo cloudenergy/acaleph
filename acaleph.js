@@ -16,7 +16,7 @@ mongodb(function(){
         //获取事件进行处理
         mongodb.Event
             .find({})
-            // .skip(0)
+            // .skip(17)
             .limit(50)
             .sort({timestamp: 1})
             .exec(function(err, data){

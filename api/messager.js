@@ -72,7 +72,7 @@ module.exports = {
 		log.info('get wechat: ', event);
 		// 根据 gateway 将数据传入 pipeline;
 
-		return getWechat(param.uid)
+		return getWechat(param.uid || param.account)
 			.then((wx) => {
 				return {
 					gateway: 'wechat',
