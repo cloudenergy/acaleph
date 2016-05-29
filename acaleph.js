@@ -16,8 +16,8 @@ mongodb(function(){
         //获取事件进行处理
         mongodb.Event
             .find({})
-            .skip(12)
-            .limit(1)
+            // .skip(0)
+            .limit(50)
             .sort({timestamp: 1})
             .exec(function(err, data){
                 if(!data || data.length === 0 || err){
@@ -56,9 +56,9 @@ mongodb(function(){
                 }, messager.discard);
         });
         
-        // mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
-        //     DoFetch();
-        // });
+        mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
+            DoFetch();
+        });
     }
 
     Retry()

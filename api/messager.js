@@ -128,7 +128,7 @@ module.exports = {
 	},
 
 	pipeline (gateway, target, msg) {
-		console.log('pipeline mesage : ', gateway, msg.event);
+		log.warn('pipeline mesage : ', gateway, msg.event);
 
 		try{
 			let api = apis[gateway];

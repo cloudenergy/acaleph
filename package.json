@@ -14,7 +14,7 @@
     "include-node": "^0.2.0",
     "jpush-sdk": "^3.2.1",
     "log4js": "^0.6.29",
-    "moment": "^2.10.6",
+    "moment": "^2.13.0",
     "mongoose": "^4.3.1",
     "nodemailer": "^2.3.2",
     "q": "^1.4.1",

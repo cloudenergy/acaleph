@@ -11,10 +11,10 @@
     {{#content "body"}}
         <!-- <h5>尊敬的用户:</h5> -->
         <p>
-        	尊敬的用户 {{data.name}} 您好, 
+        	尊敬的用户 {{data.uid}} 您好, 
         </p>
         <p>
-             您监控的项目 {{data.project}} 有{{data.devices.length}}项报警事件等待处理:
+             您监控的项目 {{data.project}} 有{{length data.devices}}项报警事件等待处理:
         </p>
         <div style="">
             <table style="width:100%;text-align:center;color:#666;border-collapse:collapse;border-color:#ddd;" class="detail">
@@ -29,10 +29,10 @@
                 <tbody>
                     {{#each data.devices}}
                         <tr>
-                            <td>{{this.time}}</td>
-                            <td>{{this.type}}</td>
-                            <td>{{this.name}}</td>
-                            <td>{{this.location}}</td>
+                            <td>{{date this.lastupdate}}</td>
+                            <td>{{event this.type}}</td>
+                            <td>{{this.deviceuid}}</td>
+                            <td>{{this.title}}</td>
                         </tr>
                     {{/each}}
                 </tbody>

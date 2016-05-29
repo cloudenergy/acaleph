@@ -19,6 +19,29 @@ handlebars.registerHelper('ifEqual', function(v1, v2, options) {
     return options.inverse(this);
 });
 
+handlebars.registerHelper("date", function(timestamp) {
+    return moment.unix(timestamp).format('YYYY-MM-DD HH:mm');
+});
+
+handlebars.registerHelper("length", function(obj) {
+    log.warn('count the length for: ', obj);
+    return Object.keys(obj).length;
+});
+
+handlebars.registerHelper("event", function(keyword) {
+    switch (keyword) {
+        case 'COMMUNICATION':
+            return '通讯异常';
+            break;
+        case 'DATA':
+            return '数据异常';
+            break;
+        default:
+            return '通讯异常';
+            break;
+    }
+});
+
 // 生成 email 模板
 module.exports = {
     /**

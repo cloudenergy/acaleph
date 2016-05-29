@@ -1,9 +1,10 @@
 var events = require('./events'),
 	_ = require('underscore'),
+	moment = require('moment'),
 	Handlebars = require('handlebars');
 
 Handlebars.registerHelper("date", function(timestamp) {
-    return new Date(timestamp).toString('yyyy-MM-dd HH:mm')
+    return moment.unix(timestamp).format('YYYY-MM-DD HH:mm');
 });
 
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
 
 		_.each(keywords, function(val, key){
 			data[key] = {
-				value: msg[val[0]],
+				value: Handlebars.compile(val[0])(msg),
 				color: val[1]
 			}
 		})
