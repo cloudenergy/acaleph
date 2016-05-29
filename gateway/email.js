@@ -34,7 +34,10 @@ exports.Send = function(target, msg){
         from: user,
         to: target,
         subject: template.title,
-        html: emailComposer.compile(event, param),
+        html: emailComposer.compile(event, {
+            data: param,
+            target: template.email.target || 'business'
+        }),
     };
 
     // 附件

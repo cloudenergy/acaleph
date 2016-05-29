@@ -2,6 +2,10 @@ var events = require('./events'),
 	_ = require('underscore'),
 	Handlebars = require('handlebars');
 
+Handlebars.registerHelper("date", function(timestamp) {
+    return new Date(timestamp).toString('yyyy-MM-dd HH:mm')
+});
+
 module.exports = {
 	compile : function(msg, type){
 		var event = events[type].wechat,

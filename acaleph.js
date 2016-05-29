@@ -16,7 +16,8 @@ mongodb(function(){
         //获取事件进行处理
         mongodb.Event
             .find({})
-            .limit(50)
+            .skip(12)
+            .limit(1)
             .sort({timestamp: 1})
             .exec(function(err, data){
                 if(!data || data.length === 0 || err){
@@ -41,12 +42,12 @@ mongodb(function(){
     }
 
     function ProcessEvents (events){
-        //
+        console.log('events processing: ', events);
+        
         var removeIDs = [];
 
         _.each(events, function(event){
             removeIDs.push(event._id);
-
             // 发送数据或者销毁
             messager
                 .resolve(event)
@@ -55,9 +56,9 @@ mongodb(function(){
                 }, messager.discard);
         });
         
-        mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
-            DoFetch();
-        });
+        // mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
+        //     DoFetch();
+        // });
     }
 
     Retry()

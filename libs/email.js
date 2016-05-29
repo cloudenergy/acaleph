@@ -21,10 +21,16 @@ handlebars.registerHelper('ifEqual', function(v1, v2, options) {
 
 // 生成 email 模板
 module.exports = {
-    compile: function(templateName, data) {
+    /**
+     * /
+     * @param  {[type]} templateName [description]
+     * @param  {[type]} data         {param: {}, target: 'business'}
+     * @return {[type]}              [description]
+     */
+    compile: function(templateName, param) {
         var filePath = tempPath + templateName + '.html';
         try {
-            data = this.decorate(templateName, data);
+            param.data = this.decorate(templateName, param.data);
         } catch(e) {
             // statements
             console.log(e);
@@ -32,7 +38,7 @@ module.exports = {
 
         var html = handlebars
             .compile(fs
-                .readFileSync(filePath, 'utf8'))(data);
+                .readFileSync(filePath, 'utf8'))(param);
 
         return html;
     },
@@ -65,6 +71,18 @@ module.exports = {
 
                 data.data.list = list;
                 break;
+            case 'ntf_projectarrears':
+                var count = _.reduce(data.data, (pre, item) => {
+                    return pre + item.count;
+                }, 0);
+                var balance = _.reduce(data.data, (pre, item) => {
+                    return pre + item.balance;
+                }, 0);
+                data.sum = {
+                    count: count,
+                    balance: balance
+                }
+                break; 
             default:
                 // statements_def
                 break;
