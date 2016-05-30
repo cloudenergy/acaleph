@@ -44,9 +44,10 @@ module.exports = (handlebars) => {
 			temp[item.devicetype] = temp[item.devicetype] ? ++temp[item.devicetype] : 1;
 		})
 		let str = _.reduce(temp, (pre, item, key) => {
-			return `${pre} `+sensors[key]+` ${item}个`;
-		}, '')
-	    return str;
+			pre.push(sensors[key]+` ${item}个`);
+			return pre;
+		}, []);
+	    return str.join(',');
 	});
 
 	handlebars.registerHelper('ifEqual', function(v1, v2, options) {
@@ -54,10 +55,6 @@ module.exports = (handlebars) => {
 	        return options.fn(this);
 	    }
 	    return options.inverse(this);
-	});
-
-	handlebars.registerHelper("date", function(timestamp) {
-	    return moment.unix(timestamp).format('YYYY-MM-DD HH:mm');
 	});
 
 	handlebars.registerHelper("length", function(obj) {
