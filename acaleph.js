@@ -21,7 +21,7 @@ mongodb(function(){
             .sort({timestamp: 1})
             .exec(function(err, data){
                 if(!data || data.length === 0 || err){
-                    // return Retry();
+                    return Retry();
                 }
                 else{
                     //
