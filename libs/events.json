@@ -84,7 +84,6 @@
 	},
 	"ntf_userdailyreport": {
 		"title": "日账单(每日扣费)",
-		"gateway": ["app"],
 		"email": {
 			"target": "business"
 		},
@@ -104,7 +103,6 @@
 	},
 	"ntf_usermonthlyreport": {
 		"title": "月账单(每月扣费)",
-		"gateway": ["app", "email"],
 		"email": {
 			"target": "business"
 		},
@@ -124,7 +122,6 @@
 	},
 	"ntf_projectdailyreport": {
 		"title": "日账单(每日扣费)",
-		"gateway": ["app"],
 		"email": {
 			"target": "property",
 			"title": "账单-{{data.time}}"
