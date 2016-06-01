@@ -53,7 +53,7 @@ module.exports = {
                 var keyLen = {}, list = [], keys = ['earning', 'expenses', 'consumption'];
 
                 keys.forEach( function(element) {
-                    keyLen[element] = Object.keys(data.data[element].category);
+                    if (data.data[element]) keyLen[element] = Object.keys(data.data[element].category);
                 });
                 
                 var max = _.max(keyLen, function(item){
@@ -62,9 +62,8 @@ module.exports = {
 
                 for (var i = 0; i < max.length; i++) {
                     let temp = {}
-                    keys.forEach( function(elm, index) {
-                        let key = keyLen[elm][i];
-                        temp[elm] = data.data[elm].category[key];
+                    _.each(keyLen, function(elm, key) {
+                        temp[key] = data.data[key].category[elm[i]];
                     });
 
                     list.push(temp);

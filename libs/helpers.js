@@ -17,11 +17,18 @@ var	_ = require('underscore'),
 
 module.exports = (handlebars) => {
 
-	handlebars.registerHelper("date", function(timestamp, format) {
+	handlebars.registerHelper("datetime", function(timestamp, format) {
 		if (!timestamp) {
 			return moment().format('YYYY-MM-DD HH:mm');
 		}
 	    return moment.unix(timestamp).format('YYYY-MM-DD HH:mm');
+	});
+
+	handlebars.registerHelper("datet", function(timestamp, format) {
+		if (!timestamp) {
+			return moment().format('YYYY-MM-DD');
+		}
+	    return moment.unix(timestamp).format('YYYY-MM-DD');
 	});
 
 	handlebars.registerHelper("month", function(timestamp) {

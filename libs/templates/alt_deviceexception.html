@@ -29,10 +29,10 @@
                 <tbody>
                     {{#each data.devices}}
                         <tr>
-                            <td>{{date this.lastupdate}}</td>
+                            <td>{{datetime this.lastupdate}}</td>
                             <td>{{event this.type}}</td>
-                            <td>{{this.deviceuid}}</td>
                             <td>{{this.title}}</td>
+                            <td>{{this.tag}}</td>
                         </tr>
                     {{/each}}
                 </tbody>

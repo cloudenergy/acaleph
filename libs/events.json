@@ -27,7 +27,7 @@
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{balance}} 元", "#44a4c9"],
-				"keyword2": ["{{date time}}", "#44a4c9"]
+				"keyword2": ["{{datetime time}}", "#44a4c9"]
 			}
 		},
 		"app": {
@@ -76,7 +76,7 @@
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{length devices}}个", "#44a4c9"],
-				"keyword2": ["{{date time}}", "#44a4c9"],
+				"keyword2": ["{{datetime time}}", "#44a4c9"],
 				"keyword3": ["{{eventType devices}}", "#44a4c9"],
 				"keyword4": ["{{sensor devices}}", "#44a4c9"]
 			}
@@ -97,7 +97,7 @@
 			"first": "尊敬的 {{accountname}} , 您{{month time}}的账单已生成，详情如下:",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["{{month time}}", "#44a4c9"],
+				"keyword1": ["{{date time}}", "#44a4c9"],
 				"keyword2": ["{{fixed consumption.sum}}", "#44a4c9"]
 			}
 		}
@@ -138,7 +138,7 @@
 			"first": "尊敬的 {{accountname}} , 您{{month time}}的账单已生成，详情如下:",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["{{month time}}", "#44a4c9"],
+				"keyword1": ["{{date time}}", "#44a4c9"],
 				"keyword2": ["{{fixed consumption.sum}}", "#44a4c9"]
 			}
 		}
@@ -173,7 +173,7 @@
 				"keyword1": ["{{amount}} 元", "#44a4c9"],
 				"keyword2": ["{{handlingcharge}} 元", "#44a4c9"],
 				"keyword3": ["{{origin}}", "#44a4c9"],
-				"keyword4": ["{{date time}}", "#44a4c9"]
+				"keyword4": ["{{datetime time}}", "#44a4c9"]
 			}
 		}
 	},
@@ -185,7 +185,7 @@
 			"theme": "#008000",
 			"keywords": {
 				"keyword1": ["{{amount}} 元", "#44a4c9"],
-				"keyword2": ["{{date time}}", "#44a4c9"],
+				"keyword2": ["{{datetime time}}", "#44a4c9"],
 				"keyword3": ["{{balance}} 元", "#44a4c9"]
 			}
 		}
@@ -198,7 +198,7 @@
 			"theme": "#008000",
 			"keywords": {
 				"keyword1": ["{{amount}} 元", "#44a4c9"],
-				"keyword2": ["{{date time}}", "#44a4c9"],
+				"keyword2": ["{{datetime time}}", "#44a4c9"],
 				"keyword3": ["{{balance}} 元", "#44a4c9"]
 			}
 		}
