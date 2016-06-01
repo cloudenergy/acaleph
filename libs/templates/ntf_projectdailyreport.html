@@ -1,7 +1,7 @@
 {{#extend "layout"}}
 	{{#content "body"}}
 		<p>
-        	尊敬的用户 {{data.username}} , 您的古鸽云平台账户 {{data.data.time}} 账单已生成, 详情如下：
+        	尊敬的用户 {{data.username}} , 您的古鸽云平台账户 {{cdate data.data.time}} 账单已生成, 详情如下：
         </p>
         <div style="">
             <table style="width:100%;text-align:center;color:#666;border-collapse:collapse;border: 1px solid #ddd;line-height: 30px;" class="detail">
@@ -24,7 +24,7 @@
                 			</p>
                 		</th>
                 		<th style="padding:5px 20px;color: #999;" colspan="3">
-							{{data.data.time}}
+							{{cdate data.data.time}}
                 		</th>
                 	</tr>
                     <tr style="color: #333;border-bottom: 1px solid #d4d4d4;">

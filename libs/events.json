@@ -97,8 +97,8 @@
 			"first": "尊敬的 {{accountname}} , 您{{month time}}的账单已生成，详情如下:",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["{{date time}}", "#44a4c9"],
-				"keyword2": ["{{fixed consumption.sum}}", "#44a4c9"]
+				"keyword1": ["{{cdate time}}", "#44a4c9"],
+				"keyword2": ["{{fixed consumption.sum}} 元", "#44a4c9"]
 			}
 		}
 	},
@@ -118,7 +118,7 @@
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{month time}}", "#44a4c9"],
-				"keyword2": ["{{fixed consumption.sum}}", "#44a4c9"]
+				"keyword2": ["{{fixed consumption.sum}} 元", "#44a4c9"]
 			}
 		}
 	},
@@ -138,18 +138,17 @@
 			"first": "尊敬的 {{accountname}} , 您{{month time}}的账单已生成，详情如下:",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["{{date time}}", "#44a4c9"],
-				"keyword2": ["{{fixed consumption.sum}}", "#44a4c9"]
+				"keyword1": ["{{cdate time}}", "#44a4c9"],
+				"keyword2": ["{{fixed data.consumption.sum}} 元", "#44a4c9"]
 			}
 		}
 	},
 	"ntf_projectmonthlyreport": {
 		"title": "月账单(每月扣费)",
-		"gateway": ["app", "email", "wechat"],
+		"gateway": ["email", "wechat"],
 		"email": {
 			"target": "property"
 		},
-		"gateway" : ["email"],
 		"app": {
 
 		},
@@ -159,7 +158,7 @@
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{month time}}", "#44a4c9"],
-				"keyword2": ["{{fixed consumption.sum}}", "#44a4c9"]
+				"keyword2": ["{{fixed data.consumption.sum}} 元", "#44a4c9"]
 			}
 		}
 	},

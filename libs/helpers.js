@@ -24,7 +24,7 @@ module.exports = (handlebars) => {
 	    return moment.unix(timestamp).format('YYYY-MM-DD HH:mm');
 	});
 
-	handlebars.registerHelper("datet", function(timestamp, format) {
+	handlebars.registerHelper("date", function(timestamp, format) {
 		if (!timestamp) {
 			return moment().format('YYYY-MM-DD');
 		}
@@ -36,6 +36,13 @@ module.exports = (handlebars) => {
 			return moment().format('YYYY年MM月');
 		}
 	    return moment.unix(timestamp).format('YYYY年MM月');
+	});
+
+	handlebars.registerHelper("cdate", function(timestamp) {
+		if (!timestamp) {
+			return moment().format('YYYY年MM月DD日');
+		}
+	    return moment.unix(timestamp).format('YYYY年MM月DD日');
 	});
 
 	handlebars.registerHelper("eventType", function(obj) {
@@ -69,7 +76,7 @@ module.exports = (handlebars) => {
 	});
 
 	handlebars.registerHelper("fixed", function(obj) {
-	    return obj.toFixed(2);
+	    return obj ? obj.toFixed(2) : '';
 	});
 
 	handlebars.registerHelper("event", function(keyword) {

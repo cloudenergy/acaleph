@@ -1,7 +1,7 @@
 {{#extend "layout"}}
     {{#content "body"}}
         <p>
-            尊敬的用户 {{data.name}} , 您的古鸽云平台账户 {{data.month}} 账单已生成, 详情如下：
+            尊敬的用户 {{data.username}} , 您的古鸽云平台账户 {{month data.data.time}} 账单已生成, 详情如下：
         </p>
         <div style="">
             <table style="width:100%;text-align:center;color:#666;border-collapse:collapse;border: 1px solid #ddd;line-height: 30px;" class="detail">
@@ -16,7 +16,7 @@
                             </b>
                         </th>
                         <th style="padding:5px 20px; color: #999;" colspan="2">
-                            {{projectname}}
+                            {{data.projectname}}
                         </th>
                         <th style="padding:5px 20px;border: 1px solid #ddd;" colspan="2">
                             <p>
@@ -24,27 +24,27 @@
                             </p>
                         </th>
                         <th style="padding:5px 20px;color: #999;" colspan="3">
-                            {{data.time}}
+                            {{month data.data.time}}
                         </th>
                     </tr>
                     <tr style="color: #333;border-bottom: 1px solid #d4d4d4;">
                         <th style="background: #eee; color:#666;">上期账户余额</th>
-                        <th>{{data.projectbalance.from}}</th>
+                        <th>{{data.data.projectbalance.from}}</th>
                         <th style="background: #eee; color:#666;">上期商户余额</th>
-                        <th>{{data.departmentbalance.from}}</th>
+                        <th>{{data.data.departmentbalance.from}}</th>
                         <th style="background: #eee; color:#666;">当期账户余额</th>
-                        <th colspan="1">{{data.projectbalance.to}}</th>
+                        <th colspan="1">{{data.data.projectbalance.to}}</th>
                         <th colspan="3"></th>
                     </tr>
                     <tr style="color: #333;">
                         <th style="background: #eee; color:#666;">当期收入</th>
-                        <th>{{data.earning.sum}}</th>
+                        <th>{{data.data.earning.sum}}</th>
                         <th style="background: #eee; color:#666;">当期支出</th>
-                        <th>{{data.expenses.sum}}</th>
+                        <th>{{data.data.expenses.sum}}</th>
                         <th style="background: #eee; color:#666;">当期消耗金额</th>
-                        <th>{{data.consumption.sum}}</th>
+                        <th>{{data.data.consumption.sum}}</th>
                         <th style="background: #eee; color:#666;">当期商户余额</th>
-                        <th>{{data.departmentbalance.to}}</th>
+                        <th>{{data.data.departmentbalance.to}}</th>
                         <th></th>
                     </tr>
                     <tr style="border:1px solid #ddd;">
@@ -79,7 +79,7 @@
                         </td>
                         <td style="border: 1px solid #ddd;" colspan="2">金额</td>
                     </tr>
-                    {{#each data.list}}
+                    {{#each data.data.list}}
                         <tr style="border: 1px solid #ddd;">
                             <td style="border: 1px solid #ddd;">{{this.earning.name}}</td>
                             <td style="border: 1px solid #ddd;">{{this.earning.count}}</td>
@@ -96,12 +96,12 @@
                     <tr>
                         <td>合计: </td>
                         <td></td>
-                        <td>{{data.earning.sum}}</td>
+                        <td>{{data.data.earning.sum}}</td>
                         <td>合计: </td>
                         <td></td>
-                        <td>{{data.expenses.sum}}</td>
+                        <td>{{data.data.expenses.sum}}</td>
                         <td>合计: </td>
-                        <td colspan="2">{{data.consumption.sum}}</td>
+                        <td colspan="2">{{data.data.consumption.sum}}</td>
                     </tr>
                 </tbody>
             </table>
