@@ -22,7 +22,7 @@
                     <tr style="background: #3e71be; color: #fff;">
                         <th>时间</th>
                         <th>事件</th>
-                        <th>设备</th>
+                        <th>设备名称/ID</th>
                         <th>位置</th>
                     </tr>
                 </thead>
@@ -31,7 +31,11 @@
                         <tr>
                             <td>{{datetime this.lastupdate}}</td>
                             <td>{{event this.type}}</td>
-                            <td>{{this.title}}</td>
+                            <td>
+                                {{this.title}}
+                                <br>
+                                {{this.did}}
+                            </td>
                             <td>{{this.tag}}</td>
                         </tr>
                     {{/each}}

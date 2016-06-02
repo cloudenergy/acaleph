@@ -1,10 +1,9 @@
-var gateway = require('./gateway/email'),
-	wechat = require('./gateway/wechat'),
-	emailComposer = require('./libs/email'),
-	wxComposer = require('./libs/wechat'),
+var messager = require('./api/messager'),
 	events = require('./libs/events'),
 	_ = require('underscore'),
 	fs = require('fs');
+
+require('./libs/log')('acaleph');
 
 var template_data = {
 		data: {
@@ -19,7 +18,7 @@ var template_data = {
 			amount: '123112.1',
 			balance: '12992.1',
 			devices: [
-				{name: '设备1', type: '通讯故障', time: '2016-05-01 12:00', location:'A区', code: 'COMM'}
+				{title: '设备1', type: '通讯故障', time: '2016-05-01 12:00', location:'A区', code: 'COMM', 'did': '12ddrjdWNDblf12dkadk'}
 			],
 			list: [
 				{title: '1', count: 10, amount: 1656},
@@ -77,44 +76,8 @@ users = [
 	}
 ];
 
-function send_all_events (user) {
-	_.each(events, (val, key) => {
-		if (!val.wechat) {
-			return;
-		}
-
-		var wechat_message = wxComposer.compile(template_data.device, key);
-	    wechat_message.touser= user._id;
-		var wx_message = JSON.stringify(wechat_message);
-
-		wechat.Send(user.platformid, wx_message);
-		console.log('msg: ', wechat_message);
-		console.log('------------------------------------------------')
-	})  
-}
-
 // _.each(users, function(val, index){
-// 	send_all_events(val)
+// 	send_all_events(val, '')
 // })
 
 // return;
-_.each(events, function(val, key){
-	if (key != 'ntf_usermonthlyreport') {
-		return 
-	}
-	template_data.target = val.email.target || 'business';
-	
-	var eventType = key,
-	template = emailComposer.compile(eventType, template_data);
- 
-	var mail = {
-			title: val.title,
-			content: template,
-			attachment: []
-		},
-		target = '910599438@qq.com';//, 78110695@qq.com';
-
-	console.log('data:', eventType, template_data);
-	fs.writeFile('./test.html', template, 'utf8');
-	gateway.Send(target, JSON.stringify(mail));
-})
