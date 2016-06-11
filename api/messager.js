@@ -86,6 +86,7 @@ module.exports = {
 	},
 
 	send (user, param) {
+		let destroy = true;
 		log.info('sending: ', user, ' params: ', param);
 
 		if (!user) {
@@ -112,9 +113,14 @@ module.exports = {
 			});
 		}
 
+		if (eventGateway.indexOf('app') !== -1) {
+			destroy = false;
+			this.pipeline('push', param, eventName);
+		}
+
 		// 判断是否包含微信请求
 		if (eventGateway.indexOf('wechat') === -1) {
-			return; 
+			return destroy; 
 		}
 
 		this.getWechat(param, eventName)
@@ -125,6 +131,8 @@ module.exports = {
 					console.log('e: ', e);
 				}
 			});
+			
+		return destroy;
 	},
 
 	pipeline (gateway, target, msg) {
