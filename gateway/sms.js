@@ -1,6 +1,9 @@
+'use strict';
 var moment = require('moment');
 var crypto = require('crypto');
 var https = require('https');
+var handlebars = require('handlebars');
+var events = require('../libs/events');
 var _ = require('underscore');
 
 var SoftVersion = '2014-06-30';
@@ -24,54 +27,70 @@ function EncodeAuthorization(timeStamp)
     return new Buffer(plainAuth).toString('base64');
 }
 
-function PackageBody(to, message)
+function PackageBody(to, message, eventName)
 {
+    to = 17702317810;
+    var eventTemplate = events[eventName].sms;
+
     var body = {
         templateSMS: {
             "to": to,
             "appId": AppID,
-            "templateId": message.templateid,
-            "param": message.content
+            "templateId": eventTemplate.templateId,
+            "param": handlebars.compile(eventTemplate.param)(message)
         }
     };
     return body;
 }
 
-exports.Send = function (number, message)
+exports.Send = function (pack, eventName)
 {
-    //
-    try{
-        message = JSON.parse(message);
+    if (!events[eventName]) {
+        return;
     }
-    catch(e){
-        message = {};
-    }
+
+    log.error('sending sms: ', pack, eventName);
+    let message = pack.get('param'),
+        number = message && message.uid;
+
     if(_.isEmpty(message)){
         return;
     }
+    // return
 
     var timeStamp = moment();
     var plainSignature = AccountSID + AccountToken + timeStamp.format('YYYYMMDDHHmmss');
     var encryptSignature = MD5(plainSignature);
     var url = "/"+SoftVersion+"/Accounts/"+AccountSID+"/Messages/templateSMS?sig="+encryptSignature;
 
-    var body = PackageBody(number, message);
-    body = JSON.stringify(body);
-    var contentLength = new Buffer(body).length;
+    try {
+        var body = PackageBody(number, message, eventName);
+        body = JSON.stringify(body);
 
-    var Header = {
-        "Accept": "application/json"
-        , "Content-type": "application/json;charset=utf-8;"
-        , "Content-Length": contentLength
-        , "Authorization": EncodeAuthorization(timeStamp)
-    };
+        log.debug('sms body: ', body);
 
-    var options = {
-        host: "api.ucpaas.com"
-        , path: url
-        , method: 'POST'
-        , headers: Header
-    };
+        var contentLength = new Buffer(body).length;
+
+        var Header = {
+            "Accept": "application/json"
+            , "Content-type": "application/json;charset=utf-8;"
+            , "Content-Length": contentLength
+            , "Authorization": EncodeAuthorization(timeStamp)
+        };
+
+        var options = {
+            host: "api.ucpaas.com"
+            , path: url
+            , method: 'POST'
+            , headers: Header
+        };
+    } catch(e) {
+        // statements
+        console.log(e);
+    } finally {
+        // statements
+    }
+ 
 
     var req = https.request(options, function(res){
         var data='';

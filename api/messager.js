@@ -113,6 +113,11 @@ module.exports = {
 			});
 		}
 
+		if (~eventGateway.indexOf('sms')) {
+			// 如果uid 不是 手机号 则不发送
+			this.pipeline('sms', param, eventName);
+		}
+
 		if (eventGateway.indexOf('app') !== -1) {
 			destroy = false;
 			this.pipeline('push', param, eventName);

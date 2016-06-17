@@ -59,6 +59,10 @@
 		},
 		"app": {
 
+		},
+		"sms": {
+			"templateId": 24186,
+			"param": "{{uid}},{{passwd}}"
 		}
 	},
 	"alt_deviceexception": {
