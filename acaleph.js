@@ -47,14 +47,13 @@ mongodb(function(){
         var removeIDs = [];
 
         _.each(events, function(event){
+            removeIDs.push(event._id);
+            
             // 发送数据或者销毁
             messager
                 .resolve(event)
                 .then((data) => {
                     let del = messager.send(data.target, data.msg);
-                    if (del) {
-                        removeIDs.push(event._id);
-                    }
                 }, messager.discard);
         });
 
