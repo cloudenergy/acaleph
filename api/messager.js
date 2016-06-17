@@ -113,9 +113,11 @@ module.exports = {
 			});
 		}
 
-		if (~eventGateway.indexOf('sms')) {
+		if (~eventGateway.indexOf('sms') && user.get('mobile')) {
+			let doc = Object.assign({}, param.get('param'));
+			doc.mobile = user.get('mobile');
 			// 如果uid 不是 手机号 则不发送
-			this.pipeline('sms', param, eventName);
+			this.pipeline('sms', doc, eventName);
 		}
 
 		if (eventGateway.indexOf('app') !== -1) {

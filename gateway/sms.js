@@ -29,7 +29,6 @@ function EncodeAuthorization(timeStamp)
 
 function PackageBody(to, message, eventName)
 {
-    to = 17702317810;
     var eventTemplate = events[eventName].sms;
 
     var body = {
@@ -43,15 +42,13 @@ function PackageBody(to, message, eventName)
     return body;
 }
 
-exports.Send = function (pack, eventName)
+exports.Send = function (message, eventName)
 {
     if (!events[eventName]) {
         return;
     }
 
-    log.error('sending sms: ', pack, eventName);
-    let message = pack.get('param'),
-        number = message && message.uid;
+    let number = message && message.mobile;
 
     if(_.isEmpty(message)){
         return;
@@ -66,8 +63,6 @@ exports.Send = function (pack, eventName)
     try {
         var body = PackageBody(number, message, eventName);
         body = JSON.stringify(body);
-
-        log.debug('sms body: ', body);
 
         var contentLength = new Buffer(body).length;
 
@@ -86,7 +81,7 @@ exports.Send = function (pack, eventName)
         };
     } catch(e) {
         // statements
-        console.log(e);
+        log.error('短信发送错误: ', number, message, data);
     } finally {
         // statements
     }
