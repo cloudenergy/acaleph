@@ -49,7 +49,19 @@
 	},
 	"ntf_arrearsresumeservices": {
 		"title": "服务恢复通知",
-		"gateway": []
+		"gateway": ["app", "wechat"],
+		"app": {
+
+		},
+		"wechat": {
+			"template": "nv7IKzwY_ByprIVMIlmKGQIM32EPi50Wf_NEsWhnFG8",
+			"first": "尊敬的 {{projectname}} , 系统已恢复对您的服务，请您日后及时处理相关事宜，已保证您的正常运营:",
+			"theme": "#FF0000",
+			"keywords": {
+				"keyword1": ["恢复服务", "#44a4c9"],
+				"keyword2": ["{{datetime time}}", "#44a4c9"]
+			}
+		}
 	},
 	"ntf_accountnew": {
 		"title": "账户开通通知",
@@ -152,7 +164,7 @@
 		},
 		"wechat": {
 			"template": "nv7IKzwY_ByprIVMIlmKGQIM32EPi50Wf_NEsWhnFG8",
-			"first": "尊敬的 {{projectname}} , 由于您的账户欠费没有及时充值，系统已自动暂停对你的服务，请立即充值:",
+			"first": "尊敬的 {{projectname}} , 由于您的账户欠费没有及时充值，系统已自动暂停对您的服务，请立即充值:",
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["欠费暂停服务", "#44a4c9"],
