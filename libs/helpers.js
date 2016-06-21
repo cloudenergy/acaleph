@@ -82,4 +82,10 @@ module.exports = (handlebars) => {
 	handlebars.registerHelper("event", function(keyword) {
 	    return eventType[keyword];
 	});
+
+	handlebars.registerHelper("sum", function (obj) {
+		return obj.reduce(function (pre, val) {
+			return pre + val.amount;
+		}, 0.0)
+	})
 }

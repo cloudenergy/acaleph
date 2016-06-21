@@ -103,7 +103,7 @@
 		"email": {
 			"target": "business"
 		},
-		"gateway" : ["wechat"],
+		"gateway" : ["app", "wechat"],
 		"app": {
 
 		},
@@ -113,7 +113,7 @@
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{cdate time}}", "#44a4c9"],
-				"keyword2": ["{{fixed consumption.sum}} 元", "#44a4c9"]
+				"keyword2": ["{{sum consumption.category}} 元", "#44a4c9"]
 			}
 		}
 	},
@@ -122,7 +122,7 @@
 		"email": {
 			"target": "business"
 		},
-		"gateway" : ["email", "wechat"],
+		"gateway" : ["app", "email", "wechat"],
 		"app": {
 
 		},
@@ -132,7 +132,7 @@
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{month time}}", "#44a4c9"],
-				"keyword2": ["{{fixed consumption.sum}} 元", "#44a4c9"]
+				"keyword2": ["{{sum consumption.category}} 元", "#44a4c9"]
 			}
 		}
 	},
@@ -192,6 +192,7 @@
 		}
 	},
 	"ntf_withdraw": {
+		"title": "提现成功通知",
 		"gateway": ["wechat"],
 		"wechat" : {
 			"template": "K7phQXfFXIikfXH_2Twm7uCIsIQlba9zgP0I_x2M1UU",
@@ -206,6 +207,7 @@
 		}
 	},
 	"ntf_recharging": {
+		"title": "充值成功提醒",
 		"gateway": ["app", "wechat"],
 		"wechat" : {
 			"template": "XYICbaAxqx8F2s7v2rNGkrcm1bmuoqTB6DD42aY-39k",
@@ -219,6 +221,7 @@
 		}
 	},
 	"ntf_remindrecharge": {
+		"title": "费用催缴",
 		"gateway": ["app", "wechat"],
 		"wechat" : {
 			"template": "yLXIEEYtnQ0c4S00gPB6I8Z50Vc3GDsOcwHjH0-xOmk",

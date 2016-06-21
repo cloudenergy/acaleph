@@ -18,15 +18,14 @@ var client = JPush.buildClient(config.PUSHKEY, config.PUSHSECRET);
 exports.Send = function Send (params, eventname) {
     let targetId = params.uid || params.account,
         target = `user_${targetId}`,
+        production = config.push === 'production',
         message = {
             title: events[eventname] && events[eventname].title,
             content: params
         };
-    // target - push alias id -- project/user
-    
     // 
     client.push().setPlatform('ios', 'android')
-    .setAudience(JPush.alias(target))
+    .setAudience(JPush.tag(target))
     .setNotification(
         JPush.ios(message.title, 'sound', 1, false, {
             action: 'CASHCHARGE'   // 根据不同事件修改 action
@@ -35,14 +34,13 @@ exports.Send = function Send (params, eventname) {
             action: 'CASHCHARGE'   // 同上
         })
     )
-    .setMessage(message.content)
-    .setOptions(null, 60, null, true)
+    .setMessage('123' || message.content)
+    .setOptions(null, 60, null, production)
     .send(function(err, res) {
         if (err) {
-            console.log(err.message);
+            log.debug('推送发送失败', err.message);
         } else {
-            console.log('Sendno: ' + res.sendno);
-            console.log('Msg_id: ' + res.msg_id);
+             log.debug('推送发送成功 Sendno: ' + res.sendno, 'Msg_id: ', res.msg_id);
         }
     });
 

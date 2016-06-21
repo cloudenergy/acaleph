@@ -120,9 +120,10 @@ module.exports = {
 			this.pipeline('sms', doc, eventName);
 		}
 
-		if (eventGateway.indexOf('app') !== -1) {
+		if (~eventGateway.indexOf('app')) {
 			destroy = false;
-			this.pipeline('push', param, eventName);
+			let p = param.get('param');
+			this.pipeline('push', p, eventName);
 		}
 
 		// 判断是否包含微信请求
