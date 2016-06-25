@@ -27,7 +27,8 @@ exports.Send = function Send (doc, eventname) {
             content: params,
             param: {
                 type: eventtype,
-                param: params
+                param: params,
+                timestamp: doc.get('timestamp')
             }
         };
 
