@@ -32,7 +32,7 @@ exports.Send = function Send (doc, eventname) {
             }
         };
 
-    log.debug('发送消息', message);
+    log.debug('发送消息 生产环境: ', production, doc._doc);
     // 
     client.push().setPlatform('ios', 'android')
     .setAudience(JPush.tag(target))
@@ -47,7 +47,7 @@ exports.Send = function Send (doc, eventname) {
             param: JSON.stringify(message.param)
         })
     )
-    .setMessage('123' || message.content)
+    // .setMessage(message.content)
     .setOptions(null, 60, null, production)
     .send(function(err, res) {
         if (err) {

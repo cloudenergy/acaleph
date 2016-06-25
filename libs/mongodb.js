@@ -603,12 +603,15 @@ var eventService = new Schema({
 
 //事件日志
 var eventSchema = new Schema({
-    timestamp: {
-        type: Date,
-        require: true,
-        default: Date.now(),
-        index: true
-    },
+    timestamp: String,
+    gateway: String, //消息发送网关
+    message: String,
+    target: String  //发送至目录
+});
+
+//事件日志
+var eventPushSchema = new Schema({
+    timestamp: String,
     gateway: String, //消息发送网关
     message: String,
     target: String  //发送至目录
