@@ -122,8 +122,7 @@ module.exports = {
 
 		if (~eventGateway.indexOf('app')) {
 			destroy = false;
-			let p = param.get('param');
-			this.pipeline('push', p, eventName);
+			this.pipeline('push', param, eventName);
 		}
 
 		// 判断是否包含微信请求

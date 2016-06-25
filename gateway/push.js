@@ -15,23 +15,35 @@ var client = JPush.buildClient(config.PUSHKEY, config.PUSHSECRET);
 //     title : '账户充值推送通知：您云能源账户已成功充值220元人民币，查看账户详情'
 // }
 
-exports.Send = function Send (params, eventname) {
-    let targetId = params.uid || params.account,
+exports.Send = function Send (doc, eventname) {
+
+    let params = doc.get('param'),
+        eventtype = doc.get('type'),
+        targetId = params.uid || params.account,
         target = `user_${targetId}`,
         production = config.push === 'production',
         message = {
             title: events[eventname] && events[eventname].title,
-            content: params
+            content: params,
+            param: {
+                type: eventtype,
+                param: params
+            }
         };
+
+    log.debug('发送消息', message);
     // 
     client.push().setPlatform('ios', 'android')
     .setAudience(JPush.tag(target))
     .setNotification(
+        message.title,
         JPush.ios(message.title, 'sound', 1, false, {
-            action: 'CASHCHARGE'   // 根据不同事件修改 action
+            action: 'CASHCHARGE',   // 根据不同事件修改 action
+            param: JSON.stringify(message.param)
         }), 
         JPush.android(message.title, null, 1, {
-            action: 'CASHCHARGE'   // 同上
+            action: 'CASHCHARGE',   // 同上
+            param: JSON.stringify(message.param)
         })
     )
     .setMessage('123' || message.content)
