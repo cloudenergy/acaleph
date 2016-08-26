@@ -113,7 +113,7 @@
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{cdate time}}", "#44a4c9"],
-				"keyword2": ["{{sum consumption.category}} 元", "#44a4c9"]
+				"keyword2": ["{{consumption.sum}} 元", "#44a4c9"]
 			}
 		}
 	},
@@ -132,7 +132,7 @@
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{month time}}", "#44a4c9"],
-				"keyword2": ["{{sum consumption.category}} 元", "#44a4c9"]
+				"keyword2": ["{{consumption.sum}} 元", "#44a4c9"]
 			}
 		}
 	},

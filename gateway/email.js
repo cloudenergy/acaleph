@@ -2,6 +2,8 @@
 var emailComposer = require('../libs/email'),
     handlebars = require('handlebars'),  
     nodemailer = require('nodemailer');
+var config = require('config');
+var path = require('path');
 
 var user = '古鸽云能源 <group@cloudenergy.me>';
 
@@ -31,7 +33,7 @@ exports.Send = function(target, msg){
         file = param.file;
 
     var title = emailComposer.title(event, template.title, param);
-     var mailOptions = {
+    var mailOptions = {
         from: user,
         to: target,
         subject: title,
@@ -48,10 +50,13 @@ exports.Send = function(target, msg){
             file_name = handlebars.compile(template.email.title)(param);
         }
 
+        var fileExt = path.extname(file);
+
+        var attachmentPath = path.join(config.attachmentpath, file);
         mailOptions.attachments = [
             {   // use URL as an attachment
-                filename:  `${file_name}.${ext}`,
-                path: file
+                filename:  `${file_name}.${fileExt}`,
+                path: attachmentPath
             }
         ];
     }

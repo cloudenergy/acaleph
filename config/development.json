@@ -2,13 +2,15 @@
     "name": "acaleph",
     "port": 180002,
     "db": {
-        "url": "mongodb://localhost/EnergyManage"
+        "url": "mongodb://em:EnergyManage_135246@120.27.150.112:27017/EnergyManage"
     },
 
     "printToConsole": true,
     "printToLog": false,
 
     "push": "dev",
+
+    "attachmentpath": "/Users/joey/Desktop/apiCache/",
 
     "APPID": "EMe374f490bdc411e4864359c68eeb10e7",
     "APPSECRET": "c4b7a590ef859f8443cd631375dc0485",
