@@ -78,7 +78,7 @@
 		}
 	},
 	"alt_deviceexception": {
-		"title": "设备通讯故障",
+		"title": "设备异常",
 		"email": {
 			"target": "property"
 		},
@@ -222,7 +222,7 @@
 	},
 	"ntf_remindrecharge": {
 		"title": "费用催缴",
-		"gateway": ["app"],
+		"gateway": ["app", "wechat"],
 		"wechat" : {
 			"template": "yLXIEEYtnQ0c4S00gPB6I8Z50Vc3GDsOcwHjH0-xOmk",
 			"first": "尊敬的 {{username}} , 您有一项账单还未支付，详情如下:",

@@ -30,10 +30,11 @@ exports.Send = function(target, msg){
         ext = (template.email && template.email.ext) || 'xlsx',
         file = param.file;
 
+    var title = emailComposer.title(event, template.title, param);
      var mailOptions = {
         from: user,
         to: target,
-        subject: template.title,
+        subject: title,
         html: emailComposer.compile(event, {
             data: param,
             target: template.email.target || 'business'

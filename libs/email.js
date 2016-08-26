@@ -16,6 +16,16 @@ require('./helpers')(handlebars);
 
 // 生成 email 模板
 module.exports = {
+    title: function (templateName, title, param) {
+        switch (templateName){
+            case "alt_deviceexception":
+                return param.projectname + title;
+                break;
+            default:
+                return title;
+                break;
+        }
+    },
     /**
      * /
      * @param  {[type]} templateName [description]
