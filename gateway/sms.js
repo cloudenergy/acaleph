@@ -10,6 +10,11 @@ var SoftVersion = '2014-06-30';
 var AccountSID = 'a864bd13ecf51aba30b8fc1e244fa004';
 var AccountToken = '6f4af4712489742bf1ee818d4027030b';
 
+handlebars.registerHelper('MM月DD日HH:mm', function (time) {
+    var momentTime = moment.unix(time);
+    return momentTime.format('MM月DD日 HH:mm');
+});
+
 var AppID = '2685c4d4d87a42d7b59fb92636469012';
 var AppToken = 'e7748afd4a2e8754cef5332b3db18734';
 
