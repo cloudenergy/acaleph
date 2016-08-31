@@ -51,10 +51,9 @@ exports.Send = function Send (doc, eventname) {
     .setOptions(null, 60, null, production)
     .send(function(err, res) {
         if (err) {
-            log.debug('推送发送失败', err.message);
+            log.error('push error: ', err, doc.toObject());
         } else {
-             log.debug('推送发送成功 Sendno: ' + res.sendno, 'Msg_id: ', res.msg_id);
+            log.info('push ', res, doc.toObject());
         }
     });
-
-}
+};

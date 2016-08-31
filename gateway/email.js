@@ -63,9 +63,9 @@ exports.Send = function(target, msg){
 
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
-            return console.log('error: ', error, info);
+            return log.error('send mail error: ', error, info);
         }
-        console.log('Message sent: ' + JSON.stringify(info));
+        log.info('mail send: ', user, target, info, msg);
     });
 };
 

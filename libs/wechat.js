@@ -2,19 +2,7 @@
 var events = require('./events'),
 	_ = require('underscore'),
 	moment = require('moment'),
-	handlebars = require('handlebars'),
-	sensors = {
-		'ELECTRICITYMETER': '电表',
-		'COLDWATERMETER': '冷水表',
-		'HOTWATERMETER': '热水表',
-		'ENERGYMETER': '能量表',
-		'TEMPRATURECONTROL': '温控器'
-	},
-	eventType = {
-		'COMMUNICATION' : '通讯异常',
-		'DATA': '数据异常'
-	};
-
+	handlebars = require('handlebars');
 	require('./helpers')(handlebars);
 
 module.exports = {
@@ -30,7 +18,7 @@ module.exports = {
 				color: event.theme
 			};
 		}
-		console.log('data first: ', data, msg);
+		// console.log('data first: ', data, msg);
 
 		_.each(keywords, function(val, key){
 			data[key] = {

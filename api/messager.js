@@ -21,11 +21,11 @@ let getWechat = (uid) => {
 				user: uid
 			})
 			.exec((err, data) => {
-				console.log('get wx: ', err, data, uid);
-
 				if (err || !data) {
+					log.error('wechat user get error: ', err, uid);
 					reject(err);
 				}else{
+					log.debug('wechat user ', uid, data);
 					resolve(data);
 				}
 			});
@@ -55,7 +55,7 @@ module.exports = {
 						}
 					});
 			}catch(e){
-				console.log('e: ', e);
+				log.error('get user info exception: ', e, event);
 			}
 			
 		});
@@ -63,7 +63,7 @@ module.exports = {
 
 	// 用户用户 APP tag 
 	getApp (event) {
-		log.info('get event for app: ', event);
+		log.debug('get event for app: ', event);
 	},
 
 	// 获取微信信息
@@ -101,7 +101,7 @@ module.exports = {
 			var	eventGateway = event.gateway;
 		} catch(e) {
 			// statements
-			console.log('exception: ', e);
+			log.error('sending exception: ', e, user, param);
 		}
 	
 		// 解析用户设置渠道 和 事件允许渠道
@@ -135,7 +135,7 @@ module.exports = {
 				try{
 					this.pipeline(data.gateway, data.target, data.msg);
 				}catch(e){
-					console.log('e: ', e);
+					log.error('get wechat exception: ', e, param, eventName, data);
 				}
 			});
 			
@@ -143,17 +143,17 @@ module.exports = {
 	},
 
 	pipeline (gateway, target, msg) {
-		log.warn('pipeline mesage : ', gateway, msg.event);
+		// log.warn('pipeline mesage : ', gateway, msg.event);
 
 		try{
 			let api = apis[gateway];
 			return api.Send(target, msg);
 		}catch(e){
-			console.log('e:', e);
+			log.error('pipeline exception: ', e, gateway, target, msg);
 		}
 	},
 
 	discard (event) {
-		console.log('failded: ', event);
+		log.error('discard: ', event);
 	}
-}
+};

@@ -86,7 +86,7 @@ exports.Send = function (message, eventName)
         };
     } catch(e) {
         // statements
-        log.error('短信发送错误: ', number, message, data);
+        log.error('sms send error: ', message, data);
     } finally {
         // statements
     }
@@ -110,12 +110,12 @@ exports.Send = function (message, eventName)
                 log.error(body, ret);
             }
             else{
-                log.info(body);
+                log.info('sms', body, message);
             }
         });
     });
     req.on('error', function(e){
-        log.error(e);
+        log.error(e, message);
     });
     req.write(body);
     req.end();

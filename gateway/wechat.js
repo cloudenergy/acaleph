@@ -8,7 +8,7 @@ exports.Init = function () {
 };
 
 exports.Send = function(target, message){
-    console.log('gateway: ', target, message);
+    log.debug('wechat ', target, message);
     let msg = composer.compile(message.data, message.event);
 
         msg.touser = target._id;
@@ -18,7 +18,7 @@ exports.Send = function(target, message){
     };
     //
     api.queryWXAPI('/templatepush', templateMessage, function(result){
-        log.info(result);
+        log.info('wechat', result, message);
     });
 };
 

@@ -2,7 +2,6 @@
 var express = require('express');
 require('./libs/log')('acaleph');
 var app = express();
-
 var _ = require('underscore');
 var mongodb = require('./libs/mongodb');
 
