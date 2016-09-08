@@ -13,11 +13,12 @@ var mongodb = require('../libs/mongodb'),
 		sms: require('../gateway/sms')
 	},
 	events = require('../libs/events');
+var _ = require('underscore');
 
 let getWechat = (uid) => {
 	return new Promise((resolve, reject) =>{
 		mongodb.WXOpenIDUser
-			.findOne({
+			.find({
 				user: uid
 			})
 			.exec((err, data) => {
@@ -146,8 +147,16 @@ module.exports = {
 		// log.warn('pipeline mesage : ', gateway, msg.event);
 
 		try{
-			let api = apis[gateway];
-			return api.Send(target, msg);
+			if(_.isArray(target)){
+				target.forEach(v=>{
+						let api = apis[gateway];
+						return api.Send(v, msg);
+					})
+			}
+			else{
+				let api = apis[gateway];
+				return api.Send(target, msg);
+			}
 		}catch(e){
 			log.error('pipeline exception: ', e, gateway, target, msg);
 		}
