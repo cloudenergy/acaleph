@@ -24,7 +24,7 @@ mongodb(function(){
                 }
                 else{
                     //
-                    ProcessEvents(data)
+                    ProcessEvents(data);
                     //Remove data
                 }
             });

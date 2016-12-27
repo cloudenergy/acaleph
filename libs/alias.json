@@ -1,4 +1,5 @@
 {
+	"event:5100": "ntf_controlauth",
 	"event:5300": "ntf_balanceinsufficient",
 	"event:5301": "ntf_accountarrears",
 	"event:5302": "ntf_projectarrears",

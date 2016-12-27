@@ -1,4 +1,12 @@
 {
+	"ntf_controlauth": {
+		"title": "校验码",
+		"gateway" : ["sms"],
+		"sms": {
+			"templateId": 17666,
+			"param": "{{devicetitle}}, {{authcode}}"
+		}
+	},
 	"ntf_balanceinsufficient": {
 		"title": "余额不足提醒",
 		"gateway" : ["app", "wechat", "sms"],
