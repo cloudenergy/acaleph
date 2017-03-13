@@ -4,6 +4,7 @@
  * @type {[type]}
  */
 
+var moment = require('moment');
 var mongodb = require('../libs/mongodb'),
 	alias = require('../libs/alias'),
 	apis = {
@@ -87,6 +88,7 @@ module.exports = {
 	},
 
 	send (user, param) {
+		param = param.toObject();
 		let destroy = true;
 		log.info('sending: ', user, ' params: ', param);
 
@@ -95,7 +97,7 @@ module.exports = {
 		}
 
 		try {
-			var type = param.get('type'),
+			var type = param.type,
 				eventName = alias[`event:${type}`],
 				email = user.get('email'),
 				event = events[eventName];
@@ -103,6 +105,9 @@ module.exports = {
 		} catch(e) {
 			// statements
 			log.error('sending exception: ', e, user, param);
+		}
+		if(param.timestamp){
+			param.param.time = param.timestamp;///moment.unix(param.timestamp).toDate();
 		}
 	
 		// 解析用户设置渠道 和 事件允许渠道
@@ -115,7 +120,7 @@ module.exports = {
 		}
 
 		if (~eventGateway.indexOf('sms') && user.get('mobile')) {
-			let doc = Object.assign({}, param.get('param'));
+			let doc = Object.assign({}, param.param);
 			doc.mobile = user.get('mobile');
 			// 如果uid 不是 手机号 则不发送
 			this.pipeline('sms', doc, eventName);

@@ -2,7 +2,7 @@
     "name": "acaleph",
     "port": 180002,
     "db": {
-        "url": "mongodb://60.205.202.242/EnergyManage"
+        "url": "mongodb://em:EnergyManage_135246@60.205.202.242:3717/EnergyManage"
     },
 
     "printToConsole": true,
