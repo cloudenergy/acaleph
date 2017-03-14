@@ -5,7 +5,7 @@ var emailComposer = require('../libs/email'),
 var config = require('config');
 var path = require('path');
 
-var user = '古鸽云能源 <group@cloudenergy.me>';
+var user = '智慧云能源 <group@cloudenergy.me>';
 
 var transporter = nodemailer.createTransport({
     port: 465,
