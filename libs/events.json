@@ -245,7 +245,7 @@
 		"gateway": ["sms"],
 		"sms": {
 			"templateId": 38860,
-			"param": "{{MM月DD日HH:mm time}}, {{balance}}"
+			"param": "{{projectname}}, {{balance}}"
 		}
 	}
 }
