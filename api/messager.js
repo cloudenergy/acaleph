@@ -70,7 +70,7 @@ module.exports = {
 
 	// 获取微信信息
 	getWechat (event, eventName) {
-		let	param = event.get('param');
+		let	param = event.param;
 		log.info('get wechat: ', event);
 		// 根据 gateway 将数据传入 pipeline;
 

@@ -17,8 +17,8 @@ var client = JPush.buildClient(config.PUSHKEY, config.PUSHSECRET);
 
 exports.Send = function Send (doc, eventname) {
 
-    let params = doc.get('param'),
-        eventtype = doc.get('type'),
+    let params = doc.param,
+        eventtype = doc.type,
         targetId = params.uid || params.account,
         target = `user_${targetId}`,
         production = config.push === 'production',
@@ -28,7 +28,7 @@ exports.Send = function Send (doc, eventname) {
             param: {
                 type: eventtype,
                 param: params,
-                timestamp: doc.get('timestamp')
+                timestamp: doc.timestamp
             }
         };
 
@@ -51,9 +51,9 @@ exports.Send = function Send (doc, eventname) {
     .setOptions(null, 60, null, production)
     .send(function(err, res) {
         if (err) {
-            log.error('push error: ', err, doc.toObject());
+            log.error('push error: ', err, doc);
         } else {
-            log.info('push ', res, doc.toObject());
+            log.info('push ', res, doc);
         }
     });
 };
