@@ -18,7 +18,7 @@
 		},
 		"wechat": {
 			"template": "iknMsSJLqZYz5pn24z-JIAwRgnD08nKXuOGIrpiB4vA",
-			"first": "尊敬的 {{username}} , 您当前账户余额已不足100元，详情如下: ",
+			"first": "尊敬的 {{username}} , 您当前账户余额已不足{{alerthreshold}}元，详情如下: ",
 			"theme": "#FF0000",
 			"keywords": {
 				"keyword1": ["{{uid}}", "#44a4c9"],
@@ -242,7 +242,7 @@
 	},
 	"ntf_remindrecharge": {
 		"title": "欠费催缴",
-		"gateway": ["sms","app","wechat"],
+		"gateway": ["app"],
 		"wechat" : {
 			"template": "yLXIEEYtnQ0c4S00gPB6I8Z50Vc3GDsOcwHjH0-xOmk",
 			"first": "尊敬的 {{username}} , 您有一项账单还未支付，详情如下:",
