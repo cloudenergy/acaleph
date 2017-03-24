@@ -28,7 +28,7 @@ exports.Send = function(target, msg){
     var event = msg.event,
         template = msg.template,
         event_data = msg.data,
-        param = event_data.get('param'),
+        param = event_data.param,
         ext = (template.email && template.email.ext) || 'xlsx',
         file = param.file;
 
