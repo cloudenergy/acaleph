@@ -43,7 +43,8 @@ module.exports = {
 				let param = event.get('param');
 				mongodb.Account
 					.findOne({
-						_id : param.uid || param.account
+						_id : param.uid || param.account,
+						timedelete: {$exists: false}
 					})
 					.limit(1)
 					.exec((err, data) => {
