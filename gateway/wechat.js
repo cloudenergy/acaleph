@@ -1,5 +1,4 @@
-'use strict';
-var api = require('../libs/api'),
+let api = require('../libs/api'),
     composer = require('../libs/wechat');
 
 module.exports = exports = function(){};

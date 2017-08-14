@@ -8,6 +8,7 @@ var _ = require('underscore');
 var Schema = mongo.Schema
     , ObjectId = Schema.ObjectId;
 
+mongo.Promise = Promise;
 //var DBURI = 'mongodb://root:123456@127.0.0.1/igrow?poolSize=5';
 //var DBURI = 'mongodb://root:123456@202.75.217.176/igrow?poolSize=5';
 

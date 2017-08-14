@@ -35,15 +35,16 @@ exports.Send = function Send (doc, eventname) {
     log.debug('发送消息 生产环境: ', production, doc._doc);
     // 
     client.push().setPlatform('ios', 'android')
-    .setAudience(JPush.tag(target))
+    // .setAudience(JPush.tag(target))
+    .setAudience(JPush.ALL)
     .setNotification(
         message.title,
         JPush.ios(message.title, 'sound', 1, false, {
-            action: 'CASHCHARGE',   // 根据不同事件修改 action
+            action: doc.type,   // 根据不同事件修改 action
             param: JSON.stringify(message.param)
         }), 
         JPush.android(message.title, null, 1, {
-            action: 'CASHCHARGE',   // 同上
+            action: doc.type,   // 同上
             param: JSON.stringify(message.param)
         })
     )

@@ -16,18 +16,18 @@ var mongodb = require('../libs/mongodb'),
 	events = require('../libs/events');
 var _ = require('underscore');
 
-let getWechat = (uid) => {
+let getWechat = (user) => {
 	return new Promise((resolve, reject) =>{
 		mongodb.WXOpenIDUser
 			.find({
-				user: uid
+				user: user.user
 			})
 			.exec((err, data) => {
 				if (err || !data) {
-					log.error('wechat user get error: ', err, uid);
+					log.error('wechat user get error: ', err, user);
 					reject(err);
 				}else{
-					log.debug('wechat user ', uid, data);
+					log.debug('wechat user ', user, data);
 					resolve(data);
 				}
 			});
@@ -40,23 +40,35 @@ module.exports = {
 
 		return new Promise((resolve, reject) => {
 			try{
-				let param = event.get('param');
-				mongodb.Account
+				event = event.toObject();
+				let param = event.param;
+				MySQL.Account
 					.findOne({
-						_id : param.uid || param.account,
-						timedelete: {$exists: false}
+						where: {
+                            $or: [
+                                {uid: param.to || param.account},
+                                {user: param.to || param.account}
+                            ],
+                            timedelete: 0
+                        },
+						limit: 1
 					})
-					.limit(1)
-					.exec((err, data) => {
-						if (err) {
-							reject(err);
-						}else{
-							resolve({
-								target: data,
-								msg: event
-							});
+					.then(
+						user=>{
+							if(!user){
+								log.error(param, 'can not find');
+							}
+							else {
+                                resolve({
+                                    target: MySQL.Plain(user),
+                                    msg: event
+                                });
+                            }
+						},
+						err=>{
+                            reject(err);
 						}
-					});
+					);
 			}catch(e){
 				log.error('get user info exception: ', e, event);
 			}
@@ -70,12 +82,12 @@ module.exports = {
 	},
 
 	// 获取微信信息
-	getWechat (event, eventName) {
+	getWechat (user, event, eventName) {
 		let	param = event.param;
 		log.info('get wechat: ', event);
 		// 根据 gateway 将数据传入 pipeline;
 
-		return getWechat(param.uid || param.account)
+		return getWechat(user)
 			.then((wx) => {
 				return {
 					gateway: 'wechat',
@@ -89,7 +101,6 @@ module.exports = {
 	},
 
 	send (user, param) {
-		param = param.toObject();
 		let destroy = true;
 		log.info('sending: ', user, ' params: ', param);
 
@@ -100,7 +111,7 @@ module.exports = {
 		try {
 			var type = param.type,
 				eventName = alias[`event:${type}`],
-				email = user.get('email'),
+				email = user.email,
 				event = events[eventName];
 			var	eventGateway = event.gateway;
 		} catch(e) {
@@ -120,9 +131,9 @@ module.exports = {
 			});
 		}
 
-		if (~eventGateway.indexOf('sms') && user.get('mobile')) {
+		if (~eventGateway.indexOf('sms') && user.mobile) {
 			let doc = Object.assign({}, param.param);
-			doc.mobile = user.get('mobile');
+			doc.mobile = user.mobile;
 			// 如果uid 不是 手机号 则不发送
 			this.pipeline('sms', doc, eventName);
 		}
@@ -137,7 +148,7 @@ module.exports = {
 			return destroy; 
 		}
 
-		this.getWechat(param, eventName)
+		this.getWechat(user, param, eventName)
 			.then((data)=> {
 				try{
 					this.pipeline(data.gateway, data.target, data.msg);
