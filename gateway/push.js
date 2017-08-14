@@ -20,7 +20,7 @@ exports.Send = function Send (doc, eventname) {
     let params = doc.param,
         eventtype = doc.type,
         targetId = params.uid || params.account,
-        target = `user_${targetId}`,
+        target = params.to,
         production = config.push === 'production',
         message = {
             title: events[eventname] && events[eventname].title,
@@ -35,8 +35,8 @@ exports.Send = function Send (doc, eventname) {
     log.debug('发送消息 生产环境: ', production, doc._doc);
     // 
     client.push().setPlatform('ios', 'android')
-    // .setAudience(JPush.tag(target))
-    .setAudience(JPush.ALL)
+    .setAudience(JPush.tag(target))
+    // .setAudience(JPush.ALL)
     .setNotification(
         message.title,
         JPush.ios(message.title, 'sound', 1, false, {
