@@ -35,7 +35,7 @@ exports.Send = function Send (doc, eventname) {
     log.debug('发送消息 生产环境: ', production, doc._doc);
     // 
     client.push().setPlatform('ios', 'android')
-    .setAudience(JPush.tag(target))
+    .setAudience(JPush.alias(target))
     // .setAudience(JPush.ALL)
     .setNotification(
         message.title,
