@@ -2,8 +2,28 @@
     "name": "acaleph",
     "port": 180002,
     "db": {
-        "url": "mongodb://em:EnergyManage_135246@127.0.0.1:27017/EnergyManage"
+        "url": "mongodb://em:EnergyManage_135246@127.0.0.1:3717/EnergyManage"
     },
+
+    "RDS":{
+        "replication_read":[
+            {
+                "host": "127.0.0.1",
+                "port": 3306,
+                "username": "root",
+                "password": "51Cloudenergy",
+                "database": "energymanage_test"
+            }
+        ],
+        "replication_write":{
+            "host": "127.0.0.1",
+            "port": 3306,
+            "username": "root",
+            "password": "51Cloudenergy",
+            "database": "energymanage_test"
+        }
+    },
+
 
     "printToConsole": false,
     "printToLog": true,
