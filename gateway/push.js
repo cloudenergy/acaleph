@@ -20,7 +20,7 @@ exports.Send = function Send (doc, eventname) {
     let params = doc.param,
         eventtype = doc.type,
         targetId = params.uid || params.account,
-        target = params.to,
+        target = params.to.toString(),
         production = config.push === 'production',
         message = {
             title: events[eventname] && events[eventname].title,

@@ -16,7 +16,7 @@
             }
         ],
         "replication_write":{
-            "host": "127.0.0.1",
+            "host": "",
             "port": 3306,
             "username": "root",
             "password": "51Cloudenergy",
@@ -34,8 +34,8 @@
     "APPSECRET": "c4b7a590ef859f8443cd631375dc0485",
     "APIHOST": "127.0.0.1",
 
-    "PUSHKEY" : "a08cfb692fd476003c99b1ed",
-    "PUSHSECRET" : "f5f54afa81b51b9aca6fec59",
+    "PUSHKEY" : "9555e41cead4ea457c834b93",
+    "PUSHSECRET" : "731a08f0b2c0082a2348021a",
 
     "APIPORT": 8005,
     "WXAPIHOST": "42.120.42.45",
