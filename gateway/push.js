@@ -39,7 +39,7 @@ exports.Send = function Send (doc, eventname) {
     // .setAudience(JPush.ALL)
     .setNotification(
         message.title,
-        JPush.ios(message.title, 'sound', null, false, {
+        JPush.ios(message.title, 'sound', "+1", false, {
             action: doc.type,   // 根据不同事件修改 action
             param: JSON.stringify(message.param)
         }), 
