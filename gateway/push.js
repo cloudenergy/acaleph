@@ -38,9 +38,7 @@ exports.Send = function Send (doc, eventname) {
     .setAudience(JPush.alias(target))
     // .setAudience(JPush.ALL)
     .setNotification(
-        message.title,
-        JPush.ios(message.title, 'sound'),
-        JPush.android(message.title)
+        message.title
     )
     // .setMessage(message.content)
     .setOptions(null, 60, null, production)
