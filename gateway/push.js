@@ -39,14 +39,8 @@ exports.Send = function Send (doc, eventname) {
     // .setAudience(JPush.ALL)
     .setNotification(
         message.title,
-        JPush.ios(message.title, 'sound', "+1", null, {
-            action: doc.type,   // 根据不同事件修改 action
-            param: JSON.stringify(message.param)
-        }), 
-        JPush.android(message.title, '', null, {
-            action: doc.type,   // 同上
-            param: JSON.stringify(message.param)
-        })
+        JPush.ios(message.title, 'sound', "+1"),
+        JPush.android(message.title)
     )
     // .setMessage(message.content)
     .setOptions(null, 60, null, production)
