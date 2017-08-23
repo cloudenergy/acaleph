@@ -46,8 +46,8 @@ module.exports = {
 					.findOne({
 						where: {
                             $or: [
-                                {uid: param.to || param.account},
-                                {user: param.to || param.account}
+                                {uid: param.to || param.account || param.uid},
+                                {user: param.to || param.account || param.uid}
                             ],
                             timedelete: 0
                         },
