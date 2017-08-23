@@ -5,6 +5,25 @@
         "url": "mongodb://energymanage:energymanage_135246@dds-bp13268e5d1d87541.mongodb.rds.aliyuncs.com:3717,dds-bp13268e5d1d87542.mongodb.rds.aliyuncs.com:3717/EnergyManage?replicaSet=mgset-2710157"
     },
 
+    "RDS":{
+        "replication_read":[
+            {
+                "host": "rr-bp12m3dk07425rem4.mysql.rds.aliyuncs.com",
+                "port": 3306,
+                "username": "energymanage",
+                "password": "EnergyManage135246",
+                "database": "energymanage"
+            }
+        ],
+        "replication_write":{
+            "host": "rdsc1xp4lkbnk331r91z.mysql.rds.aliyuncs.com",
+            "port": 3306,
+            "username": "energymanage",
+            "password": "EnergyManage135246",
+            "database": "energymanage"
+        }
+    },
+
     "printToConsole": false,
     "printToLog": true,
     "push": "production",
