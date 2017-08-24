@@ -242,7 +242,7 @@
 	},
 	"ntf_remindrecharge": {
 		"title": "欠费催缴",
-		"gateway": ["app","wechat"],
+		"gateway": ["app","wechat","sms"],
 		"wechat" : {
 			"template": "yLXIEEYtnQ0c4S00gPB6I8Z50Vc3GDsOcwHjH0-xOmk",
 			"first": "尊敬的 {{username}} , 您有一项账单还未支付，详情如下:",
