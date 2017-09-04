@@ -27,7 +27,7 @@
 		},
 		"sms": {
 			"templateId": 28410,
-			"param": "{{balance}}"
+			"param": "{{alerthreshold}}"
 		}
 	},
 	"ntf_accountarrears": {
