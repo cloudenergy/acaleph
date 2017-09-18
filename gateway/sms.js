@@ -1,4 +1,3 @@
-'use strict';
 var moment = require('moment');
 var crypto = require('crypto');
 var https = require('https');
@@ -18,7 +17,7 @@ handlebars.registerHelper('MM月DD日HH:mm', function (time) {
 var AppID = '2685c4d4d87a42d7b59fb92636469012';
 var AppToken = 'e7748afd4a2e8754cef5332b3db18734';
 
-module.exports = exports = function(){};
+exports = module.exports = function(){};
 
 function MD5(plain)
 {
@@ -53,7 +52,7 @@ exports.Send = function (message, eventName)
         return;
     }
 
-    let number = message && message.mobile;
+    var number = message && message.mobile;
 
     if(_.isEmpty(message)){
         return;

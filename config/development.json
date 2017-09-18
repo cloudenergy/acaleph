@@ -28,6 +28,7 @@
     "printToLog": false,
 
     "push": "dev",
+    "debug": true,
 
     "attachmentpath": "/Users/joey/Desktop/apiCache/",
 
@@ -40,5 +41,11 @@
 
     "APIPORT": 8005,
     "WXAPIHOST": "42.120.42.45",
-    "WXAPIPORT": 8989
+    "WXAPIPORT": 8989,
+
+
+    "rpc_message":{
+        "ip": "127.0.0.1",
+        "port": 58301
+    }
 }
