@@ -21,7 +21,7 @@
 			"first": "尊敬的 {{username}} , 您当前账户余额已不足{{alerthreshold}}元，详情如下: ",
 			"theme": "#FF0000",
 			"keywords": {
-				"keyword1": ["{{uid}}", "#44a4c9"],
+				"keyword1": ["{{user}}", "#44a4c9"],
 				"keyword2": ["{{balance}} 元", "#44a4c9"]
 			}
 		},

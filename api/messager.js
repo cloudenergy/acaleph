@@ -103,6 +103,7 @@ module.exports = {
 	send (user, param) {
 		let destroy = true;
 		log.info('sending: ', user, ' params: ', param);
+		param.param.user = user.user;
 
 		if (!user) {
 			throw new Error("User must not be null");
