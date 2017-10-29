@@ -51,7 +51,7 @@ mongodb(function(){
             }
 
             function ProcessEvents (events){
-                console.log('events processing: ', events);
+                log.info('events processing: ', events);
 
                 var removeIDs = [];
 

@@ -656,8 +656,8 @@ exports.PackagePlan = mongo.model('packagePlan', packagePlan);
 exports.UserPackage = mongo.model('userpackage', userPackage);
 //exports.ChargeLog = mongo.model('chargeLog', chargeLogSchema);
 
-exports.WXOpenIDUser = mongo.model('wxopeniduser', WXOpenIDUserSchema);
-exports.WXPlatform = mongo.model('wxplatform', WXPlatformSchema);
+// exports.WXOpenIDUser = mongo.model('wxopeniduser', WXOpenIDUserSchema);
+// exports.WXPlatform = mongo.model('wxplatform', WXPlatformSchema);
 
 exports.PERMINUTE = 'PERMINUTE';
 exports.PERHOUR = 'PERHOUR';

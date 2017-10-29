@@ -17,24 +17,6 @@ let mongodb = require('../libs/mongodb'),
 let _ = require('underscore');
 const config = require('config');
 
-let getWechat = (user) => {
-	return new Promise((resolve, reject) =>{
-		mongodb.WXOpenIDUser
-			.find({
-				user: user.user
-			})
-			.exec((err, data) => {
-				if (err || !data) {
-					log.error('wechat user get error: ', err, user);
-					reject(err);
-				}else{
-					log.debug('wechat user ', user, data);
-					resolve(data);
-				}
-			});
-	});
-};
-
 module.exports = {
 	// 获取用户信息 -todo aggregate wechat
 	resolve (event) {
@@ -106,25 +88,51 @@ module.exports = {
 	// 获取微信信息
 	getWechat (user, event, eventName) {
 		let	param = event.param;
-		log.info('get wechat: ', event);
 		// 根据 gateway 将数据传入 pipeline;
 
-		return getWechat(user)
-			.then((wx) => {
-				return {
-					gateway: 'wechat',
-					target: wx,
-					msg: {
-						event: eventName,
-						data: param
-					}
-				};
-			});
+        return new Promise((resolve, reject) =>{
+            MySQL.WXOpenIDUser
+                .findAll({
+                    where: {
+                        user: user.user
+                    }
+                })
+                .then(
+                    wx=>{
+                        // log.debug('wechat user ', user, data);
+                        resolve(
+                            {
+                                gateway: 'wechat',
+                                target: wx,
+                                msg: {
+                                    event: eventName,
+                                    data: param
+                                }
+                            }
+						);
+                    },err=>{
+                        log.error('wechat user get error: ', err, user);
+                        reject(err);
+                    }
+                );
+        });
+        //
+		// return getWechat(user)
+		// 	.then((wx) => {
+		// 		return {
+		// 			gateway: 'wechat',
+		// 			target: wx,
+		// 			msg: {
+		// 				event: eventName,
+		// 				data: param
+		// 			}
+		// 		};
+		// 	});
 	},
 
 	send (user, param, settings) {
 		let destroy = true;
-		log.info('sending: ', user, ' params: ', param);
+		// log.info('sending: ', user, ' params: ', param);
 
 		if (!user) {
 			throw new Error("User must not be null");
@@ -180,7 +188,7 @@ module.exports = {
 		// log.warn('pipeline mesage : ', gateway, msg.event);
 
 		if(config.debug){
-			return log.info(gateway, target, msg);
+			return log.debug(gateway, target, msg);
 		}
 
 		try{
