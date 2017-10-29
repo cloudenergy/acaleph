@@ -98,8 +98,14 @@ module.exports = {
                     }
                 })
                 .then(
-                    wx=>{
+                    result=>{
                         // log.debug('wechat user ', user, data);
+						let wx = [];
+						result.map(r=>{
+							wx.push(MySQL.Plain(r));
+						});
+
+
                         resolve(
                             {
                                 gateway: 'wechat',
