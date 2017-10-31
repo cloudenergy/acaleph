@@ -421,7 +421,7 @@ service Config {
 message ConfigQuery {
     string traceid = 1;
     string projectid = 3;
-    repeated uint64 mids = 5;
+    repeated string mids = 5;
 }
 
 message ConfigUpdate {
