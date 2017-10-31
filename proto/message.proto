@@ -1,0 +1,431 @@
+syntax = "proto3";
+
+package Message;
+
+service NotifyMessage{
+    rpc SaveDraft (DraftMessageObj) returns (Status){}
+    rpc SendNotify (SendNotifyMessageObj) returns (Status){}
+    rpc Reply (NotifyReplyObj) returns (Status){}
+
+    rpc Delete (NotifyDeleteObj) returns (Status){}
+    rpc SetRead (NotifyReadObj) returns (Status){}
+
+    rpc Query (NotifyQueryObj) returns (Status){}
+    rpc List (NotifyListObj) returns (Status){}
+    rpc CountUnRead (NotifyCountUnReadObj) returns (Status){}
+}
+
+// Return the Call Status
+message Status {
+    int32 code = 1;
+    string message = 2;
+    string result = 3;
+}
+
+/*
+    message.to is json object
+    {
+        type: USERS/GROUP
+        to: [xxx,xxx,xxx]/group name
+    }
+*/
+message DraftMessageObj{
+    string traceid = 100;
+    oneof _session {
+        string session = 2;
+    }
+    string from = 3;
+    string to = 4;
+    string content = 6;
+    string link = 7;
+    string project = 8;
+    uint32 type = 9;
+}
+
+message SendNotifyMessageObj{
+    string traceid = 100;
+    oneof _session {
+        string session = 2;
+    }
+    string from = 3;
+    string to = 4;
+    string content = 6;
+    string link = 7;
+    string project = 8;
+    uint32 type = 9;
+}
+
+
+//reply message
+message NotifyReplyObj{
+    string traceid = 100;
+    string session = 2;
+    string from = 3;
+    string content = 5;
+    string link = 7;
+    string project = 8;
+}
+
+message NotifyDeleteObj{
+    string traceid = 100;
+    oneof _id{
+        string id = 1;
+    }
+    oneof _session{
+        string session = 2;
+    }
+    string operator = 3;
+}
+
+message NotifyReadObj{
+    string traceid = 100;
+    oneof _id {
+        string id = 1;
+    }
+    string session = 2;
+    string operator = 3;
+}
+
+message NotifyQueryObj{
+    string traceid = 100;
+    oneof _id{
+        string id = 1;
+    }
+    oneof _session{
+        string session = 2;
+    }
+    string operator = 3;
+}
+message NotifyListObj{
+    string traceid = 100;
+    oneof _session{
+        string session = 2;
+    }
+    string operator = 3;
+    string project = 8;
+    repeated uint32 type = 9;
+    oneof _key {
+        string key = 10;
+    }
+    oneof _regtype {
+        string regtype = 11;
+    }
+
+    oneof _timefrom {
+        uint64 timefrom = 20;
+    }
+    oneof _timeto {
+        uint64 timeto = 21;
+    }
+
+    oneof _pageindex {
+        uint32 pageindex = 200;
+    }
+    oneof _pagesize {
+        uint32 pagesize = 201;
+    }
+}
+message NotifyCountUnReadObj{
+    string traceid = 100;
+    string from = 3;
+    string project = 8;
+    repeated uint32 type = 9;
+    oneof _regtype {
+        string regtype = 11;
+    }
+}
+
+
+/*
+    消息保存
+*/
+message MessageObj {
+    string traceid = 100;
+    string id = 1;
+    string session = 2;
+    string from = 3;
+    string to = 4;
+    string content = 5;
+    string link = 6;
+    string project = 7;
+    string operator = 8;
+    uint32 type = 9;
+}
+
+/*
+    消息查询
+*/
+message MessageQueryObj {
+    string traceid = 100;
+    string id = 1;
+    string session = 3;
+    string uid = 4;
+    string operator = 5;
+    string project = 6;
+    uint32 type = 7;
+    oneof _pageindex {
+        string pageindex = 200;
+    }
+    oneof _pagesize {
+        string pagesize = 201;
+    }
+}
+
+
+/*
+    工单
+*/
+service WorkOrder{
+    rpc Add (WorkOrderObj) returns (Status){}
+    rpc Readed (WorkOrderPatch) returns (Status){}
+    rpc Ignore (WorkOrderPatch) returns (Status){}
+    rpc Reply (WorkOrderPatch) returns (Status){}
+    rpc Remark (WorkOrderPatch) returns (Status){}
+
+    rpc Delete (WorkOrderQueryObj) returns (Status){}
+    rpc Query (WorkOrderQueryObj) returns (Status){}
+    rpc List (WorkOrderQueryObj) returns (Status){}
+}
+
+message WorkOrderObj {
+    string traceid = 100;
+    string from = 10;
+    string content = 12;
+    string project = 14;
+    uint32 type = 15;
+}
+
+message WorkOrderPatch {
+    string id = 1;
+    string uid = 2;
+    string msgid = 3;
+    string session = 4;
+    string operator = 5;
+    string project = 6;
+    string content = 16;
+}
+
+message WorkOrderQueryObj {
+    string traceid= 100;
+    oneof _id{
+        string id = 1;
+    }
+    oneof _session{
+        string session = 2;
+    }
+    oneof _uid{
+        string uid = 3;
+    }
+    oneof _project{
+        string project = 4;
+    }
+    oneof _status{
+        string status = 5;
+    }
+    uint32 type = 6;
+
+    oneof _timefrom {
+        uint64 timefrom = 20;
+    }
+    oneof _timeto {
+        uint64 timeto = 21;
+    }
+
+    oneof _pageindex {
+        int32 pageindex = 10;
+    }
+    oneof _pagesize {
+        int32 pagesize = 11;
+    }
+}
+
+/*
+    消息推送
+*/
+service PushMessage {
+    rpc Query (QueryPushMessage) returns (Status){}
+    //账户欠费
+    rpc AccountArrears (AccountArrearsObj) returns (Status){}
+    //账户开通
+    rpc AccountCreate (AccountCreateObj) returns (Status){}
+    //账户余额变动
+    //    rpc AccountChange () returns (Status){}
+    //欠费停止/恢复服务
+    rpc ArrearServices (ArrearServicesObj) returns (Status){}
+    //短信验证码
+    //    rpc AuthCode () returns (Status){}
+    //账户余额不足
+    rpc BalanceInsufficient (BalanceInsufficientObj) returns (Status){}
+    //设备异常
+    rpc DeviceException (DeviceExceptionObj) returns (Status){}
+    //物业商户欠费统计
+    rpc ProjectDepartmentArrears (ProjectDepartmentArrearsObj) returns (Status){}
+    //充值通知
+    rpc Recharge (RechargeObj) returns (Status){}
+    //催缴费用
+    rpc RemindRecharge (RemindRechargeObj) returns (Status){}
+    //升级维护信息
+    rpc UpgradeInfo (UpgradeInfoObj) returns (Status){}
+    //提现申请
+    //    rpc WithDrawApply () returns (Status){}
+}
+
+message TimeRange {
+    uint64 from = 1;
+    uint64 to = 2;
+}
+
+message QueryPushMessage {
+    oneof _id{
+        string id = 1;
+    }
+    oneof _session{
+        string session = 2;
+    }
+    string project = 3;
+    oneof _type{
+        string typeprefix = 41;
+        uint32 typev = 42;
+    }
+    TimeRange time = 4;
+    oneof _from{
+        string from = 5;
+    }
+    oneof _to{
+        string to = 6;
+    }
+    string pageindex = 100;
+    string pagesize = 101;
+}
+
+message AccountArrearsObj {
+    string traceid = 1;
+    string tid = 2;
+    string projectid = 3;
+}
+
+message AccountCreateObj {
+    string traceid = 1;
+    string uid = 2;
+    string passwd = 3;
+}
+
+message ArrearServicesObj {
+    string traceid = 1;
+    string tid = 2;
+    string projectid = 3;
+    oneof _orderno{
+        string orderno = 10;
+    }
+    oneof _flowid{
+        string flowid = 11;
+    }
+}
+
+message BalanceInsufficientObj {
+    string traceid = 1;
+    string tid = 2;
+    string projectid = 3;
+}
+
+message DeviceInfo {
+    string traceid = 1;
+
+    string deviceuid = 2;
+    string did = 3;
+    string tag = 4;
+    string title = 5;
+    uint64 lastupdate = 6;
+    string type = 7;
+    string devicetype = 8;
+}
+message DeviceExceptionObj {
+    string traceid = 1;
+
+    string uid = 2;
+    string project = 3;
+    string projectname = 4;
+    string username = 5;
+    repeated DeviceInfo devices = 10;
+}
+
+message DepartmentArrearsInfo {
+    string traceid = 1;
+    string name = 2;
+    int32 count = 3;
+    string balance = 4;
+}
+message ProjectDepartmentArrearsObj {
+    string traceid = 1;
+    string projectid = 2;
+}
+
+message RechargeObj {
+    string traceid = 1;
+    string tid = 2;
+    string projectid = 3;
+    string orderno = 4;
+}
+
+message RemindRechargeObj {
+    string traceid = 1;
+    string tid = 2;
+    string projectid = 3;
+}
+
+message UpgradeInfoObj {
+    string traceid = 1;
+    string type = 2;
+    string info = 3;
+}
+
+service OperationMessage {
+    rpc List (QueryList) returns (Status) {
+    }
+
+    rpc Delete (OpMessage) returns (Status) {
+    }
+
+    rpc Readed (OpMessage) returns (Status) {
+    }
+}
+
+message QueryList {
+    string traceid = 1;
+    string uid = 2;
+    string projectid = 3;
+    oneof _type {
+        uint64 type = 4;
+    }
+    oneof _unread {
+        bool unread = 5;
+    }
+    uint32 pageindex = 10;
+    uint32 pagesize = 11;
+}
+
+message OpMessage {
+    string traceid = 1;
+    string id = 2;
+    string uid = 3;
+    string operator = 4;
+    bool all = 5;
+}
+
+service Config {
+    rpc List (ConfigQuery) returns (Status){}
+    rpc Update (ConfigUpdate) returns (Status){}
+    rpc Get (ConfigQuery) returns (Status){}
+}
+
+message ConfigQuery {
+    string traceid = 1;
+    string projectid = 3;
+    repeated uint64 mids = 5;
+}
+
+message ConfigUpdate {
+    string traceid = 1;
+    string projectid = 3;
+    string configitems = 4;
+}

@@ -4,75 +4,79 @@
  * @type {[type]}
  */
 
-var moment = require('moment');
-var mongodb = require('../libs/mongodb'),
+let moment = require('moment');
+let mongodb = require('../libs/mongodb'),
 	alias = require('../libs/alias'),
 	apis = {
 		email: require('../gateway/email'),
 		wechat: require('../gateway/wechat'),
-		push: require('../gateway/push'),
+		app: require('../gateway/push'),
 		sms: require('../gateway/sms')
 	},
 	events = require('../libs/events');
-var _ = require('underscore');
-
-let getWechat = (user) => {
-	return new Promise((resolve, reject) =>{
-		mongodb.WXOpenIDUser
-			.find({
-				user: user.user
-			})
-			.exec((err, data) => {
-				if (err || !data) {
-					log.error('wechat user get error: ', err, user);
-					reject(err);
-				}else{
-					log.debug('wechat user ', user, data);
-					resolve(data);
-				}
-			});
-	});
-};
+let _ = require('underscore');
+const config = require('config');
 
 module.exports = {
 	// 获取用户信息 -todo aggregate wechat
 	resolve (event) {
 
 		return new Promise((resolve, reject) => {
-			try{
-				event = event.toObject();
-				let param = event.param;
-				MySQL.Account
-					.findOne({
-						where: {
-                            $or: [
-                                {uid: param.to || param.account || param.uid},
-                                {user: param.to || param.account || param.uid}
-                            ],
-                            timedelete: 0
-                        },
-						limit: 1
-					})
-					.then(
-						user=>{
-							if(!user){
-								log.error(param, 'can not find');
-							}
-							else {
-                                resolve({
-                                    target: MySQL.Plain(user),
-                                    msg: event
-                                });
-                            }
-						},
-						err=>{
-                            reject(err);
-						}
-					);
-			}catch(e){
-				log.error('get user info exception: ', e, event);
+			event = event.toObject();
+			let param = event.param;
+
+			let queryMessageSetting = {
+				mids: [event.type]
+			};
+			const projectid = param.project || param.projectid;
+			if(projectid){
+				queryMessageSetting.projectid = projectid;
 			}
-			
+			else{
+				queryMessageSetting.projectid = 'PLT';
+			}
+
+			RPC.Message.Config.List(queryMessageSetting).then(
+				result=>{
+					if(result.code != ErrorCode.OK ){
+						return reject(result);
+					}
+
+					if(_.isArray(result.result)){
+						return reject(ErrorCode.ack(ErrorCode.NOTSUPPORT, result));
+					}
+
+					const setting = _.omit(result.result, ['mid', 'projectid']);
+					MySQL.Account
+						.findOne({
+							where: {
+								$or: [
+									{uid: param.to || param.account || param.uid},
+									{user: param.to || param.account || param.uid}
+								],
+								timedelete: 0
+							},
+							limit: 1
+						})
+						.then(
+							user=>{
+								if(!user){
+									log.error(param, 'can not find');
+								}
+								else {
+									resolve({
+										target: MySQL.Plain(user),
+										msg: event,
+										setting: setting
+									});
+								}
+							},
+							err=>{
+								reject(err);
+							}
+						);
+				}
+			);
 		});
 	},
 
@@ -84,85 +88,115 @@ module.exports = {
 	// 获取微信信息
 	getWechat (user, event, eventName) {
 		let	param = event.param;
-		log.info('get wechat: ', event);
 		// 根据 gateway 将数据传入 pipeline;
 
-		return getWechat(user)
-			.then((wx) => {
-				return {
-					gateway: 'wechat',
-					target: wx,
-					msg: {
-						event: eventName,
-						data: param
-					}
-				};
-			});
+        return new Promise((resolve, reject) =>{
+            MySQL.WXOpenIDUser
+                .findAll({
+                    where: {
+                        user: user.user
+                    }
+                })
+                .then(
+                    result=>{
+                        // log.debug('wechat user ', user, data);
+						let wx = [];
+						result.map(r=>{
+							wx.push(MySQL.Plain(r));
+						});
+
+
+                        resolve(
+                            {
+                                gateway: 'wechat',
+                                target: wx,
+                                msg: {
+                                    event: eventName,
+                                    data: param
+                                }
+                            }
+						);
+                    },err=>{
+                        log.error('wechat user get error: ', err, user);
+                        reject(err);
+                    }
+                );
+        });
+        //
+		// return getWechat(user)
+		// 	.then((wx) => {
+		// 		return {
+		// 			gateway: 'wechat',
+		// 			target: wx,
+		// 			msg: {
+		// 				event: eventName,
+		// 				data: param
+		// 			}
+		// 		};
+		// 	});
 	},
 
-	send (user, param) {
+	send (user, param, settings) {
 		let destroy = true;
-		log.info('sending: ', user, ' params: ', param);
+		// log.info('sending: ', user, ' params: ', param);
 		param.param.user = user.user;
 
 		if (!user) {
 			throw new Error("User must not be null");
 		}
 
-		try {
-			var type = param.type,
-				eventName = alias[`event:${type}`],
-				email = user.email,
-				event = events[eventName];
-			var	eventGateway = event.gateway;
-		} catch(e) {
-			// statements
-			log.error('sending exception: ', e, user, param);
-		}
+		let type = param.type,
+			eventName = alias[`event:${type}`],
+			email = user.email;
 		if(param.timestamp){
 			param.param.time = param.timestamp;///moment.unix(param.timestamp).toDate();
 		}
-	
-		// 解析用户设置渠道 和 事件允许渠道
-		if (eventGateway.indexOf('email') !== -1 && email) {
-			this.pipeline('email', email, {
-				event: eventName,
-				template: event,
-				data: param
-			});
-		}
 
-		if (~eventGateway.indexOf('sms') && user.mobile) {
-			let doc = Object.assign({}, param.param);
-			doc.mobile = user.mobile;
-			// 如果uid 不是 手机号 则不发送
-			this.pipeline('sms', doc, eventName);
-		}
+		_.map(settings, (enable, channel)=>{
+			if(!enable){
+				return;
+			}
 
-		if (~eventGateway.indexOf('app')) {
-			destroy = false;
-			this.pipeline('push', param, eventName);
-		}
+			switch(channel){
+				case 'email':
+                    this.pipeline('email', email, {
+                        event: eventName,
+                        template: event,
+                        data: param
+                    });
+					break;
+				case 'app':
+                    this.pipeline('push', param, eventName);
+					break;
+				case 'sms':
+                    let doc = Object.assign({}, param.param);
+                    doc.mobile = user.mobile;
+                    // 如果uid 不是 手机号 则不发送
+                    this.pipeline('sms', doc, eventName);
+					break;
+				case 'wechat':
+                    this.getWechat(user, param, eventName)
+                        .then((data)=> {
+                            try{
+                                this.pipeline(data.gateway, data.target, data.msg);
+                            }catch(e){
+                                log.error('get wechat exception: ', e, param, eventName, data);
+                            }
+                        });
+					break;
 
-		// 判断是否包含微信请求
-		if (eventGateway.indexOf('wechat') === -1) {
-			return destroy; 
-		}
-
-		this.getWechat(user, param, eventName)
-			.then((data)=> {
-				try{
-					this.pipeline(data.gateway, data.target, data.msg);
-				}catch(e){
-					log.error('get wechat exception: ', e, param, eventName, data);
-				}
-			});
+			}
+		});
 			
 		return destroy;
 	},
 
 	pipeline (gateway, target, msg) {
 		// log.warn('pipeline mesage : ', gateway, msg.event);
+
+		if(config.debug){
+			return log.debug(gateway, target, msg);
+		}
 
 		try{
 			if(_.isArray(target)){

@@ -7,10 +7,13 @@ var _ = require('underscore');
 var mongodb = require('./libs/mongodb');
 {
     global.MySQL = Include('/libs/mysql');
+    global.ErrorCode = Include('/libs/errorCode');
 }
 
 // 获取联系人 
 var messager = require('./api/messager');
+//加载RPC
+let proto = Include('/proto/proto')();
 
 require('./api')(app);
 mongodb(function(){
@@ -48,7 +51,7 @@ mongodb(function(){
             }
 
             function ProcessEvents (events){
-                console.log('events processing: ', events);
+                log.info('events processing: ', events);
 
                 var removeIDs = [];
 
@@ -59,7 +62,7 @@ mongodb(function(){
                     messager
                         .resolve(event)
                         .then((data) => {
-                            let del = messager.send(data.target, data.msg);
+                            let del = messager.send(data.target, data.msg, data.setting);
                         }, messager.discard);
                 });
 

@@ -37,5 +37,10 @@
     "APIHOST": "127.0.0.1",
     "APIPORT": 8085,
     "WXAPIHOST": "127.0.0.1",
-    "WXAPIPORT": 8989
+    "WXAPIPORT": 8989,
+
+    "rpc_message":{
+        "ip": "127.0.0.1",
+        "port": 58301
+    }
 }

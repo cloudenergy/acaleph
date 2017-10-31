@@ -10,7 +10,7 @@ exports.Send = function(target, message){
     log.debug('wechat ', target, message);
     let msg = composer.compile(message.data, message.event);
 
-        msg.touser = target._id;
+        msg.touser = target.openid;
     var templateMessage = {
         platformid: target.platformid,
         message: msg
