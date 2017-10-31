@@ -26,7 +26,7 @@ module.exports = {
 			let param = event.param;
 
 			let queryMessageSetting = {
-				mids: [event.type]
+				mids: [event.type.toString()]
 			};
 			const projectid = param.project || param.projectid;
 			if(projectid){
