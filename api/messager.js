@@ -161,7 +161,7 @@ module.exports = {
 				case 'email':
                     this.pipeline('email', email, {
                         event: eventName,
-                        template: event,
+                        template: events[eventName],
                         data: param
                     });
 					break;
