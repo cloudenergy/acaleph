@@ -36,7 +36,7 @@
     
     "APIHOST": "127.0.0.1",
     "APIPORT": 8085,
-    "WXAPIHOST": "127.0.0.1",
+    "WXAPIHOST": "10.241.123.185",
     "WXAPIPORT": 8989,
 
     "rpc_message":{
