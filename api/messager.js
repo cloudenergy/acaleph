@@ -22,7 +22,7 @@ module.exports = {
 	resolve (event) {
 
 		return new Promise((resolve, reject) => {
-			event = event.toObject();
+			// event = event.toObject();
 			let param = event.param;
 
 			let queryMessageSetting = {

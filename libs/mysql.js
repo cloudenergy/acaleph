@@ -1466,7 +1466,44 @@ function SequelizeDefine()
         timestamps: false,
         freezeTableName: true
     });
-    //消息保存
+    //
+    exports.EventQueue = sequelizeInstance.define('eventqueue',
+        {
+            id:{
+                type: Sequelize.BIGINT.UNSIGNED,
+                autoIncrement: true,
+                primaryKey: true
+            },
+            type: {
+                type: Sequelize.BIGINT.UNSIGNED,
+                allowNull: false
+            },
+            timestamp: {
+                type: Sequelize.BIGINT.UNSIGNED,
+                allowNull: false
+            },
+            param: {
+                type: Sequelize.TEXT,
+                get: function(){
+                    var param;
+                    try{
+                        param = JSON.parse(this.getDataValue('param'));
+                    }
+                    catch(e){
+                        param = {};
+                    }
+
+                    return param;
+                },
+                set : function (value) {
+                    this.setDataValue('param', JSON.stringify(value));
+                }
+            }
+        }, {
+            timestamps: false,
+            freezeTableName: true
+        }
+    );
 }
 
 //支付日志

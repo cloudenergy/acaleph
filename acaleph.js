@@ -20,24 +20,29 @@ mongodb(function(){
 
     MySQL.Load().then(
         ()=>{
+            MySQL.EventQueue.sync();
+
             function DoFetch()
             {
                 //获取事件进行处理
-                mongodb.Event
-                    .find({})
-                    // .skip(1)
-                    .limit(50)
-                    .sort({timestamp: 1})
-                    .exec(function(err, data){
-                        if(!data || data.length === 0 || err){
+                MySQL.EventQueue.findAll({
+                    limit: 50,
+                    order: 'timestamp ASC'
+                }).then(
+                    data=>{
+                        if(!data || data.length === 0){
                             return Retry();
                         }
                         else{
                             //
                             ProcessEvents(data);
-                            //Remove data
                         }
-                    });
+                    },
+                    err=>{
+                        log.error(err);
+
+                    }
+                );
             }
 
             function Retry()
@@ -51,12 +56,11 @@ mongodb(function(){
             }
 
             function ProcessEvents (events){
-                log.info('events processing: ', events);
-
                 var removeIDs = [];
 
                 _.each(events, function(event){
-                    removeIDs.push(event._id);
+                    log.info('events processing: ', MySQL.Plain(event));
+                    removeIDs.push(event.id);
 
                     // 发送数据或者销毁
                     messager
@@ -66,9 +70,14 @@ mongodb(function(){
                         }, messager.discard);
                 });
 
-                mongodb.Event.remove({_id:{$in: removeIDs}}, function(err){
-                    DoFetch();
-                });
+                MySQL.EventQueue.destroy({where:{id:{$in: removeIDs}}}).then(
+                    ()=>{
+                        DoFetch();
+                    },err=>{
+                        log.error(err, removeIDs);
+                        DoFetch();
+                    }
+                );
             }
 
             Retry()
