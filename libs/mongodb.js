@@ -647,7 +647,7 @@ exports.Collector = mongo.model('collector', collectorSchema);
 exports.Energy = mongo.model('energy', energySchema);
 exports.EventCategory = mongo.model('eventCategory', eventCategorySchema);
 exports.EventService = mongo.model('eventService', eventService);
-exports.Event = mongo.model('event', eventSchema);
+// exports.Event = mongo.model('event', eventSchema);
 
 exports.ProjectAccountBillingRelationShip = mongo.model('pabRelationship', projectAccountBillingRelationShipSchema);
 exports.BillingAccount = mongo.model('billingAccount', billingAccount);
