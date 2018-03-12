@@ -13,7 +13,7 @@ var transporter = nodemailer.createTransport({
     secure: true,
     auth: {
         user: 'group@cloudenergy.me',
-        pass: '51Cloudenergy'
+        pass: 'BJVPVJd44qnPAy5M'
     }
 });
 
@@ -69,3 +69,14 @@ exports.Send = function(target, msg){
     });
 };
 
+// const mailOptions = {
+//     from: user,
+//     to: "50923132@qq.com",
+//     subject: 'Test Email',
+//     html: "TestEmail"
+// };
+// transporter.sendMail(mailOptions, function(error, info){
+//     if(error){
+//         return log.error('send mail error: ', error, info);
+//     }
+// });
