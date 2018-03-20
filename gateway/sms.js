@@ -85,7 +85,7 @@ exports.Send = function (message, eventName)
         };
     } catch(e) {
         // statements
-        log.error('sms send error: ', message, data);
+        log.error('sms send error: ', number, message, eventName);
     } finally {
         // statements
     }

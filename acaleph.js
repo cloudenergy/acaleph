@@ -4,7 +4,6 @@ var express = require('express');
 require('./libs/log')('acaleph');
 var app = express();
 var _ = require('underscore');
-var mongodb = require('./libs/mongodb');
 {
     global.MySQL = Include('/libs/mysql');
     global.ErrorCode = Include('/libs/errorCode');
@@ -15,75 +14,79 @@ var messager = require('./api/messager');
 //加载RPC
 let proto = Include('/proto/proto')();
 
-require('./api')(app);
-mongodb(function(){
+MySQL.Load().then(
+    ()=>{
+        MySQL.EventQueue.sync();
 
-    MySQL.Load().then(
-        ()=>{
-            MySQL.EventQueue.sync();
-
-            function DoFetch()
-            {
-                //获取事件进行处理
-                MySQL.EventQueue.findAll({
-                    limit: 50,
-                    order: 'timestamp ASC'
-                }).then(
-                    data=>{
-                        if(!data || data.length === 0){
-                            return Retry();
-                        }
-                        else{
-                            //
-                            ProcessEvents(data);
-                        }
-                    },
-                    err=>{
-                        log.error(err);
-
+        function DoFetch(offset)
+        {
+            //获取事件进行处理
+            MySQL.EventQueue.findAll({
+                limit: 50,
+                order: 'timestamp ASC',
+                id:{$gt: offset}
+            }).then(
+                data=>{
+                    if(!data || data.length === 0){
+                        return Retry(offset);
                     }
-                );
-            }
-
-            function Retry()
-            {
-                setTimeout(function(){
-                    setTimeout(function(){
+                    else{
                         //
-                        DoFetch();
-                    }, 1000);
-                }, 0);
-            }
-
-            function ProcessEvents (events){
-                var removeIDs = [];
-
-                _.each(events, function(event){
-                    log.info('events processing: ', MySQL.Plain(event));
-                    removeIDs.push(event.id);
-
-                    // 发送数据或者销毁
-                    messager
-                        .resolve(event)
-                        .then((data) => {
-                            let del = messager.send(data.target, data.msg, data.setting);
-                        }, messager.discard);
-                });
-
-                MySQL.EventQueue.destroy({where:{id:{$in: removeIDs}}}).then(
-                    ()=>{
-                        DoFetch();
-                    },err=>{
-                        log.error(err, removeIDs);
-                        DoFetch();
+                        ProcessEvents(offset, data);
                     }
-                );
-            }
-
-            Retry()
+                },
+                err=>{
+                    log.error(err);
+                }
+            );
         }
-    );
-});
+
+        function Retry(offset)
+        {
+            setTimeout(function(){
+                setTimeout(function(){
+                    //
+                    DoFetch(offset);
+                }, 1000);
+            }, 0);
+        }
+
+        function ProcessEvents (offset, events){
+            let removeIDs = [];
+
+            let offsetIndex = 0;
+            _.each(events, function(event){
+                event = event.toJSON();
+                if(event.id <= offsetIndex){
+                    log.warn('events dumplicate: ', event);
+                }
+                else{
+                    log.info('events processing: ', event);
+                }
+                removeIDs.push(event.id);
+                offsetIndex = event.id;
+
+                // 发送数据或者销毁
+                messager
+                    .resolve(event)
+                    .then((data) => {
+                        messager.send(data.target, data.msg, data.setting);
+                    }, messager.discard);
+            });
+
+            MySQL.EventQueue.destroy({where:{id:{$in: removeIDs}}}).then(
+                ()=>{
+                    DoFetch(offsetIndex);
+                },err=>{
+                    log.error(err, removeIDs);
+                    DoFetch(offsetIndex);
+                }
+            );
+        }
+
+        Retry(0);
+    }
+);
 
 // var server = app.listen(config.port, function(){
 //     log.info('listening at %s', server.address().port);

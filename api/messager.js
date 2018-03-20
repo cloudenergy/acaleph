@@ -5,8 +5,7 @@
  */
 
 let moment = require('moment');
-let mongodb = require('../libs/mongodb'),
-	alias = require('../libs/alias'),
+let alias = require('../libs/alias'),
 	apis = {
 		email: require('../gateway/email'),
 		wechat: require('../gateway/wechat'),
@@ -166,7 +165,7 @@ module.exports = {
                     });
 					break;
 				case 'app':
-                    this.pipeline('push', param, eventName);
+                    this.pipeline('app', param, eventName);
 					break;
 				case 'sms':
                     let doc = Object.assign({}, param.param);

@@ -16,7 +16,6 @@
     "jpush-sdk": "^3.4.2",
     "log4js": "^0.6.29",
     "moment": "^2.13.0",
-    "mongoose": "^4.3.1",
     "mysql": "^2.14.1",
     "node-uuid": "^1.4.8",
     "nodemailer": "^2.3.2",
