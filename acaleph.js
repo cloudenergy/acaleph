@@ -11,8 +11,8 @@ var _ = require('underscore');
 
 // 获取联系人 
 var messager = require('./api/messager');
-//加载RPC
-// let proto = Include('/proto/proto')();
+// 加载RPC
+let proto = Include('/proto/proto')();
 
 let offsetIndex = 0;
 let cache = {};
