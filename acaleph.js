@@ -12,8 +12,10 @@ var _ = require('underscore');
 // 获取联系人 
 var messager = require('./api/messager');
 //加载RPC
-let proto = Include('/proto/proto')();
+// let proto = Include('/proto/proto')();
 
+let offsetIndex = 0;
+let cache = {};
 MySQL.Load().then(
     ()=>{
         MySQL.EventQueue.sync();
@@ -54,9 +56,14 @@ MySQL.Load().then(
         function ProcessEvents (offset, events){
             let removeIDs = [];
 
-            let offsetIndex = 0;
             _.each(events, function(event){
                 event = event.toJSON();
+                if(cache[event.id]){
+                    log.warn('events dumplicate: ', event);
+                    return;
+                }
+
+                cache[event.id] = true;
                 if(event.id <= offsetIndex){
                     log.warn('events dumplicate: ', event);
                 }
@@ -76,8 +83,10 @@ MySQL.Load().then(
 
             MySQL.EventQueue.destroy({where:{id:{$in: removeIDs}}}).then(
                 ()=>{
+                    cache = {};
                     DoFetch(offsetIndex);
                 },err=>{
+                    cache = {};
                     log.error(err, removeIDs);
                     DoFetch(offsetIndex);
                 }
