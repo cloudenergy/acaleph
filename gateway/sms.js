@@ -85,7 +85,7 @@ exports.Send = function (message, eventName)
         };
     } catch(e) {
         // statements
-        log.error('sms send error: ', number, message, eventName);
+        log.error('sms send error: ', e, body, number, message, eventName);
     } finally {
         // statements
     }
@@ -114,7 +114,7 @@ exports.Send = function (message, eventName)
         });
     });
     req.on('error', function(e){
-        log.error(e, message);
+        log.error(e, body, message);
     });
     req.write(body);
     req.end();
