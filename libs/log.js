@@ -1,30 +1,47 @@
-var log4js = require('log4js');
-var path = require('path');
-var appRoot = require('app-root-path');
-var fs = require('fs');
-var config = require('config');
+let appRootPath = require('app-root-path');
+let config = require('config');
+let path = require('path');
+let fs = require('fs');
+let _ = require('underscore');
 
-module.exports = function(appName, logPath)
+exports = module.exports = function(appName, logPath)
 {
-	var loggerPath = path.join(appRoot.path, logPath || '/log/');
+    logPath = logPath || 'log';
+    let loggerPath = path.join(appRootPath.path, logPath);
     if(!fs.existsSync(loggerPath)){
         fs.mkdirSync(loggerPath);
     }
 
-    loggerPath = path.join(loggerPath, appName || 'log');
-    var appenders = [];
-    if(config.printToConsole){
-        appenders.push({"type": "console"});
-    }
-    if(config.printToLog){
-        appenders.push({
-            "type": "dateFile",
-            "filename": loggerPath,
-            "pattern": "-yyyy-MM-dd"
+    if(config.logfile) {
+        global.log = require('tracer').dailyfile({
+            root: logPath,
+            methods: ['tracer', 'warn', 'info', 'error', 'debug',  'response', 'request', 'delete'],
+            allLogsFileName: appName,
+            format: "[{{timestamp}}] {{ipAddress}}:{{pid}} {{appName}} {{title}} {{path}}{{relativePath}}:{{line}}:{{method}} {{message}}",
+            dateformat: "yyyy-mm-dd HH:MM:ss",
+            maxLogFiles:365,
+            preprocess: function (data) {
+                let process = require('process');
+                let ip = require("ip");
+
+                data.relativePath = path.relative(appRootPath.path, data.path);
+                data.path = '';
+                data.title = data.title.toUpperCase();
+                data.pid = process.pid;
+                data.ipAddress = ip.address();
+                data.appName = appName;
+
+                _.each(data.args, function (v, i) {
+                    if(_.isObject(v)){
+                        data.args[i] = JSON.stringify(v);
+                    }
+                });
+            }
         });
     }
-    log4js.configure({appenders:appenders});
-    global.log = log4js.getLogger(appName);
-    
-    console.log('global log: ', log);
+    else{
+        global.log = require('tracer').console({
+            methods: ['tracer', 'warn', 'info', 'error', 'debug', 'response', 'request', 'delete']
+        });
+    }
 };

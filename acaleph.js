@@ -1,21 +1,20 @@
 'use strict';
 require('include-node');
-var express = require('express');
+const express = require('express');
 require('./libs/log')('acaleph');
-var app = express();
-var _ = require('underscore');
+Include('/libs/log')("acaleph");
+const app = express();
+const _ = require('underscore');
 {
     global.MySQL = Include('/libs/mysql');
     global.ErrorCode = Include('/libs/errorCode');
 }
 
 // 获取联系人 
-var messager = require('./api/messager');
-// 加载RPC
-let proto = Include('/proto/proto')();
+const messager = require('./api/messager');
+//加载RPC
+const proto = Include('/proto/proto')();
 
-// let offsetIndex = 0;
-let cache = {};
 MySQL.Load().then(
     ()=>{
         MySQL.EventQueue.sync();
@@ -24,7 +23,7 @@ MySQL.Load().then(
         {
             //获取事件进行处理
             MySQL.EventQueue.findAll({
-                limit: 50,
+                limit: 5,
                 order: 'timestamp ASC',
                 id:{$gt: offset}
             }).then(
@@ -46,25 +45,25 @@ MySQL.Load().then(
         function Retry(offset)
         {
             setTimeout(function(){
-                setTimeout(function(){
-                    //
+                setImmediate(()=>{
                     DoFetch(offset);
-                }, 1000);
-            }, 0);
+                })
+            }, 1000);
+            // setTimeout(function(){
+            //     setTimeout(function(){
+            //         //
+            //         DoFetch(offset);
+            //     }, 1000);
+            // }, 0);
         }
 
         function ProcessEvents (offset, events){
             let removeIDs = [];
 
+            log.info('process events: ', offset);
             let offsetIndex = 0;
             _.each(events, function(event){
                 event = event.toJSON();
-                // if(cache[event.id]){
-                //     log.warn('events dumplicate: ', event);
-                //     return;
-                // }
-
-                // cache[event.id] = true;
                 if(event.id <= offsetIndex){
                     log.warn('events dumplicate: ', event);
                 }
@@ -84,10 +83,8 @@ MySQL.Load().then(
 
             MySQL.EventQueue.destroy({where:{id:{$in: removeIDs}}}).then(
                 ()=>{
-                    // cache = {};
                     DoFetch(offsetIndex);
                 },err=>{
-                    // cache = {};
                     log.error(err, removeIDs);
                     DoFetch(offsetIndex);
                 }

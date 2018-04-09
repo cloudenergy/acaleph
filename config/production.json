@@ -24,8 +24,7 @@
         }
     },
 
-    "printToConsole": false,
-    "printToLog": true,
+    "logfile": true,
     "push": "production",
 
     "APPID": "EMe374f490bdc411e4864359c68eeb10e7",

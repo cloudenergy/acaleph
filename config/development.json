@@ -24,8 +24,7 @@
         }
     },
 
-    "printToConsole": true,
-    "printToLog": false,
+    "logfile": false,
 
     "push": "dev",
     "debug": true,
