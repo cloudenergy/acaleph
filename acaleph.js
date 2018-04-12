@@ -4,9 +4,6 @@ const express = require('express');
 require('./libs/log')('acaleph');
 Include('/libs/log')("acaleph");
 
-const easyMonitor = require('easy-monitor');
-easyMonitor('acaleph');
-
 const app = express();
 const _ = require('underscore');
 {
