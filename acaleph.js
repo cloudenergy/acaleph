@@ -3,6 +3,10 @@ require('include-node');
 const express = require('express');
 require('./libs/log')('acaleph');
 Include('/libs/log')("acaleph");
+
+const easyMonitor = require('easy-monitor');
+easyMonitor('acaleph');
+
 const app = express();
 const _ = require('underscore');
 {
@@ -17,7 +21,6 @@ const proto = Include('/proto/proto')();
 
 MySQL.Load().then(
     ()=>{
-        MySQL.EventQueue.sync();
 
         function DoFetch(offset)
         {
@@ -44,24 +47,18 @@ MySQL.Load().then(
 
         function Retry(offset)
         {
-            setTimeout(function(){
+            setTimeout(()=>{
                 setImmediate(()=>{
                     DoFetch(offset);
-                })
-            }, 1000);
-            // setTimeout(function(){
-            //     setTimeout(function(){
-            //         //
-            //         DoFetch(offset);
-            //     }, 1000);
-            // }, 0);
+                });
+            }, 5000)
         }
 
         function ProcessEvents (offset, events){
             let removeIDs = [];
 
             log.info('process events: ', offset);
-            let offsetIndex = 0;
+            let offsetIndex = offset;
             _.each(events, function(event){
                 event = event.toJSON();
                 if(event.id <= offsetIndex){
