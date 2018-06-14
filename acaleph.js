@@ -60,6 +60,7 @@ MySQL.Load().then(
                 event = event.toJSON();
                 if(event.id <= offsetIndex){
                     log.warn('events dumplicate: ', event);
+                    return;
                 }
                 else{
                     log.info('events processing: ', event);
