@@ -58,6 +58,7 @@ MySQL.Load().then(
             let offsetIndex = offset;
             _.each(events, function(event){
                 event = event.toJSON();
+                removeIDs.push(event.id);
                 if(event.id <= offsetIndex){
                     log.warn('events dumplicate: ', event);
                     return;
@@ -65,7 +66,7 @@ MySQL.Load().then(
                 else{
                     log.info('events processing: ', event);
                 }
-                removeIDs.push(event.id);
+
                 offsetIndex = event.id;
 
                 // 发送数据或者销毁
