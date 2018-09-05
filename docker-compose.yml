@@ -42,14 +42,10 @@ services:
         volumes:
           - ".:/src"
           - /src/node_modules/
-        ports:
-          - 8299:8299
-          - 58299:58299
-          - 58301:58301
         environment:
           - TZ=Asia/Shanghai
-          - RDS_READ="[{\"host\":\"db\",\"port\":3306,\"username\":\"root\",\"password\":\"example\",\"database\":\"energymanage\"}]"
-          - RDS_WRITE="{\"host\":\"db\",\"port\":3306,\"username\":\"root\",\"password\":\"example\",\"database\":\"energymanage\"}"
+          - RDS_READ=[{"host":"db","port":3306,"username":"root","password":"example","database":"energymanage"}]
+          - RDS_WRITE={"host":"db","port":3306,"username":"root","password":"example","database":"energymanage"}
           - MONGODB_URL=mongodb://mongo:27017/EnergyManage
           - MQ_HOST=redis
           - MQ_PORT=6379
@@ -67,13 +63,10 @@ services:
         build:
           context: .
           dockerfile: Dockerfile
-        ports:
-          - 58299:58299
-          - 58301:58301
         environment:
           - TZ=Asia/Shanghai
-          - RDS_READ="[{\"host\":\"db\",\"port\":3306,\"username\":\"root\",\"password\":\"example\",\"database\":\"energymanage\"}]"
-          - RDS_WRITE="{\"host\":\"db\",\"port\":3306,\"username\":\"root\",\"password\":\"example\",\"database\":\"energymanage\"}"
+          - RDS_READ=[{"host":"db","port":3306,"username":"root","password":"example","database":"energymanage"}]
+          - RDS_WRITE={"host":"db","port":3306,"username":"root","password":"example","database":"energymanage"}
           - MONGODB_URL=mongodb://mongo:27017/EnergyManage
           - MQ_HOST=redis
           - MQ_PORT=6379

@@ -5,8 +5,8 @@
     },
 
     "RDS":{
-        "read":[],
-        "write":{}
+        "read":"",
+        "write":""
     },
 
     "logfile": true,

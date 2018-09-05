@@ -2,19 +2,13 @@
   "db": {
     "url": "MONGODB_URL"
   },
-  "rds":{
+  "RDS":{
     "read":"RDS_READ",
     "write":"RDS_WRITE"
-  },
-  "MQ":{
-    "mode": "ENV",
-    "host": "MQ_HOST",
-    "port": "MQ_PORT",
-    "passwd": "MQ_PASS"
   },
   "rpc_message":{
     "ip": "RPC_IP"
   },
-  "appid": "APP_ID",
-  "appsecret": "APP_SECRET"
+  "APPID": "APP_ID",
+  "APPSECRET": "APP_SECRET"
 }
