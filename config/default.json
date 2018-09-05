@@ -1,0 +1,30 @@
+{
+    "name": "acaleph",
+    "db": {
+        "url": ""
+    },
+
+    "RDS":{
+        "read":[],
+        "write":{}
+    },
+
+    "logfile": true,
+    "push": "production",
+
+    "APPID": "EMe374f490bdc411e4864359c68eeb10e7",
+    "APPSECRET": "c4b7a590ef859f8443cd631375dc0485",
+
+    "PUSHKEY" : "a08cfb692fd476003c99b1ed",
+    "PUSHSECRET" : "f5f54afa81b51b9aca6fec59",
+
+    "APIHOST": "127.0.0.1",
+    "APIPORT": 8085,
+    "WXAPIHOST": "10.241.123.185",
+    "WXAPIPORT": 8989,
+
+    "rpc_message":{
+        "ip": "10.162.54.96",
+        "port": 58301
+    }
+}

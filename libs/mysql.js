@@ -22,8 +22,8 @@ exports.Load = function () {
         sequelizeInstance = new Sequelize(null, null, null, {
             dialect: 'mysql',
             replication:{
-                read:config.RDS.replication_read,
-                write:config.RDS.replication_write
+                read:JSON.parse(config.RDS.read),
+                write:JSON.parse(config.RDS.write)
             },
             logging: false,
             timezone: "+08:00",

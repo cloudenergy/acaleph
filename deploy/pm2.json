@@ -1,0 +1,9 @@
+{
+    "apps": [{
+        "name": "Acaleph",
+        "script": "app.js",
+        "env": {
+            "production": true
+        }
+    }]
+}

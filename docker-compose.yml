@@ -1,0 +1,88 @@
+version: '3.4'
+
+services:
+    db:
+        image: mysql:5.7
+        restart: always
+        command: --init-file /db/init.sql --character-set-server=utf8 --explicit_defaults_for_timestamp --sql-mode=""
+        environment:
+          - MYSQL_ROOT_PASSWORD=example
+          - TZ=Asia/Shanghai
+        ports:
+          - "33063:3306"
+        volumes:
+          - "./db:/db"
+    redis:
+        image: redis:4
+        restart: always
+        ports:
+          - 6379:6379
+
+    mongo:
+        image: mongo:latest
+        command: mongod --smallfiles
+        ports:
+          - 27017:27017
+        depends_on:
+          - mongo_seed
+
+    mongo_seed:
+        build:
+          context: ./deploy/
+          dockerfile: docker/Dockerfile_mongo_seed
+        entrypoint: /wait-for-it.sh mongo:27017 --
+        command: mongoimport --host mongo --db local --collection projects --type json --file /init.json
+
+    app:
+        build:
+          context: .
+          dockerfile: Dockerfile-dev
+        entrypoint: /wait-for-it.sh db:3306 --
+        command: npm run dev
+        volumes:
+          - ".:/src"
+          - /src/node_modules/
+        ports:
+          - 8299:8299
+          - 58299:58299
+          - 58301:58301
+        environment:
+          - TZ=Asia/Shanghai
+          - RDS_READ="[{\"host\":\"db\",\"port\":3306,\"username\":\"root\",\"password\":\"example\",\"database\":\"energymanage\"}]"
+          - RDS_WRITE="{\"host\":\"db\",\"port\":3306,\"username\":\"root\",\"password\":\"example\",\"database\":\"energymanage\"}"
+          - MONGODB_URL=mongodb://mongo:27017/EnergyManage
+          - MQ_HOST=redis
+          - MQ_PORT=6379
+          - MQ_PASS=
+          - RPC_IP=0.0.0.0
+          - ENV=dev
+          - APP_ID=
+          - APP_SECRET=
+        depends_on:
+          - db
+          - redis
+          - mongo
+
+    release:
+        build:
+          context: .
+          dockerfile: Dockerfile
+        ports:
+          - 58299:58299
+          - 58301:58301
+        environment:
+          - TZ=Asia/Shanghai
+          - RDS_READ="[{\"host\":\"db\",\"port\":3306,\"username\":\"root\",\"password\":\"example\",\"database\":\"energymanage\"}]"
+          - RDS_WRITE="{\"host\":\"db\",\"port\":3306,\"username\":\"root\",\"password\":\"example\",\"database\":\"energymanage\"}"
+          - MONGODB_URL=mongodb://mongo:27017/EnergyManage
+          - MQ_HOST=redis
+          - MQ_PORT=6379
+          - RPC_IP=0.0.0.0
+          - MQ_PASS=
+          - ENV=production
+          - APP_ID=
+          - APP_SECRET=
+        depends_on:
+          - db
+          - redis
+          - mongo
