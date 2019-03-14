@@ -1,4 +1,4 @@
-FROM node:6-alpine
+FROM node:10-alpine
 
 RUN apk add --no-cache make gcc g++ python bash libc6-compat
 
