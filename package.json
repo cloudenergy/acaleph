@@ -26,12 +26,18 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3"
+    "assert": "^2.0.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-shallow-deep-equal": "^1.4.6",
+    "mocha": "^7.1.2",
+    "nodemon": "^1.18.3",
+    "sinon-chai": "^3.5.0"
   },
   "scripts": {
     "start": "node acaleph.js",
     "dev": "./node_modules/nodemon/bin/nodemon.js --config nodemon.json --exec npm start",
-    "test": "npm test/test.js"
+    "test": "mocha --require ./test/setup --recursive"
   },
   "repository": {
     "type": "git",

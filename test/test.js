@@ -1,3 +1,7 @@
-/**
- * Created by joey on 15/12/14.
- */
+describe('Object', () => {
+  describe('deep equal', () => {
+    it('should compare objects', () => {
+      ({a: 1}).should.be.deep.equal({a: 1})
+    });
+  });
+});
